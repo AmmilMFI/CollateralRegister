@@ -96,7 +96,7 @@ function logP($string){
      }
      case "/core":
          {
-             if($_SERVER['HTTP_ORIGIN'] == "https://collaterals.ammilmfi.com"){
+             if($_SERVER['HTTP_ORIGIN'] == "http://collaterals.ammilmfi.com"){
                  header("Cache-Control: public");
                  header("Content-Type: application/json;charset=utf-8");
 
@@ -206,7 +206,7 @@ function logP($string){
      case "/usermanager":
          {
              if(array_key_exists('HTTP_ORIGIN',$_SERVER)){
-                 if($_SERVER['HTTP_ORIGIN'] == "https://collaterals.ammilmfi.com"){
+                 if($_SERVER['HTTP_ORIGIN'] == "http://collaterals.ammilmfi.com"){
                      header("Cache-Control: public");
                      header("Content-Type: application/json;charset=utf-8");
                      switch($_POST['type']){
