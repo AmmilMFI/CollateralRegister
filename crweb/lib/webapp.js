@@ -14,17 +14,17 @@
         'rgba(180, 129, 255, 0.2)'
     ];
 
-     let borderColors =  [
+    let borderColors =  [
         'rgba(255, 99, 132, 1)',
         'rgba(54, 162, 235, 1)',
         'rgba(255, 206, 86, 1)',
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)',
-         'rgba(180, 159, 64, 1)',
-         'rgba(180, 129, 64, 1)',
-         'rgba(180, 129, 158, 1)',
-         'rgba(180, 129, 255, 1)'
+        'rgba(180, 159, 64, 1)',
+        'rgba(180, 129, 64, 1)',
+        'rgba(180, 129, 158, 1)',
+        'rgba(180, 129, 255, 1)'
     ];
 
     class Helper {
@@ -324,7 +324,7 @@
                         }
                     }
                 }
-                    );
+            );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -523,7 +523,7 @@
                     data:{
 
 
-                        },
+                    },
                     options: {
                         scales: {
                             y: {
@@ -625,7 +625,7 @@
                         }
                     }
                 }
-                    );
+            );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -825,7 +825,7 @@
                     data:{
 
 
-                        },
+                    },
                     options: {
                         scales: {
                             y: {
@@ -1871,7 +1871,7 @@
                 PositionLeft(95,'%'),
                 Width(0,'px'),
             ]);
-            this.suc = new HImage(this.id+"suc",arrowLeftT).addCustomStyle([
+            this.suc = new HImage(this.id+"suc",tagIcon).addCustomStyle([
                 Position("absolute"),
                 PositionTop(5,'px'),
                 Transition(),
@@ -2135,11 +2135,11 @@
                             this.ref[file.name].getSuccess().addCustomStyle(Width(12,'px'));
                         }
                         else
-                            if(json.status === 500){
-                                this.uploaded[file.name] = false;
-                                this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
-                                this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
-                            }
+                        if(json.status === 500){
+                            this.uploaded[file.name] = false;
+                            this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
+                            this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
+                        }
 
                     }).catch(e => {
                         this.uploaded[file.name] = false;
@@ -2209,10 +2209,11 @@
                 ]
             );
             this.domElement.style.boxShadow="0px 10px 34px -15px rgb(0 0 0 / 24%)";
-            this.closeIcon = new HImage(this.id+"_close", closeIcon2).addCustomStyle([
+            this.closeIcon = new HIcon(this.id+"_close",["fa","fa-times-circle", "fa-lg"]).addCustomStyle([
                 Width(12,'px'),
                 Height(12,'px'),
                 Position("fixed"),
+                Color(ECS.getDanger()),
                 PositionTop(9.5,'vh'),
                 PositionLeft(89.3,'vw'),
             ]);
@@ -2227,7 +2228,13 @@
             this.titleP.addCustomStyle([
                 FontSize(18),
                 FontFamily("calibri"),
-                Padding(0,'px').setLeft(20)
+                Padding(0,'px').setLeft(20),
+                BackgroundColor("D9EDF7"),
+                Margin(0,'px').setBottom(10),
+                Color("337AB7"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
+                BorderRadius(5,'px')
             ]);
             this.title = new FancyInput(this.id+"title87","Title","text");
             this.firstname = new FancyInput(this.id+"firstname","First Name","text");
@@ -2480,22 +2487,22 @@
         constructor(id,src,title) {
             super(id);
             this.addCustomStyle([
-                Width(80),
-                Height(850,'px'),
-                Display("block"),
-                Margin("auto",""),
-                Padding(0,'px').setTop(50),
-                Position("relative")],
-                Border("thin","solid","#"+"337AB7")
+                    Width(80),
+                    Height(850,'px'),
+                    Display("block"),
+                    Margin("auto",""),
+                    Padding(0,'px').setTop(50),
+                    Position("relative")],
+                Border("thin","solid","#"+"D9EDF7")
             );
             this.title = Paragraph(this.id+"title").setTextContent(title).addCustomStyle([
                 Width(100),
                 Height(20,'px'),
                 Margin(0),
-                BackgroundColor("337AB7"),
+                BackgroundColor("D9EDF7"),
                 FontFamily("calibri"),
                 Padding(0,'px').setTop(10).setBottom(10).setLeft(5),
-                Color(colorScheme.getSecondaryColor())
+                Color("337AB7"),
             ]);
             this.addComponent([this.title,new PDFViewer2(id+"a", src)])
         }
@@ -2515,7 +2522,7 @@
                     Transition(),
                     Opacity(0),
                     BorderRadius(15,'px'),
-                    Border("thin","solid","#"+"337AB7"),
+                    Border("thin","solid","#"+"D9EDF7"),
                     BackgroundColor(colorScheme.getSecondaryColor())
                 ]
             );
@@ -2524,9 +2531,16 @@
             this.titleP.addCustomStyle([
                 FontSize(18),
                 FontFamily("calibri"),
-                BackgroundColor("337AB7"),
+                BackgroundColor("D9EDF7"),
                 Margin(0,'px').setBottom(10),
-                Color(colorScheme.getSecondaryColor()),
+                Color("337AB7"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
+                BorderRadius(5,'px'),
+                BackgroundColor("D9EDF7"),
+                Margin(0,'px').setBottom(10),
+                Color("337AB7"),
+                FontWeight("bold"),
                 Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
                 BorderRadius(5,'px')
             ]);
@@ -2534,19 +2548,21 @@
                 Width(80),
                 Margin("auto",""),
                 BorderRadius(5,'px'),
-                Border("thin","solid","#"+"337AB7"),
+                Border("thin","solid","#"+"D9EDF7"),
                 Height(380,'px'),
-                Overflow("scroll")
+                ScrollBarWidth(),
+                OverflowY("scroll"),
+                OverflowX("hidden"),
             ]);
-            this.collITitle= Paragraph(this.id+'Ititle').setTextContent("COLLATERAL INFO").addCustomStyle([
+            this.collITitle = Paragraph(this.id+'Ititle').setTextContent("COLLATERAL INFO").addCustomStyle([
                 Width(100),
                 Height(20,'px'),
                 Margin(0),
-                BackgroundColor("337AB7"),
+                BackgroundColor("D9EDF7"),
                 FontFamily("calibri"),
                 FontWeight("bold"),
                 Padding(0,'px').setTop(10).setBottom(10).setLeft(5),
-                Color(colorScheme.getSecondaryColor())
+                Color("337AB7"),
             ]);
             this.fN = new FancyView(this.id+"fN","First Name",collateral['first_name']);
             this.lN = new FancyView(this.id+"lN","Last Name",collateral['last_name']);
@@ -2556,10 +2572,12 @@
             this.date = new FancyView(this.id+"date","Date",collateral['date']);
             this.comments = new FancyView(this.id+"comments","Comments",collateral['comments']);
 
-            this.closeIcon = new HImage(this.id+"_close", closeIcon2).addCustomStyle([
+            this.closeIcon = new HIcon(this.id+"_close", ["fa","fa-times-circle", "fa-lg"]).addCustomStyle([
                 Width(12,'px'),
                 Height(12,'px'),
                 Position("fixed"),
+                Color(ECS.getDanger()),
+                BackgroundColor("FFFFFF"),
                 PositionTop(4.5,'vh'),
                 PositionLeft(94.5,'vw'),
             ]);
@@ -2631,21 +2649,19 @@
             this.collateral= collateral;
             this.addCustomStyle([
                 Width(width,'px'),
-                Height(20,'px'),
+                Height(40,'px'),
                 FontFamily("segoe ui"),
                 Overflow("hidden"),
-                FontSize(10,'pt'),
-                FontWeight(700),
                 Padding(0,'px').setLeft(2).setTop(1),
-                FontSize(10,'pt'),
+                FontSize(11,'pt'),
                 Transition("border-color", "400ms"),
-                Border("thick","solid","#"+colorScheme.getSecondaryColor()),
                 Color("337AB7")
 
             ]);
             this.title = Paragraph(this.id+"_title").addCustomStyle([
                 Overflow("hidden"),
                 Width(32),
+                Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -2654,6 +2670,7 @@
             this.fN = Paragraph(this.id+"_fN").addCustomStyle([
                 Overflow("hidden"),
                 Width(17),
+                Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -2662,6 +2679,7 @@
             this.lN = Paragraph(this.id+"_lN").addCustomStyle([
                 Overflow("hidden"),
                 Width(17),
+                Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -2670,6 +2688,7 @@
             this.branch = Paragraph(this.id+"_branch").addCustomStyle([
                 Overflow("hidden"),
                 Width(17),
+                Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -2682,15 +2701,19 @@
                 Margin(0),
                 Float("left")
             ]);
-            this.view = new HIcon(this.id+'view', ["fa", "fa-external-link"]);
+            this.view = new HAnchor(this.id+'view', "#").setTextContent("View");
             this.view.addCustomStyle([
-                BackgroundColor(ECS.getPrimary()),
-                Padding(0,'px').setTop(3).setLeft(5),
+                BackgroundColor("5CB85C"),
+                Border("thin", "solid", "#"+"4cae4c"),
+                BorderRadius(4,'px'),
+                Padding(0,'px').setTop(6).setLeft(12).setBottom(12).setRight(12),
                 Margin(0,'px').setLeft(10).setTop(0),
                 Color("FFFFFF"),
                 Width(80,'px'),
+                TextDecoration("none"),
+                FontFamily("calibri"),
                 TextAlignment("center"),
-                Height(20,'px'),
+                Height(12,'px'),
                 Display("inline"),
                 Float("left")
             ]);
@@ -2815,7 +2838,7 @@
                 Margin(0,'px').setLeft(15),
                 Position("relative"),
                 BorderRadius(5,'px'),
-                Border("thin","solid","#"+"337AB7"),
+                Border("thin","solid","#"+"D9EDF7"),
             ]);
             this.items=[];
             this.current=0;
@@ -2823,7 +2846,7 @@
             this.max = 0;
             this.center =Division(this.id+"_center").addCustomStyle([
                 Width(screen.width-260-100,'px'),
-                Height(23*18,'px'),
+                Height(43*18,'px'),
                 Position(),
                 Float("left"),
                 Overflow("hidden"),
@@ -2831,7 +2854,7 @@
             ]);
             this.container = Division(this.id+"_con1").addCustomStyle([
                 Width(screen.width-260-100,'px'),
-                Height(23*18*5,'px'),
+                Height(43*9*5,'px'),
                 Position("absolute"),
                 PositionTop(this.position,'px'),
                 Overflow("hidden"),
@@ -2841,7 +2864,7 @@
             this.top = Division(this.id+"_top").addCustomStyle([
                 Width(100),
                 Height(80,'px'),
-                BackgroundColor("337AB7")
+                BackgroundColor("D9EDF7")
             ]);
             this.header= new DownloadHeader(this.id+"_hdr",screen.width-260-100).addCustomStyle([
                 Position(),
@@ -2981,7 +3004,7 @@
                 }
             };
             this.items.forEach(myFunction);
-            this.max = Math.trunc((this.items.length-count)/18) > 4 ? 4:Math.trunc((this.items.length-count)/18)
+            this.max = Math.trunc((this.items.length-count)/9) > 4 ? 4:Math.trunc((this.items.length-count)/9)
             this.textM.setTextContent(this.max+1);
             this.textM2.setTextContent(this.max+1);
             this.position=0;
@@ -3021,7 +3044,7 @@
         goto(index){
             if( index-1 <= this.max && Number.isInteger(index) && index > 0){
                 this.current = index-1;
-                this.position = -(18*23) * (index-1);
+                this.position = -(9*43) * (index-1);
                 this.container.addCustomStyle(PositionTop(this.position));
                 this.textP.setTextContent(this.current+1)
             }
@@ -3045,7 +3068,7 @@
             }
         }
         adjustValues(item){
-            this.max = Math.trunc((this.items.length+1)/18) > 4 ? 4:Math.trunc((this.items.length+1)/18);
+            this.max = Math.trunc((this.items.length+1)/9) > 4 ? 4:Math.trunc((this.items.length+1)/9);
             this.items.push(item);
             this.textM.setTextContent(this.max+1);
             this.textM2.setTextContent(this.max+1);
@@ -3053,20 +3076,19 @@
 
         switch(button){
             if(button === this.leftIcon && this.current > 0){
-                this.container.addCustomStyle(PositionTop((this.position +(18*23))));
+                this.container.addCustomStyle(PositionTop((this.position +(9*43))));
                 this.current--;
-                this.position = this.position +(18*23);
+                this.position = this.position +(9*43);
                 this.textP.setTextContent(this.current+1);
             }
             if(button === this.rightIcon && this.current < this.max){
-                this.container.addCustomStyle(PositionTop((this.position -(18*23))));
+                this.container.addCustomStyle(PositionTop((this.position -(9*43))));
                 this.current++;
-                this.position = this.position -(18*23);
+                this.position = this.position -(9*43);
                 this.textP.setTextContent(this.current+1);
             }
 
         }
-
 
         mouseOut(e) {
             if (e.getSource() instanceof PButton) {
@@ -3235,7 +3257,7 @@
             this.addCustomStyle([
                 Width(screen.width-250,'px'),
                 Margin("auto",""),
-                Height(1200,'px')
+                Height(800,'px')
             ]);
         }
         d1280(){
@@ -3453,7 +3475,8 @@
                 Width(100),
                 Height(90,'px'),
                 Overflow("hidden"),
-                BackgroundColor("d32f0a")
+                BackgroundColor("FFFFFF"),
+                BottomBorder("thin")
             ]);
 
             this.logoText.addCustomStyle([
@@ -3462,7 +3485,7 @@
                 FontSize(25,'px'),
                 Display("inline"),
                 Float("left"),
-                Color(colorScheme.getSecondaryColor()),
+                Color("337AB7"),
                 Margin(0, "px").setTop(5).setRight(5).setLeft(20)
             ]);
             this.profileBar.addCustomStyle([
@@ -3472,7 +3495,7 @@
                 Margin(0,'px').setTop(10),
                 Position("relative"),
                 Float("right"),
-                Color(colorScheme.getSecondaryColor())
+                Color("337AB7"),
             ]);
             this.userPic.addCustomStyle([
                 Width(70,'px'),
@@ -3539,7 +3562,7 @@
             //Body
             this.body.addCustomStyle([
                 Width(100),
-                Height(800,'px')
+                Height(screen.height-91,'px')
             ]);
 
             //Footer
@@ -3582,80 +3605,80 @@
 
         }
 
-         init(){
+        init(){
             //Top Panels
-             this.loader = new Loader();
+            this.loader = new Loader();
 
-             this.navPanel = Division('navPanel');
-             this.mainPanel=Division("mainPanel");
-             //Nav Panel
-             this.companyBar = Division("cBar");
-             this.cLogo = Division("cLogo");
-             this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
-             this.navBar= Division('navBar');
+            this.navPanel = Division('navPanel');
+            this.mainPanel=Division("mainPanel");
+            //Nav Panel
+            this.companyBar = Division("cBar");
+            this.cLogo = Division("cLogo");
+            this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
+            this.navBar= Division('navBar');
 
-             this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
-             this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
-             this.navBranches = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+            this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
+            this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
+            this.navBranches = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
 
-             this.navBar.addComponent([
-                 this.navDashboard,this.navCollaterals,this.navBranches ]);
+            this.navBar.addComponent([
+                this.navDashboard,this.navCollaterals,this.navBranches ]);
 
 
-             this.navPanel.addComponent([
-                 this.companyBar, this.navBar]);
+            this.navPanel.addComponent([
+                this.companyBar, this.navBar]);
 
-             //Main Panel
-             this.header = Division("header");
-             this.profileBar = Division("pBar");
-             this.userPic = Division("userPic");
-             this.userInfo = Division("userInfo");
-             this.logoImage= new HImage("image_"+this.id, "/getLogo","");
-             this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
+            //Main Panel
+            this.header = Division("header");
+            this.profileBar = Division("pBar");
+            this.userPic = Division("userPic");
+            this.userInfo = Division("userInfo");
+            this.logoImage= new HImage("image_"+this.id, "/getLogo","");
+            this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
 
-             this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
-             this.setP = Paragraph('setP').setTextContent("Settings");
-             this.logOut = Paragraph('logOut').setTextContent("Log Out");
-             this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
-             this.profileBar.addComponent([this.userPic, this.userInfo]);
+            this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
+            this.setP = Paragraph('setP').setTextContent("Settings");
+            this.logOut = Paragraph('logOut').setTextContent("Log Out");
+            this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
+            this.profileBar.addComponent([this.userPic, this.userInfo]);
 
-             this.buttonsBar = Division("bBar");
-             this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
-                 ECS.getSuccessDark());
-             this.btnCreateColl.addMouseListener(this);
+            this.buttonsBar = Division("bBar");
+            this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
+                ECS.getSuccessDark());
+            this.btnCreateColl.addMouseListener(this);
 
-             this.buttonsBar.addComponent([
-                 this.btnCreateColl
-             ]);
+            this.buttonsBar.addComponent([
+                this.btnCreateColl
+            ]);
 
-             this.header.addComponent([
-                 this.logoText,this.buttonsBar,this.profileBar
-             ]);
+            this.header.addComponent([
+                this.logoText,this.buttonsBar,this.profileBar
+            ]);
 
-             this.logOut.addMouseListener(this);
-             //Body
-             this.body = Division('bodyM').addCustomStyle(OverflowY());
+            this.logOut.addMouseListener(this);
+            //Body
+            this.body = Division('bodyM').addCustomStyle(OverflowY("scroll"));
 
-             //Footer
-             this.footer = Division("footer").addCustomStyle([ZIndex(1000),
-                 BackgroundColor(colorScheme.getTertiaryColor()
-                 )]);
-             this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
-             this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-             this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-             this.balBox = new BalanceBox("bBox");
-             this.footer.addComponent(this.balBox);
+            //Footer
+            this.footer = Division("footer").addCustomStyle([ZIndex(1000),
+                BackgroundColor(colorScheme.getTertiaryColor()
+                )]);
+            this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
+            this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.balBox = new BalanceBox("bBox");
+            this.footer.addComponent(this.balBox);
 
-             this.mainPanel.addComponent([
-                 this.loader,this.header,this.body
-             ]);
+            this.mainPanel.addComponent([
+                this.loader,this.header,this.body
+            ]);
 
-             this.addComponent([
-                 this.navPanel,this.mainPanel
-             ]);
-             this.initPagesWS();
+            this.addComponent([
+                this.navPanel,this.mainPanel
+            ]);
+            this.initPagesWS();
         }
 
         initPagesWS(){
@@ -3668,11 +3691,6 @@
 
             this.body.addComponent([
                 this.index,
-                this.collateralsP,
-                this.branchesP,
-                this.payBillsAirtimeP,
-                this.myLoansP,
-                this.settingsP
             ]);
 
         }
@@ -3680,15 +3698,15 @@
         async retrieveUser(){
             await this.send({'sk': this.getCookie('sk')},
                 async (e)=>{
-                let content = JSON.parse(e['content']);
-                this.user = new User(
-                    content['firstName'],
-                    content['lastName'],
-                    content['middleName'],
-                    content['userName'],
-                    content['email'],
-                    content['phoneNo'],
-                    content['bvn']);
+                    let content = JSON.parse(e['content']);
+                    this.user = new User(
+                        content['firstName'],
+                        content['lastName'],
+                        content['middleName'],
+                        content['userName'],
+                        content['email'],
+                        content['phoneNo'],
+                        content['bvn']);
                     await this.send({'sk': this.getCookie('sk')},
                         (e)=>{
                             localStorage.setItem('collaterals',JSON.stringify(e['collaterals']));this.init();
@@ -3703,11 +3721,11 @@
 
 
 
-                localStorage.setItem("user",e['content']);
+                    localStorage.setItem("user",e['content']);
 
                 },
                 (e)=>{
-                //window.close();
+                    //window.close();
                     this.addComponent(Paragraph('fdf').setTextContent("HTTP Error 403 – Forbidden"));
                     window.location.href = "/";
                 },'retrieveUser');
@@ -3961,12 +3979,12 @@
                         location.reload();
                     }
                     else
-                    try{
-                        this.switchToPage(e.getSource().getLink())
-                    }
-                    catch(ex){
+                        try{
+                            this.switchToPage(e.getSource().getLink())
+                        }
+                        catch(ex){
 
-                    }
+                        }
 
                     if (e.getSource() === this.btnCreateColl){
                         let userForm =UserForm.createForm();

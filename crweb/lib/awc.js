@@ -335,6 +335,41 @@ class HHeight extends HStyle{
         return height
     }
 }
+class HScrollBarWidth extends HStyle{
+
+
+    /**
+     *
+     * @param {Number|String}width
+     * @param unit
+     */
+    constructor(width = "auto", unit = "") {
+        super("scrollbar-width");
+        let x = 0;
+        for (x; x < 1; x++)
+            this._attributes[x] = width;
+        this._unit = unit;
+        return this;
+    }
+    /**
+     *
+     * @param width
+     */
+    setWidth(width) {
+        this._attributes[0]=width;
+        return this;
+    }
+
+    getAttributes(){
+        let width = [];
+        for (let x = 0; x < 1; x++) {
+            width[x] = "" + this._attributes[x] + this._unit;
+            //else  width[x] = this._attributes[x]
+        }
+        return width
+    }
+
+}
 class HWidth extends HStyle{
 
 
@@ -6188,6 +6223,7 @@ let BorderRadius = function (radius = 0,unit = _UNITS.PERCENTILE){ return new HB
 let BorderSpacing = function (horizontal =0, vertical =0,unit = _UNITS.PERCENTILE){ return new HBorderSpacing(horizontal, vertical,unit)};
 let BorderStyle = function (style = BORDERSTYLE.SOLID){ return new HBorderStyle(style)};
 let BorderWidth = function (width=5){ return new HBorderWidth(width)};
+let ScrollBarWidth = function (width = "thin", unit = ""){ return new HScrollBarWidth(width, unit)};
 let BottomBorder = function (width = BORDERWIDTH.THICK,style =BORDERSTYLE.SOLID,color="GREY", unit= _UNITS.PERCENTILE){ return new HBottomBorder(width ,style ,color, unit)};
 let Transition = function (property = "all",duration = "500ms",timingFunction="ease", delay= 0){ return new HTransition(property ,duration ,timingFunction, delay)};
 let Button = function (id, name=''){ return new HButton(id)};
