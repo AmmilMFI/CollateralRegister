@@ -3398,6 +3398,9 @@ class HDropDown extends HComponent{
         return this;
     }
 
+    getSelected(){
+        return this.domElement.options[this.domElement.selectedIndex].text
+    }
     setComponents(){
         let component = this.createElement();
         if(this._textContent !== "")

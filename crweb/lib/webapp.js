@@ -576,6 +576,51 @@
             this.chart.update();
         }
     }
+
+    class NoticeM extends HDivision{
+        constructor(id, message,textWidth) {
+            super(id);
+            this.addCustomStyle(
+                [
+                    Width(600,'px'),
+                    Height(50,'px'),
+                    Overflow("hidden"),
+                    Position("fixed")
+                ]
+            );
+            this.textWidth = textWidth;
+            this.margin = 600;
+            this.paragraph = Paragraph('noticeP'+id).setTextContent(message).addCustomStyle([
+                FontSize(11,'pt'),
+                FontFamily("calibri"),
+                Color(ECS.getDangerDark()),
+                Display("block"),
+                Width(textWidth,'px'),
+                Margin(0,'px').setLeft(this.margin),
+            ])
+            this.addComponent(this.paragraph);
+            this.initTimer();
+        }
+
+        initTimer(){
+            this.interval = setInterval(()=>{
+
+                if(this.margin > -(this.textWidth-600))
+                {
+                    this.margin--;
+                }
+                else{
+
+                    this.margin=600;
+                }
+                this.paragraph.addCustomStyle(
+                    Margin(0,'px').setLeft(this.margin)
+                )
+
+
+            }, 15);
+        }
+    }
     class LineChart extends HDivision{
         constructor(id,width,height, title="", labels=[], values=[], borderWidth=1) {
             super(id);
@@ -3650,9 +3695,9 @@
             this.buttonsBar.addComponent([
                 this.btnCreateColl
             ]);
-
+            this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
             this.header.addComponent([
-                this.logoText,this.buttonsBar,this.profileBar
+                this.logoText,this.buttonsBar,this.notice,this.profileBar
             ]);
 
             this.logOut.addMouseListener(this);

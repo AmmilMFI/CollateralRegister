@@ -3083,15 +3083,61 @@
             super(id);
             this.addCustomStyle([
                 Width(50),
-                    Float("left"),
-                    Position("relative")],
-                );
+                Float("left"),
+                Position("relative")],
+            );
             this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
                 FontFamily("calibri"),
                 Width(95),
                 Margin(0,'px').setLeft(10).setTop(10),
             ]);
             this.input= Input(this.id+"input",type,placeholder.toLowerCase().replace(" ",""),50,placeholder)
+                .addCustomStyle([
+                    Height(40,'px'),
+                    FontFamily("calibri"),
+                    Width(95),
+                    Display("block"),
+                    Margin(0,'px').setLeft(10).setTop(5).setBottom(5),
+                    Transition(),
+                    BorderRadius(3,'px'),
+                    Border("1px","solid", "rgba(0, 0, 0, 0.1)")
+                ]);
+            this.err = new HImage(this.id+"err",errorC).addCustomStyle([
+                Position("absolute"),
+                PositionTop(5,'px'),
+                Transition(),
+                PositionLeft(95,'%'),
+                Width(0,'px'),
+            ]);
+            this.addComponent([
+                this.label, this.input,this.err
+            ])
+        }
+        getLabel(){
+            return this.label;
+        }
+        getInput(){
+            return this.input;
+        }
+        getError(){
+            return this.err;
+        }
+
+    }
+    class FancyInputSelect extends HDivision{
+        constructor(id, placeholder,type) {
+            super(id);
+            this.addCustomStyle([
+                Width(50),
+                Float("left"),
+                Position("relative")],
+            );
+            this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
+                FontFamily("calibri"),
+                Width(95),
+                Margin(0,'px').setLeft(10).setTop(10),
+            ]);
+            this.input= DropDown(this.id+"input",placeholder)
                 .addCustomStyle([
                     Height(40,'px'),
                     FontFamily("calibri"),
@@ -3171,7 +3217,20 @@
             this.password2 = new FancyInput(this.id+"password2","Confirm Password","password");
             this.position = new FancyInput(this.id+"position","Position","text");
             this.dept = new FancyInput(this.id+"dept","Department","text");
-            this.branch = new FancyInput(this.id+"branch","Branch","text");
+            this.branch = new FancyInputSelect(this.id+"branch","Branch","text");
+            this.oyo = new DropDownOption(this.id+"oyo", "", "Head Office", true).setTextContent("Head Office");
+            this.saki = new DropDownOption(this.id+"saki", "", "Saki", false).setTextContent("Saki");
+            this.iwereIle = new DropDownOption(this.id+"iwereIle", "", "Iwere Ile", false).setTextContent("Iwere Ile");
+            this.igbeti = new DropDownOption(this.id+"igbeti", "", "Igbeti", false).setTextContent("Igbeti");
+            this.ogbomoso = new DropDownOption(this.id+"ogbomoso", "", "Ogbomoso", false).setTextContent("Ogbomoso");
+            this.branch.input.addComponent([
+                this.oyo,
+                this.saki,
+                this.iwereIle,
+                this.igbeti,
+                this.ogbomoso,
+            ]);
+
             this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
                 Width(80),
                 Height(40,'px'),
@@ -3198,7 +3257,6 @@
             this.email.getInput().addDocumentListener(this);
             this.position.getInput().addDocumentListener(this);
             this.dept.getInput().addDocumentListener(this);
-            this.branch.getInput().addDocumentListener(this);
             this.password.getInput().addDocumentListener(this);
             this.password2.getInput().addDocumentListener(this);
 
@@ -3209,7 +3267,6 @@
             this.emailValid= false;
             this.posValid= false;
             this.deptValid= false;
-            this.branchValid= false;
 
             this.formBox.addComponent([
                 this.firstname,this.middlename,this.lastname,
@@ -3307,18 +3364,6 @@
                 this.enableSubmit();
             }
         }
-        checkBranch(){
-            if(this.branch.getInput().getInputText().length < 1){
-                this.branchValid = false;
-                this.branch.getError().addCustomStyle(Width(12,'px'));
-                this.enableSubmit();
-            }
-            else{
-                this.branchValid = true;
-                this.branch.getError().addCustomStyle(Width(0,'px'));
-                this.enableSubmit();
-            }
-        }
         async checkUsername(){
             if(this.username.getInput().getInputText().length < 4){
                 this.username.getError().addCustomStyle(Width(12,'px'));
@@ -3388,7 +3433,7 @@
             }
         }
         inputsValid(){
-            return this.unValid && this.passValid && this.emailValid && this.fnValid && this.lnValid && this.posValid && this.deptValid && this.branchValid;
+            return this.unValid && this.passValid && this.emailValid && this.fnValid && this.lnValid && this.posValid && this.deptValid;
         }
         documentChanged(e){
             if (e.getSource() === this.username.getInput()){
@@ -3408,9 +3453,6 @@
             }
             if (e.getSource() === this.dept.getInput()){
                 this.checkDept();
-            }
-            if (e.getSource() === this.branch.getInput()){
-                this.checkBranch();
             }
             if (e.getSource() === this.password.getInput()){
                 this.checkPW();
@@ -3440,7 +3482,7 @@
             json['email']=this.email.getInput().getInputText();
             json['position']=this.position.getInput().getInputText();
             json['dept']=this.dept.getInput().getInputText();
-            json['branch']=this.branch.getInput().getInputText();
+            json['branch']=this.branch.input.getSelected();
             json[dfhi]=document.getElementsByTagName(dfhi)[0].textContent;
             return encodeURIComponent(Encrypt.encrypt(json[dfhi],JSON.stringify(json)));
 
@@ -4196,7 +4238,7 @@
 
             //this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
             //this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-             //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
             //this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
             //    "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
 
@@ -4247,22 +4289,22 @@
                         },'getUsers');
                 },
                 (e)=>{
-                this.loginPage.addCustomStyle(
-                    [
-                        Height(100,'vh'),
-                        ZIndex(10),
-                        Opacity(1),
-                    ]
-                );
+                    this.loginPage.addCustomStyle(
+                        [
+                            Height(100,'vh'),
+                            ZIndex(10),
+                            Opacity(1),
+                        ]
+                    );
                 },
                 (e)=>{
-                this.registerPage.addCustomStyle(
-                    [
-                        Height(100,'vh'),
-                        ZIndex(10),
-                        Opacity(1),
-                    ]
-                );
+                    this.registerPage.addCustomStyle(
+                        [
+                            Height(100,'vh'),
+                            ZIndex(10),
+                            Opacity(1),
+                        ]
+                    );
                 },'retrieveUser');
         }
 
