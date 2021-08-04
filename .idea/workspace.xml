@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="" />
+    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/views/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/fonts/fontawesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/views/fonts/fontawesome-webfont.svg" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/fonts/fontawesomewebfont.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/views/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/fonts/fontawesomewebfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/views/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/fonts/fontawesomewebfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,8 +35,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
+            <state relative-caret-position="633">
+              <caret line="595" column="47" lean-forward="true" selection-start-line="595" selection-start-column="47" selection-end-line="595" selection-end-column="47" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
                 <element signature="n#getRandomWord#0;n#!!top" />
@@ -51,7 +58,7 @@
       <file leaf-file-name="webapp.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crweb/lib/webapp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="303">
               <caret line="5544" column="17" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
               <folding>
                 <element signature="e#74#433#0" />
@@ -534,7 +541,6 @@
                 <element signature="e#62181#62455#0" />
                 <element signature="e#62554#62814#0" />
                 <element signature="e#62569#62803#0" />
-                <element signature="e#62608#62789#0" />
                 <element signature="e#62838#62849#0" />
                 <element signature="e#62871#62883#0" />
                 <element signature="e#62905#62917#0" />
@@ -553,7 +559,6 @@
                 <element signature="e#64554#64607#0" />
                 <element signature="e#64796#66373#0" />
                 <element signature="e#64810#66363#0" />
-                <element signature="e#64821#66300#0" />
                 <element signature="e#65079#65184#0" />
                 <element signature="e#65274#65999#0" />
                 <element signature="e#65323#65607#0" />
@@ -562,7 +567,6 @@
                 <element signature="e#66393#66517#0" />
                 <element signature="e#66541#67045#0" />
                 <element signature="e#66555#67035#0" />
-                <element signature="e#66594#67021#0" />
                 <element signature="e#67069#67080#0" />
                 <element signature="e#67102#67114#0" />
                 <element signature="e#67136#67148#0" />
@@ -612,7 +616,6 @@
                 <element signature="e#75930#75976#0" />
                 <element signature="e#76012#76890#0" />
                 <element signature="e#76026#76879#0" />
-                <element signature="e#76066#76865#0" />
                 <element signature="e#76135#76723#0" />
                 <element signature="e#76190#76701#0" />
                 <element signature="e#76354#76492#0" />
@@ -1086,32 +1089,20 @@
                 <element signature="e#156840#157114#0" />
                 <element signature="e#156916#156975#0" />
                 <element signature="e#157018#157100#0" />
-                <element signature="e#157293#157430#0" />
                 <element signature="e#157328#157430#0" />
                 <element signature="e#157484#157591#0" />
-                <element signature="e#157608#157754#0" />
                 <element signature="e#157652#157754#0" />
-                <element signature="e#158088#158409#0" />
                 <element signature="e#158154#158425#0" />
-                <element signature="e#158442#158763#0" />
                 <element signature="e#158488#158763#0" />
-                <element signature="e#158781#158915#0" />
                 <element signature="e#158806#158915#0" />
                 <element signature="e#158967#160744#0" />
                 <element signature="e#159054#160734#0" />
-                <element signature="e#159085#159222#0" />
                 <element signature="e#159120#159222#0" />
-                <element signature="e#159239#159384#0" />
                 <element signature="e#159276#159384#0" />
-                <element signature="e#159401#159548#0" />
                 <element signature="e#159445#159548#0" />
-                <element signature="e#159565#159887#0" />
                 <element signature="e#159610#159887#0" />
-                <element signature="e#159904#160227#0" />
                 <element signature="e#159950#160227#0" />
-                <element signature="e#160244#160567#0" />
                 <element signature="e#160290#160567#0" />
-                <element signature="e#160585#160720#0" />
                 <element signature="e#160610#160720#0" />
                 <element signature="e#160754#160850#0" />
                 <element signature="e#160888#163543#0" />
@@ -1184,6 +1175,7 @@
       <find>localhost</find>
       <find>http</find>
       <find>http://localhost:8000</find>
+      <find>web</find>
     </findStrings>
     <replaceStrings>
       <replace>https://collaterals.ammilmfi.com</replace>
@@ -1234,6 +1226,24 @@
               <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
               <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="fonts" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -1248,6 +1258,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ToluFash-Ammil\PhpstormProjects\CollateralRegisterRemote\crweb\views" />
+      <recent name="C:\Users\ToluFash-Ammil\PhpstormProjects\CollateralRegisterRemote\crweb" />
       <recent name="C:\Users\ToluFash-Ammil\PhpstormProjects\CollateralRegisterRemote\models" />
     </key>
   </component>
@@ -1279,26 +1291,28 @@
       <workItem from="1627438419547" duration="590000" />
       <workItem from="1627552084947" duration="1792000" />
       <workItem from="1627658974073" duration="581000" />
-      <workItem from="1627980307178" duration="1591000" />
+      <workItem from="1627980307178" duration="2188000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13275000" />
+    <option name="totallyTimeSpent" value="13872000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.3295302" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.101123594" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.07114094" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3286517" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3286517" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1307,7 +1321,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1842,7 +1855,6 @@
             <element signature="e#62181#62455#0" />
             <element signature="e#62554#62814#0" />
             <element signature="e#62569#62803#0" />
-            <element signature="e#62608#62789#0" />
             <element signature="e#62838#62849#0" />
             <element signature="e#62871#62883#0" />
             <element signature="e#62905#62917#0" />
@@ -1861,7 +1873,6 @@
             <element signature="e#64554#64607#0" />
             <element signature="e#64796#66373#0" />
             <element signature="e#64810#66363#0" />
-            <element signature="e#64821#66300#0" />
             <element signature="e#65079#65184#0" />
             <element signature="e#65274#65999#0" />
             <element signature="e#65323#65607#0" />
@@ -1870,7 +1881,6 @@
             <element signature="e#66393#66517#0" />
             <element signature="e#66541#67045#0" />
             <element signature="e#66555#67035#0" />
-            <element signature="e#66594#67021#0" />
             <element signature="e#67069#67080#0" />
             <element signature="e#67102#67114#0" />
             <element signature="e#67136#67148#0" />
@@ -1920,7 +1930,6 @@
             <element signature="e#75930#75976#0" />
             <element signature="e#76012#76890#0" />
             <element signature="e#76026#76879#0" />
-            <element signature="e#76066#76865#0" />
             <element signature="e#76135#76723#0" />
             <element signature="e#76190#76701#0" />
             <element signature="e#76354#76492#0" />
@@ -2394,32 +2403,20 @@
             <element signature="e#156840#157114#0" />
             <element signature="e#156916#156975#0" />
             <element signature="e#157018#157100#0" />
-            <element signature="e#157293#157430#0" />
             <element signature="e#157328#157430#0" />
             <element signature="e#157484#157591#0" />
-            <element signature="e#157608#157754#0" />
             <element signature="e#157652#157754#0" />
-            <element signature="e#158088#158409#0" />
             <element signature="e#158154#158425#0" />
-            <element signature="e#158442#158763#0" />
             <element signature="e#158488#158763#0" />
-            <element signature="e#158781#158915#0" />
             <element signature="e#158806#158915#0" />
             <element signature="e#158967#160744#0" />
             <element signature="e#159054#160734#0" />
-            <element signature="e#159085#159222#0" />
             <element signature="e#159120#159222#0" />
-            <element signature="e#159239#159384#0" />
             <element signature="e#159276#159384#0" />
-            <element signature="e#159401#159548#0" />
             <element signature="e#159445#159548#0" />
-            <element signature="e#159565#159887#0" />
             <element signature="e#159610#159887#0" />
-            <element signature="e#159904#160227#0" />
             <element signature="e#159950#160227#0" />
-            <element signature="e#160244#160567#0" />
             <element signature="e#160290#160567#0" />
-            <element signature="e#160585#160720#0" />
             <element signature="e#160610#160720#0" />
             <element signature="e#160754#160850#0" />
             <element signature="e#160888#163543#0" />
@@ -2660,9 +2657,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/Collateral.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/crweb/lib/webapp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="303">
           <caret line="5544" column="17" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
           <folding>
             <element signature="e#74#433#0" />
@@ -3145,7 +3149,6 @@
             <element signature="e#62181#62455#0" />
             <element signature="e#62554#62814#0" />
             <element signature="e#62569#62803#0" />
-            <element signature="e#62608#62789#0" />
             <element signature="e#62838#62849#0" />
             <element signature="e#62871#62883#0" />
             <element signature="e#62905#62917#0" />
@@ -3164,7 +3167,6 @@
             <element signature="e#64554#64607#0" />
             <element signature="e#64796#66373#0" />
             <element signature="e#64810#66363#0" />
-            <element signature="e#64821#66300#0" />
             <element signature="e#65079#65184#0" />
             <element signature="e#65274#65999#0" />
             <element signature="e#65323#65607#0" />
@@ -3173,7 +3175,6 @@
             <element signature="e#66393#66517#0" />
             <element signature="e#66541#67045#0" />
             <element signature="e#66555#67035#0" />
-            <element signature="e#66594#67021#0" />
             <element signature="e#67069#67080#0" />
             <element signature="e#67102#67114#0" />
             <element signature="e#67136#67148#0" />
@@ -3223,7 +3224,6 @@
             <element signature="e#75930#75976#0" />
             <element signature="e#76012#76890#0" />
             <element signature="e#76026#76879#0" />
-            <element signature="e#76066#76865#0" />
             <element signature="e#76135#76723#0" />
             <element signature="e#76190#76701#0" />
             <element signature="e#76354#76492#0" />
@@ -3697,32 +3697,20 @@
             <element signature="e#156840#157114#0" />
             <element signature="e#156916#156975#0" />
             <element signature="e#157018#157100#0" />
-            <element signature="e#157293#157430#0" />
             <element signature="e#157328#157430#0" />
             <element signature="e#157484#157591#0" />
-            <element signature="e#157608#157754#0" />
             <element signature="e#157652#157754#0" />
-            <element signature="e#158088#158409#0" />
             <element signature="e#158154#158425#0" />
-            <element signature="e#158442#158763#0" />
             <element signature="e#158488#158763#0" />
-            <element signature="e#158781#158915#0" />
             <element signature="e#158806#158915#0" />
             <element signature="e#158967#160744#0" />
             <element signature="e#159054#160734#0" />
-            <element signature="e#159085#159222#0" />
             <element signature="e#159120#159222#0" />
-            <element signature="e#159239#159384#0" />
             <element signature="e#159276#159384#0" />
-            <element signature="e#159401#159548#0" />
             <element signature="e#159445#159548#0" />
-            <element signature="e#159565#159887#0" />
             <element signature="e#159610#159887#0" />
-            <element signature="e#159904#160227#0" />
             <element signature="e#159950#160227#0" />
-            <element signature="e#160244#160567#0" />
             <element signature="e#160290#160567#0" />
-            <element signature="e#160585#160720#0" />
             <element signature="e#160610#160720#0" />
             <element signature="e#160754#160850#0" />
             <element signature="e#160888#163543#0" />
@@ -3767,17 +3755,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Collateral.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
+        <state relative-caret-position="633">
+          <caret line="595" column="47" lean-forward="true" selection-start-line="595" selection-start-column="47" selection-end-line="595" selection-end-column="47" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
             <element signature="n#getRandomWord#0;n#!!top" />
