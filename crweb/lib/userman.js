@@ -2567,9 +2567,9 @@
 
     }
     class DownloadRow extends HDivision{
-        constructor(id,fn,ln,branch,position,dept,width) {
+        constructor(id,fn,ln,branch,position,dept,width,user) {
             super(id);
-            console.log(width);
+            this.user=user;
             this.addCustomStyle([
                 Width(width,'px'),
                 Height(20,'px'),
@@ -2641,10 +2641,9 @@
             ]);
             this.remove = new HIcon(this.id+'remove', ["fa","fa-trash", "fa-lg"]);
             this.remove.addCustomStyle([
-                BackgroundColor("ff0000"),
                 Padding(0,'px').setTop(3).setLeft(5),
                 Margin(0,'px').setLeft(10).setTop(0),
-                Color("FFFFFF"),
+                Color("ff0000"),
                 Width(20,'px'),
                 Height(20,'px'),
                 Display("inline"),
@@ -2662,9 +2661,10 @@
                 Float("left")
             ]);
             this.actions.addComponent([
-                this.view,this.remove,this.revoke
+                /*this.view,this.revoke,*/this.remove,
             ]);
 
+            this.remove.addMouseListener(this);
             this.addComponent([this.fN,this.lN, this.branch, this.position, this.dept, this.actions])
             this.addMouseListener(this);
         }
@@ -2685,7 +2685,52 @@
             return this.dept.domElement.textContent;
         }
 
+        async send(parameters, func1, func2, type) {
+            let response = await fetch('/usermanager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                body: "type=" + type + "&content=" + JSON.stringify(parameters)
+            });
+            let result = await response.json();
+            if (result['status'] !== 200) {
+                func2(result);
+            }
+            else {
+                func1(result);
+            }
+        }
+        getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
         mouseClicked(e){
+            if (e.getSource() === this.remove)
+            {
+                let a = confirm("Are you sure you want to delete this user?");
+                {}
+                if (a === true)
+                    this.send({'sk': this.getCookie('sk'),username:this.user['username']}, (e) => {
+                        location.reload();
+
+                    }, (e) => {
+                        //this.submit.fadeOut();
+                        //this.toast("Error making the changes")
+                    }, "delUser")
+
+            }
 
         }
         mouseEntered(e){
@@ -3217,18 +3262,29 @@
             this.password2 = new FancyInput(this.id+"password2","Confirm Password","password");
             this.position = new FancyInput(this.id+"position","Position","text");
             this.dept = new FancyInput(this.id+"dept","Department","text");
-            this.branch = new FancyInputSelect(this.id+"branch","Branch","text");
+            this.branch = new FancyInputSelect(this.id+"branch","Branch","text").addCustomStyle(
+                PositionRight(50,"%")
+            );
+            this.roles = new FancyInputSelect(this.id+"roles","Role","text");
             this.oyo = new DropDownOption(this.id+"oyo", "", "Head Office", true).setTextContent("Head Office");
             this.saki = new DropDownOption(this.id+"saki", "", "Saki", false).setTextContent("Saki");
             this.iwereIle = new DropDownOption(this.id+"iwereIle", "", "Iwere Ile", false).setTextContent("Iwere Ile");
             this.igbeti = new DropDownOption(this.id+"igbeti", "", "Igbeti", false).setTextContent("Igbeti");
             this.ogbomoso = new DropDownOption(this.id+"ogbomoso", "", "Ogbomoso", false).setTextContent("Ogbomoso");
+            this.director = new DropDownOption(this.id+"director", "", "Director", false).setTextContent("Director");
+            this.credit = new DropDownOption(this.id+"credit", "", "Credit", false).setTextContent("Credit");
+            this.basic = new DropDownOption(this.id+"basic", "", "Basic", false).setTextContent("Basic");
             this.branch.input.addComponent([
                 this.oyo,
                 this.saki,
                 this.iwereIle,
                 this.igbeti,
                 this.ogbomoso,
+            ]);
+            this.roles.input.addComponent([
+                this.basic,
+                this.credit,
+                this.director,
             ]);
 
             this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
@@ -3272,7 +3328,7 @@
                 this.firstname,this.middlename,this.lastname,
                 this.username, this.email, this.password,this.password2,
                 this.position, this.position,
-                this.dept, this.branch, this.closeIcon
+                this.dept, this.roles,this.branch, this.closeIcon
             ]);
             this.addComponent([
                 this.title,
@@ -3483,6 +3539,7 @@
             json['position']=this.position.getInput().getInputText();
             json['dept']=this.dept.getInput().getInputText();
             json['branch']=this.branch.input.getSelected();
+            json['role']=this.roles.input.getSelected();
             json[dfhi]=document.getElementsByTagName(dfhi)[0].textContent;
             return encodeURIComponent(Encrypt.encrypt(json[dfhi],JSON.stringify(json)));
 
@@ -3524,9 +3581,11 @@
                             },'createUser')
                         }
                     }
+                    else
                     if (e.getSource() === this.closeIcon) {
                         this.closeForm();
                     }
+
                 }
             }
 
@@ -3590,7 +3649,7 @@
                             ,user['branch']
                             ,user['designation']
                             ,user['department'],
-                            screen.width-260-100)
+                            screen.width-260-100,user)
                     )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
@@ -4265,7 +4324,6 @@
             await this.send({'sk': this.getCookie('sk')},
                 async (e)=>{
                     let content = JSON.parse(e['content']);
-                    console.log(content['userName']);
                     this.user = new User(
                         content['userName']
                     );

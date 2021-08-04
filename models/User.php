@@ -16,6 +16,7 @@ class User
     public $designation;
     public $department;
     public $branch;
+    public $role;
     private $password;
     private $queries;
 
@@ -31,7 +32,7 @@ class User
      * @param $designation
      * @param $branch
      */
-    public function __construct($firstName, $middleName, $lastName, $userName, $email, $designation, $department, $branch, $password)
+    public function __construct($firstName, $middleName, $lastName, $userName, $email, $designation, $department, $branch,$role, $password)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -42,6 +43,7 @@ class User
         $this->designation = $designation;
         $this->department= $department;
         $this->branch= $branch;
+        $this->role= $role;
         $this->queries =[];
     }
 
@@ -131,7 +133,7 @@ class User
 
     public static function fromJson($content){
         $user = new User($content["first_name"],$content["middle_name"],$content["last_name"],
-            $content["username"],$content["email"],$content["position"],$content["dept"],$content["branch"],
+            $content["username"],$content["email"],$content["position"],$content["dept"],$content["branch"],$content["role"],
             password_hash($content["password"],PASSWORD_BCRYPT,['cost'=>12]));
         return $user;
     }
@@ -149,7 +151,7 @@ class User
         if(count($result) == 1){
             $row = $result[0];
             $user = new User($row['first_name'],$row['middle_name'],$row['last_name'],
-                $row['username'],$row['email'],$row['designation'],$row['department'],$row['branch'],$row['password']
+                $row['username'],$row['email'],$row['designation'],$row['department'],$row['branch'],$row['role'],$row['password']
             );
             if($user->passwordMatch($password)){
                 return $user;
@@ -165,7 +167,7 @@ class User
     }
     public static function getAllUsers(){
         $sql = "SELECT id, first_name, last_name, middle_name,
-        username, email, title, designation,department, branch,approval FROM users";
+        username, email, title, designation,department, branch,role,approval FROM users";
         $result = Database::select($sql);
 
         return ["users" =>$result];
@@ -227,8 +229,8 @@ class User
 
     public function persist()
     {
-        array_push($this->queries, "INSERT INTO users (first_name,middle_name, last_name, username,email,password, designation,department,branch) 
-VALUES ('$this->firstName','$this->middleName','$this->lastName','$this->userName','$this->email','$this->password','$this->designation','$this->department','$this->branch')");
+        array_push($this->queries, "INSERT INTO users (first_name,middle_name, last_name, username,email,password, designation,department,branch,role) 
+VALUES ('$this->firstName','$this->middleName','$this->lastName','$this->userName','$this->email','$this->password','$this->designation','$this->department','$this->branch','$this->role')");
     }
 
     /**

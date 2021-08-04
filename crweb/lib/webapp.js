@@ -1,6 +1,8 @@
 
 (() => {
 
+    let pages ={};
+    let user ="";
     let backgroundColors= [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -277,7 +279,7 @@
         $phoneNo;
         $bvn;
 
-        constructor($firstName, $lastName, $middleName, $userName, $email, $phoneNo, $bvn) {
+        constructor($firstName, $lastName, $middleName, $userName, $email, $phoneNo, $bvn, $role) {
             this.$firstName = $firstName;
             this.$lastName = $lastName;
             this.$middleName = $middleName;
@@ -285,6 +287,7 @@
             this.$email = $email;
             this.$phoneNo = $phoneNo;
             this.$bvn = $bvn;
+            this.$role = $role;
         }
 
 
@@ -593,11 +596,11 @@
             this.paragraph = Paragraph('noticeP'+id).setTextContent(message).addCustomStyle([
                 FontSize(11,'pt'),
                 FontFamily("calibri"),
-                Color(ECS.getDangerDark()),
+                Color("FFFFFF"),
                 Display("block"),
                 Width(textWidth,'px'),
                 Margin(0,'px').setLeft(this.margin),
-            ])
+            ]);
             this.addComponent(this.paragraph);
             this.initTimer();
         }
@@ -620,6 +623,53 @@
 
             }, 15);
         }
+    }
+
+    class FancyInputSelect extends HDivision{
+        constructor(id, placeholder,type) {
+            super(id);
+            this.addCustomStyle([
+                Width(50),
+                Float("left"),
+                Position("relative")],
+            );
+            this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
+                FontFamily("calibri"),
+                Width(95),
+                Margin(0,'px').setLeft(10).setTop(10),
+            ]);
+            this.input= DropDown(this.id+"input",placeholder)
+                .addCustomStyle([
+                    Height(40,'px'),
+                    FontFamily("calibri"),
+                    Width(95),
+                    Display("block"),
+                    Margin(0,'px').setLeft(10).setTop(5).setBottom(5),
+                    Transition(),
+                    BorderRadius(3,'px'),
+                    Border("1px","solid", "rgba(0, 0, 0, 0.1)")
+                ]);
+            this.err = new HImage(this.id+"err",errorC).addCustomStyle([
+                Position("absolute"),
+                PositionTop(5,'px'),
+                Transition(),
+                PositionLeft(95,'%'),
+                Width(0,'px'),
+            ]);
+            this.addComponent([
+                this.label, this.input,this.err
+            ])
+        }
+        getLabel(){
+            return this.label;
+        }
+        getInput(){
+            return this.input;
+        }
+        getError(){
+            return this.err;
+        }
+
     }
     class LineChart extends HDivision{
         constructor(id,width,height, title="", labels=[], values=[], borderWidth=1) {
@@ -1676,6 +1726,47 @@
         constructor(frame) {
             super("collaterals");
             this.frame = frame;
+            this.addCustomStyle([
+                Display('none'),
+                Transition("opacity", "1000"),
+                Width(100,'vw'),
+            ]);
+            this.body = Division(this.id+"body");
+            this.body.addCustomStyle([
+                Width(95,'%'),
+                Margin("auto","")
+            ]);
+            let allC= 0;
+            let pendC= 0;
+            let decC= 0;
+            let relC= 0;
+            JSON.parse(localStorage.getItem("collaterals")).forEach(
+                (collateral,index)=> {
+                    if (collateral['status'] == 1)
+                        allC++;
+                });
+            this.all = new CBox(this.id+"all", ["fa", "fa-list-alt", "fa-5x"], "Active",allC);
+            this.body.addComponent([
+                this.all
+            ]);
+            if(user.$role === "Director" || user.$role === "Credit") {
+                JSON.parse(localStorage.getItem("collaterals")).forEach(
+                    (collateral,index)=> {
+                        if (collateral['status'] == 0)
+                            pendC++;
+                        if (collateral['status'] == 2)
+                            decC++;
+                        if (collateral['status'] == 3)
+                            relC++;
+                    });
+                this.pending = new CBox(this.id + "pend", ["fa", "fa-clock-o", "fa-5x"], "Pending", pendC);
+                this.declined = new CBox(this.id + "dec", ["fa", "fa-minus-circle", "fa-5x"], "Declined", decC);
+                this.released = new CBox(this.id + "rele", ["fa", "fa-recycle", "fa-5x"], "Released", relC);
+                this.body.addComponent([
+                    this.pending, this.declined, this.released
+                ]);
+            }
+            this.addComponent(this.body);
 
         }
     }
@@ -2243,9 +2334,9 @@
                     Width(80,'vw'),
                     Height(85,'vh'),
                     Position("fixed"),
-                    PositionTop(10,'vh'),
+                    Padding(0,'px').setTop(50),
+                    PositionTop(40,'px'),
                     PositionLeft(10,'vw'),
-                    OverflowY("scroll"),
                     ZIndex(0),
                     Transition(),
                     Opacity(0),
@@ -2253,14 +2344,15 @@
                     BackgroundColor(colorScheme.getSecondaryColor())
                 ]
             );
-            this.domElement.style.boxShadow="0px 10px 34px -15px rgb(0 0 0 / 24%)";
-            this.closeIcon = new HIcon(this.id+"_close",["fa","fa-times-circle", "fa-lg"]).addCustomStyle([
+            this.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.closeIcon = new HIcon(this.id+"_close",["fa","fa-times-circle", "fa-2x"]).addCustomStyle([
                 Width(12,'px'),
                 Height(12,'px'),
                 Position("fixed"),
                 Color(ECS.getDanger()),
-                PositionTop(9.5,'vh'),
-                PositionLeft(89.3,'vw'),
+                PositionTop(4.5,'vh'),
+                PositionRight(10.9,'vw'),
             ]);
             this.closeIcon.addMouseListener(this);
             this.formBox = Division(this.id+"formBox").addCustomStyle([
@@ -2271,22 +2363,38 @@
 
             this.titleP = Paragraph(this.id+'title').setTextContent("Upload New Collateral");
             this.titleP.addCustomStyle([
+                Width(75,'vw'),
                 FontSize(18),
                 FontFamily("calibri"),
-                Padding(0,'px').setLeft(20),
-                BackgroundColor("D9EDF7"),
-                Margin(0,'px').setBottom(10),
-                Color("337AB7"),
+                BackgroundColor("337AB7"),
+                Position("fixed"),
+                PositionTop(-10,'px'),
+                PositionLeft(12.5,'vw'),
+                BorderRadius(5,'px'),
+                Padding(0,'px').setTop(10).setBottom(10),
+                TextAlignment("center"),
+                Color("FFFFFF"),
                 FontWeight("bold"),
-                Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
-                BorderRadius(5,'px')
+                ZIndex(50000),
             ]);
             this.title = new FancyInput(this.id+"title87","Title","text");
             this.firstname = new FancyInput(this.id+"firstname","First Name","text");
             this.middlename = new FancyInput(this.id+"middlename","Middle Name","text");
             this.lastname = new FancyInput(this.id+"lastname","Last Name","text");
             this.comments = new FancyInput2(this.id+"comments","Comments");
-            this.branch = new FancyInput(this.id+"branch","Branch","text");
+            this.branch = new FancyInputSelect(this.id+"branch","Branch","text");
+            this.oyo = new DropDownOption(this.id+"oyo", "", "Head Office", true).setTextContent("Head Office");
+            this.saki = new DropDownOption(this.id+"saki", "", "Saki", false).setTextContent("Saki");
+            this.iwereIle = new DropDownOption(this.id+"iwereIle", "", "Iwere Ile", false).setTextContent("Iwere Ile");
+            this.igbeti = new DropDownOption(this.id+"igbeti", "", "Igbeti", false).setTextContent("Igbeti");
+            this.ogbomoso = new DropDownOption(this.id+"ogbomoso", "", "Ogbomoso", false).setTextContent("Ogbomoso");
+            this.branch.input.addComponent([
+                this.oyo,
+                this.saki,
+                this.iwereIle,
+                this.igbeti,
+                this.ogbomoso,
+            ]);
 
             this.collAdd = new CollateralAdd(this.id+"cAdd", this).addCustomStyle([
                 Height(200,'px'),
@@ -2325,7 +2433,7 @@
             this.formBox.addComponent([
 
                 this.title,this.firstname,this.middlename,this.lastname,
-                this.comments, this.closeIcon
+                this.branch,this.comments, this.closeIcon
             ]);
             this.addComponent([
                 this.titleP,
@@ -2424,14 +2532,13 @@
 
         packageL(){
             let json = {};
-            let user =JSON.parse(localStorage.getItem('user'));
             json['first_name']=this.firstname.getInput().getInputText();
             json['middle_name']=this.middlename.getInput().getInputText();
             json['last_name']=this.lastname.getInput().getInputText();
             json['title']=this.title.getInput().getInputText();
             json['comments']=this.comments.getInput().getInputText();
-            json['uploader']= user['firstName'] + " " + user['lastName'];
-            json['branch'] = user['branch'];
+            json['uploader']= user.$firstName + " " + user.$lastName;
+            json['branch']=this.branch.input.getSelected();
             json['files'] = JSON.stringify(Object.values(this.collAdd.uploaded));
             return JSON.stringify(json);
 
@@ -2532,11 +2639,11 @@
         constructor(id,src,title) {
             super(id);
             this.addCustomStyle([
-                    Width(80),
+                    Width(100),
                     Height(850,'px'),
                     Display("block"),
                     Margin("auto",""),
-                    Padding(0,'px').setTop(50),
+                    Padding(0,'px').setTop(),
                     Position("relative")],
                 Border("thin","solid","#"+"D9EDF7")
             );
@@ -2544,70 +2651,209 @@
                 Width(100),
                 Height(20,'px'),
                 Margin(0),
-                BackgroundColor("D9EDF7"),
+                BackgroundColor("337AB7"),
                 FontFamily("calibri"),
                 Padding(0,'px').setTop(10).setBottom(10).setLeft(5),
-                Color("337AB7"),
+                Color("FFFFFF"),
             ]);
             this.addComponent([this.title,new PDFViewer2(id+"a", src)])
+        }
+    }
+    class IconButton extends HDivision {
+        constructor(id, text, icons, mouseListener, color, color2,status,cId) {
+            super(id);
+            this.text = text;
+            this.cId = cId;
+            this.status = status;
+            this.addCustomStyle([
+                Width(50, 'px'),
+                Height(60, 'px')
+            ]);
+            this.icon = new HIcon(id + "i", icons);
+            this.paragraph = Paragraph(id + 'p').setTextContent(text);
+            this.paragraph.addCustomStyle([
+                Color(color),
+                FontFamily("calibri"),
+                FontSize(9),
+                TextAlignment("center"),
+                Margin(0)
+            ]);
+            this.color = color;
+            this.color2 = color2;
+            this.icon.addCustomStyle([
+                Display("block"),
+                Color(color)
+            ]);
+            this.addComponent([
+                this.icon, this.paragraph
+            ]);
+            this.addMouseListener(mouseListener);
+            this.addMouseListener(this);
+        }
+
+        async send(parameters, func1, func2, type) {
+            let response = await fetch('/core', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                body: "type=" + type + "&content=" + JSON.stringify(parameters)
+            });
+            let result = await response.json();
+            if (result['status'] !== 200) {
+                func2(result);
+            }
+            else {
+                func1(result);
+            }
+        }
+
+        mouseClicked(e) {
+            let a = confirm("Are you sure you want to " + this.text.toLowerCase() + " this collateral?");
+            if (a === true)
+                this.send({id:this.cId, status:this.status}, (e) => {
+                    location.reload();
+
+                }, (e) => {
+                    //this.submit.fadeOut();
+                    //this.toast("Error making the changes")
+                }, "changeCollateralStatus")
+        }
+
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+            this.icon.addCustomStyle([
+                Color(this.color)
+            ]);
+            this.paragraph.addCustomStyle([
+                Color(this.color)
+            ]);
+
+        }
+        mouseOver(e){
+
+            this.icon.addCustomStyle([
+                Color(this.color2)
+            ]);
+            this.paragraph.addCustomStyle([
+                Color(this.color2)
+            ]);
+
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
         }
     }
     class CollateralView extends HDivision{
         constructor(id, collateral) {
             super(id);
+            this.collateral = collateral;
+            let cId = collateral['id'];
+            let width = screen.width*0.95;
+            let height = screen.width*0.95;
             this.addCustomStyle(
                 [
-                    Width(90,'vw'),
-                    Height(90,'vh'),
+                    Width(width,'px'),
+                    Height(85,'vh'),
                     Position("fixed"),
-                    PositionTop(5,'vh'),
-                    PositionLeft(5,'vw'),
+                    PositionTop(40,'px'),
+                    PositionLeft(2.5,'vw'),
+                    Padding(0,'px').setTop(50),
                     OverflowY("scroll"),
                     ZIndex(0),
                     Transition(),
                     Opacity(0),
                     BorderRadius(15,'px'),
-                    Border("thin","solid","#"+"D9EDF7"),
+                    Border("thin","solid","#"),
                     BackgroundColor(colorScheme.getSecondaryColor())
                 ]
             );
-            this.domElement.style.boxShadow="0px 10px 34px -15px rgb(0 0 0 / 24%)";
+            this.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+
+
             this.titleP = Paragraph(this.id+'title').setTextContent(collateral['title']);
             this.titleP.addCustomStyle([
+                Width(90,'vw'),
                 FontSize(18),
                 FontFamily("calibri"),
-                BackgroundColor("D9EDF7"),
-                Margin(0,'px').setBottom(10),
-                Color("337AB7"),
-                FontWeight("bold"),
-                Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
+                BackgroundColor("337AB7"),
+                Position("fixed"),
+                PositionTop(-10,'px'),
+                PositionLeft(5,'vw'),
                 BorderRadius(5,'px'),
-                BackgroundColor("D9EDF7"),
-                Margin(0,'px').setBottom(10),
-                Color("337AB7"),
+                Padding(0,'px').setTop(10).setBottom(10),
+                TextAlignment("center"),
+                Color("FFFFFF"),
                 FontWeight("bold"),
-                Padding(0,'px').setLeft(20).setBottom(10).setTop(8),
-                BorderRadius(5,'px')
+                ZIndex(50000),
             ]);
+            this.titleP.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
             this.collInfo = Division(this.id+"collInfo").addCustomStyle([
-                Width(80),
-                Margin("auto",""),
+                Width(295,'px'),
+                Display("inline"),
+                Position("fixed"),
+                PositionLeft(32,'px'),
+                Margin(0,'px').setLeft(5).setRight(5),
                 BorderRadius(5,'px'),
                 Border("thin","solid","#"+"D9EDF7"),
                 Height(380,'px'),
                 ScrollBarWidth(),
-                OverflowY("scroll"),
                 OverflowX("hidden"),
+                ZIndex(50000)
+            ]);
+            this.collInfo2 = Division(this.id+"collInfo2").addCustomStyle([
+                Width(290,'px'),
+                Display("inline"),
+                Margin(0,'px').setLeft(5).setRight(0),
+                Position("fixed"),
+                PositionRight(50,'px'),
+                BorderRadius(5,'px'),
+                Border("thin","solid","#"+"D9EDF7"),
+                Height(380,'px'),
+                ScrollBarWidth(),
+                OverflowY("hidden"),
+                OverflowX("hidden"),
+                ZIndex(50002)
             ]);
             this.collITitle = Paragraph(this.id+'Ititle').setTextContent("COLLATERAL INFO").addCustomStyle([
                 Width(100),
                 Height(20,'px'),
                 Margin(0),
-                BackgroundColor("D9EDF7"),
+                BackgroundColor("337AB7"),
+                FontFamily("calibri"),
+                FontWeight("bold"),
+                Padding(0,'px').setTop(10).setBottom(10).setLeft(5),
+                Color("FFFFFF"),
+            ]);
+            this.collITitle2 = Paragraph(this.id+'Ititle2').setTextContent("OTHER DETAILS").addCustomStyle([
+                Width(100),
+                Height(20,'px'),
+                Margin(0),
+                BackgroundColor("337AB7"),
                 FontFamily("calibri"),
                 FontWeight("bold"),
                 Padding(0,'px').setTop(10).setBottom(10).setLeft(5),
                 Color("337AB7"),
+            ]);
+
+            this.body = Division(this.id+"body").addCustomStyle([
+                Width(width-624,'px'),
+                Position(),
+                PositionLeft(305,'px'),
+                Display("inline"),
+                Float("left"),
             ]);
             this.fN = new FancyView(this.id+"fN","First Name",collateral['first_name']);
             this.lN = new FancyView(this.id+"lN","Last Name",collateral['last_name']);
@@ -2616,32 +2862,69 @@
             this.branch = new FancyView(this.id+"branch","Branch",collateral['branch']);
             this.date = new FancyView(this.id+"date","Date",collateral['date']);
             this.comments = new FancyView(this.id+"comments","Comments",collateral['comments']);
+            this.actions = Division(this.id+"_actions");
+            this.decline = new IconButton(this.id+"dec","Decline", ["fa","fa-minus-circle", "fa-3x"], this, ECS.getDanger(),ECS.getDangerDark(),2,cId);
+            this.approve = new IconButton(this.id+"app","Approve", ["fa","fa-check", "fa-3x"],this, ECS.getSuccess(),ECS.getSuccessDark(),1,cId);
+            this.release = new IconButton(this.id+"rel","Release", ["fa","fa-mail-forward", "fa-3x"],this, ECS.getWarning(),ECS.getWarningDark(),3,cId);
+            this.reenact = new IconButton(this.id+"ren","Reenact", ["fa","fa-mail-reply", "fa-3x"],this, ECS.getPrimary(),ECS.getPrimaryDark(),1,cId);
 
-            this.closeIcon = new HIcon(this.id+"_close", ["fa","fa-times-circle", "fa-lg"]).addCustomStyle([
+            if(user.$role === "Director"){
+                if (collateral['status'] == 0)
+                    this.actions.addComponent([
+                        this.decline
+                    ]);
+                if (collateral['status'] == 0)
+                    this.actions.addComponent([
+                        this.approve,
+                    ]);
+                if (collateral['status'] == 1)
+                    this.actions.addComponent([
+                        this.release,
+                    ]);
+                if (collateral['status'] == 3){
+                    this.actions.addComponent([
+                        this.reenact
+                    ]);
+                }
+            }
+            this.actions.addCustomStyle([
+                Position("fixed"),
+                PositionLeft(60,'px'),
+                PositionTop(500,'px'),
+            ]);
+
+            this.closeIcon = new HIcon(this.id+"_close", ["fa","fa-times-circle", "fa-2x"]).addCustomStyle([
                 Width(12,'px'),
                 Height(12,'px'),
                 Position("fixed"),
                 Color(ECS.getDanger()),
                 BackgroundColor("FFFFFF"),
                 PositionTop(4.5,'vh'),
-                PositionLeft(94.5,'vw'),
+                PositionRight(2.5,'vw'),
             ]);
             this.closeIcon.addMouseListener(this);
 
             this.collInfo.addComponent([
-                this.collITitle,this.fN, this.lN, this.mN, this.uploader, this.branch, this.date, this.comments
+                this.collITitle,this.fN, this.lN, this.mN, this.uploader, this.branch, this.date
+            ]);
+            this.collInfo2.addComponent([
+                this.collITitle2,this.comments
             ]);
             this.addComponent([
-                this.titleP, this.collInfo,this.closeIcon
+                this.titleP, this.collInfo,this.body, this.collInfo2, this.closeIcon, this.actions
             ]);
 
+            let count = 0;
             JSON.parse(collateral['files']).forEach((file,index)=>{
-                console.log(file);
-                this.addComponent(new PDFViewer(this.id+"pdf"+index, "/"+file, "Document "+(index+1)))
+                count++;
+                this.body.addComponent(new PDFViewer(this.id+"pdf"+index, "/"+file, "Document "+(index+1)))
             });
+            this.body = Division(this.id+"body").addCustomStyle([
+                Height(count*850,'px'),
+            ]);
         }
-        static display(collateral){
-            WINDOW.addComponent(new CollateralView(this.id+"view",collateral).show());
+        static display(collateral,id){
+            WINDOW.addComponent(new CollateralView(id+"viewdre",collateral).show());
         }
         show(){
             this.addCustomStyle(
@@ -2687,9 +2970,54 @@
 
         }
     }
+    class CBox extends HDivision{
+        constructor(id,icons,title,count) {
+            super(id);
+            this.addCustomStyle([
+                Width(300,'px'),
+                Height(300,'px'),
+                Display("inline"),
+                Margin(0,'px').setLeft(10).setRight(10).setTop(50),
+                Float("left"),
+                Border("thin", "solid", "#"+"339AB7"),
+                BorderRadius(5,'px'),
+                Overflow("hidden")
+            ]);
+            this.header = Paragraph(this.id+"h").setTextContent(title);
+            this.icon = new HIcon(this.id+"i", icons);
+            this.count = Paragraph(this.id+"c").setTextContent(count);
+            this.header.addCustomStyle([
+                Height(30,'px'),
+                FontSize(15),
+                Margin(0,'px'),
+                FontWeight("bold"),
+                FontFamily("Calibri"),
+                Padding(10,'px'),
+                BackgroundColor("337AB7"),
+                Color("FFFFFF")
+            ]);
+            this.count.addCustomStyle([
+                FontSize(50),
+                FontWeight("bold"),
+                Color("337AB7"),
+                Margin(0,'px').setTop(25),
+                FontFamily("Calibri"),
+                TextAlignment("center")
+            ]);
+            this.icon.addCustomStyle([
+                Padding(0,'px').setTop(20),
+                Width(100),
+                Color("337AB7"),
+                TextAlignment("center")
+            ]);
+            this.addComponent([
+                this.header,this.icon,this.count
+            ])
+        }
+    }
 
     class DownloadRow extends HDivision{
-        constructor(id,title,fn,ln,branch,width, collateral) {
+        constructor(id,title,fn,ln,branch,width, collateral,date) {
             super(id);
             this.collateral= collateral;
             this.addCustomStyle([
@@ -2705,7 +3033,7 @@
             ]);
             this.title = Paragraph(this.id+"_title").addCustomStyle([
                 Overflow("hidden"),
-                Width(32),
+                Width(20),
                 Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
@@ -2739,6 +3067,16 @@
                 Float("left")
 
             ]).setTextContent(branch);
+            this.date = Paragraph(this.id+"_date").addCustomStyle([
+                Overflow("hidden"),
+                Width(12),
+                FontSize(9),
+                Padding(0,'px').setTop(8),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent(date);
 
             this.actions= Division(this.id+"_actions").addCustomStyle([
                 Overflow("hidden"),
@@ -2746,28 +3084,19 @@
                 Margin(0),
                 Float("left")
             ]);
-            this.view = new HAnchor(this.id+'view', "#").setTextContent("View");
+            this.view = new HIcon(this.id+'view', ["fa","fa-envelope-open", "fa-2x"]);
+
             this.view.addCustomStyle([
-                BackgroundColor("5CB85C"),
-                Border("thin", "solid", "#"+"4cae4c"),
-                BorderRadius(4,'px'),
-                Padding(0,'px').setTop(6).setLeft(12).setBottom(12).setRight(12),
-                Margin(0,'px').setLeft(10).setTop(0),
-                Color("FFFFFF"),
-                Width(80,'px'),
-                TextDecoration("none"),
-                FontFamily("calibri"),
+                Margin(0,'px').setTop(5),
                 TextAlignment("center"),
-                Height(12,'px'),
-                Display("inline"),
-                Float("left")
+                Display("block"),
             ]);
             this.view.addMouseListener(this);
             this.actions.addComponent([
                 this.view
             ]);
 
-            this.addComponent([this.title, this.fN,this.lN, this.branch, this.actions]);
+            this.addComponent([this.title, this.fN,this.lN, this.branch,this.date, this.actions]);
         }
 
         getFN(){
@@ -2782,6 +3111,9 @@
         getTitle(){
             return this.title.domElement.textContent;
         }
+        getDate(){
+            return this.date.domElement.textContent;
+        }
 
         mouseClicked(e){
 
@@ -2789,7 +3121,7 @@
                 case"click": {
 
                     if (e.getSource()=== this.view){
-                        CollateralView.display(this.collateral)
+                        CollateralView.display(this.collateral, this.id)
 
                     }
                 }
@@ -2806,8 +3138,19 @@
         }
         mouseOut(e){
 
+            if(e.getSource() === this.view){
+                this.view.addCustomStyle(
+                    Color("337AB7")
+                )
+            }
         }
         mouseOver(e){
+            if(e.getSource() === this.view){
+                this.view.addCustomStyle(
+                    Color("12395A")
+                )
+            }
+
         }
         mouseDown(e){
 
@@ -2827,14 +3170,14 @@
                 FontWeight(500),
                 FontSize(10,'pt'),
                 Padding(0,'px').setLeft(5).setTop(3),
-                BackgroundColor(colorScheme.getSecondaryColor()),
-                Color("337AB7"),
+                BackgroundColor("337AB7"),
+                Color("FFFFFF"),
                 BorderRadius(5,'px'),
 
             ]);
             this.title = Paragraph(this.id+"_title").addCustomStyle([
                 Overflow("hidden"),
-                Width(32),
+                Width(20),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -2864,13 +3207,21 @@
                 Float("left")
 
             ]).setTextContent("Branch");
+            this.date = Paragraph(this.id+"_date").addCustomStyle([
+                Overflow("hidden"),
+                Width(12),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent("Date");
             this.actions= Paragraph(this.id+"_actions").addCustomStyle([
                 Overflow("hidden"),
                 Width(17),
                 Margin(0),
                 Float("left")
             ]).setTextContent("Actions");
-            this.addComponent([this.title,this.fN,this.lN, this.branch, this.actions])
+            this.addComponent([this.title,this.fN,this.lN, this.branch,this.date, this.actions])
         }
     }
     class Downloadables extends HDivision{
@@ -2909,7 +3260,7 @@
             this.top = Division(this.id+"_top").addCustomStyle([
                 Width(100),
                 Height(80,'px'),
-                BackgroundColor("D9EDF7")
+                BackgroundColor("337AB7"),
             ]);
             this.header= new DownloadHeader(this.id+"_hdr",screen.width-260-100).addCustomStyle([
                 Position(),
@@ -3068,6 +3419,8 @@
                     return true;
                 if(Helper.KMPSearch(pattern,item.getBranch()))
                     return true;
+                if(Helper.KMPSearch(pattern,item.getDate()))
+                    return true;
                 return false;
             }
             else return  true;
@@ -3182,6 +3535,9 @@
     class Index extends HDivision{
         constructor(frame) {
             super("index");
+            this.addCustomStyle([
+                Display('none'),
+            ]);
             this.pageTitle = Paragraph(this.id+'pT').setTextContent("COLLATERALS");
             this.pageTitle.addCustomStyle([
                 FontSize(18),
@@ -3199,16 +3555,808 @@
             ]);
             JSON.parse(localStorage.getItem("collaterals")).forEach(
                 (collateral,index)=>{
-                    this.downloadables.addDownloadable(
-                        new DownloadRow(
-                            "user"+index
-                            ,collateral['title']
-                            ,collateral['first_name']
-                            ,collateral['last_name']
-                            ,collateral['branch'],
-                            screen.width-260-100,
-                            collateral)
-                    )
+                    if(collateral['status'] == 1)
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
+                });
+            this.addComponent([this.pageTitle, this.downloadables]);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1280){
+
+
+                this.d1280();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+
+
+        d1920(){
+            this.d1366();
+        }
+        d1566(){
+
+            this.d1366();
+        }
+        d1536(){
+
+            this.d1366();
+        }
+        d1366(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Margin("auto",""),
+                Height(screen.height-91,'px')
+            ]);
+        }
+        d1280(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d1024(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d768(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d540(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d414(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d375(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d360(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d320(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+    }
+    class Pending extends HDivision{
+        constructor(frame, title) {
+            super("pendcolla");
+            pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
+            this.addCustomStyle([
+                Display('none'),
+                Transition("opacity", "1000"),
+                Width(100,'vw'),
+                Height(1130,'px'),
+            ]);
+            try{
+
+                frame.addToBody(this);
+            }
+            catch(e){
+
+            }
+            this.pageTitle = Paragraph(this.id+'pT').setTextContent(title+" Collaterals");
+            this.pageTitle.addCustomStyle([
+                FontSize(18),
+                Height(40,'px'),
+                FontFamily("Calibri"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft().setBottom(30),
+                BottomBorder("thin","solid","#"+"337AB7"),
+                Color("337AB7")
+
+            ]);
+
+            this.downloadables = new Downloadables(this.id+"_dds").addCustomStyle([
+
+            ]);
+            JSON.parse(localStorage.getItem("collaterals")).forEach(
+
+                (collateral,index)=>{
+                    if(collateral['status'] == 0)
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
+                });
+            this.addComponent([this.pageTitle, this.downloadables]);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1280){
+
+
+                this.d1280();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+
+
+        d1920(){
+            this.d1366();
+        }
+        d1566(){
+
+            this.d1366();
+        }
+        d1536(){
+
+            this.d1366();
+        }
+        d1366(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Margin("auto",""),
+                Height(800,'px')
+            ]);
+        }
+        d1280(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d1024(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d768(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d540(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d414(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d375(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d360(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d320(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+    }
+    class All extends HDivision{
+        constructor(frame,title) {
+            super("allcolla");
+            pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
+            this.addCustomStyle([
+                Display('none'),
+                Transition("opacity", "1000"),
+                Width(100,'vw'),
+                Height(1130,'px'),
+            ]);
+            try{
+                frame.addToBody(this);
+            }
+            catch(e){
+
+            }
+            this.pageTitle = Paragraph(this.id+'pT').setTextContent(title+" Collaterals");
+            this.pageTitle.addCustomStyle([
+                FontSize(18),
+                Height(40,'px'),
+                FontFamily("Calibri"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft().setBottom(30),
+                BottomBorder("thin","solid","#"+"337AB7"),
+                Color("337AB7")
+
+            ]);
+
+            this.downloadables = new Downloadables(this.id+"_dds").addCustomStyle([
+
+            ]);
+            JSON.parse(localStorage.getItem("collaterals")).forEach(
+                (collateral,index)=>{
+                    if(collateral['status'] == 1)
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
+                });
+            this.addComponent([this.pageTitle, this.downloadables]);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1280){
+
+
+                this.d1280();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+
+
+        d1920(){
+            this.d1366();
+        }
+        d1566(){
+
+            this.d1366();
+        }
+        d1536(){
+
+            this.d1366();
+        }
+        d1366(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Margin("auto",""),
+                Height(800,'px')
+            ]);
+        }
+        d1280(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d1024(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d768(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d540(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d414(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d375(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d360(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d320(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+    }
+    class Declined extends HDivision{
+        constructor(frame, title) {
+            super("deccolla");
+            pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
+            this.addCustomStyle([
+                Display('none'),
+                Transition("opacity", "1000"),
+                Width(100,'vw'),
+                Height(1130,'px'),
+            ]);
+            try{
+
+                frame.addToBody(this);
+            }
+            catch(e){
+
+            }
+            this.pageTitle = Paragraph(this.id+'pT').setTextContent(title+" Collaterals");
+            this.pageTitle.addCustomStyle([
+                FontSize(18),
+                Height(40,'px'),
+                FontFamily("Calibri"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft().setBottom(30),
+                BottomBorder("thin","solid","#"+"337AB7"),
+                Color("337AB7")
+
+            ]);
+
+            this.downloadables = new Downloadables(this.id+"_dds").addCustomStyle([
+
+            ]);
+            JSON.parse(localStorage.getItem("collaterals")).forEach(
+                (collateral,index)=>{
+                    if(collateral['status'] == 2)
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
+                });
+            this.addComponent([this.pageTitle, this.downloadables]);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1280){
+
+
+                this.d1280();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+
+
+        d1920(){
+            this.d1366();
+        }
+        d1566(){
+
+            this.d1366();
+        }
+        d1536(){
+
+            this.d1366();
+        }
+        d1366(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Margin("auto",""),
+                Height(800,'px')
+            ]);
+        }
+        d1280(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d1024(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d768(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d540(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d414(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d375(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d360(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+        d320(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(1200,'px')
+            ]);
+        }
+    }
+    class Released extends HDivision{
+        constructor(frame, title) {
+            super("relcolla");
+            pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
+            this.addCustomStyle([
+                Display('none'),
+                Transition("opacity", "1000"),
+                Width(100,'vw'),
+                Height(1130,'px'),
+            ]);
+            try{
+                frame.addToBody(this);
+            }
+            catch(e){
+
+            }
+            this.pageTitle = Paragraph(this.id+'pT').setTextContent(title+" Collaterals");
+            this.pageTitle.addCustomStyle([
+                FontSize(18),
+                Height(40,'px'),
+                FontFamily("Calibri"),
+                FontWeight("bold"),
+                Padding(0,'px').setLeft().setBottom(30),
+                BottomBorder("thin","solid","#"+"337AB7"),
+                Color("337AB7")
+
+            ]);
+
+            this.downloadables = new Downloadables(this.id+"_dds").addCustomStyle([
+
+            ]);
+            JSON.parse(localStorage.getItem("collaterals")).forEach(
+                (collateral,index)=>{
+                    if(collateral['status'] == 3)
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
             this.componentResized();
@@ -3363,6 +4511,275 @@
         }
     }
 
+    class NavDropDown extends HDivision{
+        constructor(id, links = [],mouseListener, width, height){
+            super("navDropDown_"+id);
+            this.height =height;
+            this.addCustomStyle(
+                [
+                    Width(width, 'px'),
+                    Height(0,'px'),
+                    Padding(0,'px').setTop(0).setBottom(0),
+                    Opacity(1),
+                    Position("absolute"),
+                    Margin(0,'px').setTop(10),
+                    BackgroundColor(colorScheme.getSecondaryColor()),
+                    Transition("all","500ms","ease"),
+                    Overflow("hidden"),
+                ]
+            );
+            this.domElement.style.boxShadow="1px 1px 5px 0 rgba(0, 0, 0, 0.25)," +
+                "-1px -1px 5px 0 rgba(255, 255, 255, 0.3)";
+            this.addComponent(links);
+            this.addMouseListener(mouseListener)
+        }
+        getHeight(){
+            return this.height;
+        }
+    }
+    class NavLink extends HDivision{
+        anchor;
+        dropdown;
+        constructor(id,alt= "",href, mouseListener, width, dropdown = null){
+            super("navLink_"+id);
+            this.width = width;
+            this.dropdown = dropdown;
+
+            this.anchor = new HAnchor("a_"+id, href).setTextContent(alt);
+            this.addSelectorRule("hover", Color("000000"));
+            this.addComponent(this.anchor);
+            this.addMouseListener(mouseListener);
+            this.anchor.addMouseListener(mouseListener);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+        d1920(){
+
+            this.d1366()
+        }
+        d1566(){
+
+            this.d1366()
+        }
+        d1536(){
+
+            this.d1366()
+        }
+        d1366(){
+            this.addCustomStyle(
+                [
+                    Height(25, 'px'),
+                    Width(this.width, 'px'),
+                    Float('left'),
+                ]
+            );
+            this.anchor.addCustomStyle(
+                [
+                    Color("FFFFFF"),
+                    Margin(0),
+                    Padding(0).setTop(21).setBottom(26).setLeft(10).setRight(10),
+                    Width(75, 'px'),
+                    FontSize(12,'pt'),
+                    FontWeight("bold"),
+                    TextAlignment('center'),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    Transition("all","300ms","ease")
+                ]
+            );
+
+        }
+        d1024(){
+
+            this.d1366()
+        }
+        d768(){
+            this.d1366()
+
+        }
+        d540(){
+            this.d1366()
+
+        }
+        d414(){
+            this.addCustomStyle(
+                [
+                    Height(25, 'px'),
+                    Width(this.width*0.90, 'px'),
+                    Float('left'),
+                ]
+            );
+            this.anchor.addCustomStyle(
+                [
+                    Color(colorScheme.getPrimaryColor()),
+                    Width(75, 'px'),
+                    FontSize(12,'pt'),
+                    FontWeight("bold"),
+                    TextAlignment('center'),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    Transition("all","300ms","ease")
+                ]
+            );
+
+        }
+        d375(){
+            this.addCustomStyle(
+                [
+                    Height(25, 'px'),
+                    Width(this.width*0.80, 'px'),
+                    Float('left'),
+                ]
+            );
+            this.anchor.addCustomStyle(
+                [
+                    Color(colorScheme.getPrimaryColor()),
+                    Width(75, 'px'),
+                    FontSize(11,'pt'),
+                    FontWeight("bold"),
+                    TextAlignment('center'),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    Transition("all","300ms","ease")
+                ]
+            );
+        }
+        d360(){
+            this.addCustomStyle(
+                [
+                    Height(25, 'px'),
+                    Width(this.width*0.78, 'px'),
+                    Float('left'),
+                ]
+            );
+            this.anchor.addCustomStyle(
+                [
+                    Color(colorScheme.getPrimaryColor()),
+                    Width(75, 'px'),
+                    FontSize(11,'pt'),
+                    FontWeight("bold"),
+                    TextAlignment('center'),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    Transition("all","300ms","ease")
+                ]
+            );
+
+        }
+        d320(){
+            this.addCustomStyle(
+                [
+                    Height(25, 'px'),
+                    Width(this.width*0.65, 'px'),
+                    Float('left'),
+                ]
+            );
+            this.anchor.addCustomStyle(
+                [
+                    Color(colorScheme.getPrimaryColor()),
+                    Width(75, 'px'),
+                    FontSize(9,'pt'),
+                    FontWeight("bold"),
+                    TextAlignment('center'),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    Transition("all","300ms","ease")
+                ]
+            );
+        }
+
+        getAnchor() {
+            return this.anchor;
+        }
+
+    }
+    class NavLinkDD extends HAnchor{
+        dropdown;
+        constructor(id,alt= "",href, mouseListener, width, dropdown = null){
+            super("navLinkDD_"+id,href);
+            this.addCustomStyle(
+                [
+                    Height(27, 'px'),
+                    Width(100),
+                    Display("block"),
+                    FontSize(10,'pt'),
+                    Margin(1,'px').setTop(0),
+                    Padding(0,'px').setLeft(5).setTop(8).setBottom(4),
+                    FontWeight("bold"),
+                    TextDecoration(TEXTDECORATION.NONE),
+                    BackgroundColor(colorScheme.getSecondaryColor()),
+                    Transition("all","300ms","ease")
+                ]
+            );
+            this.setTextContent(alt);
+            this.addSelectorRule("hover", Color("000000"));
+            this.addMouseListener(mouseListener);
+        }
+
+        getAnchor() {
+            return this;
+        }
+
+    }
     class Dashboard  extends HDivision{
         constructor() {
             super('app');
@@ -3520,7 +4937,7 @@
                 Width(100),
                 Height(90,'px'),
                 Overflow("hidden"),
-                BackgroundColor("FFFFFF"),
+                BackgroundColor("337AB7"),
                 BottomBorder("thin")
             ]);
 
@@ -3530,17 +4947,17 @@
                 FontSize(25,'px'),
                 Display("inline"),
                 Float("left"),
-                Color("337AB7"),
+                Color("FFFFFF"),
                 Margin(0, "px").setTop(5).setRight(5).setLeft(20)
             ]);
             this.profileBar.addCustomStyle([
                 Width(260,'px'),
-                Height(100,'px'),
-                Overflow("hidden"),
+                Height(60,'px'),
+                Position("fixed"),
                 Margin(0,'px').setTop(10),
                 Position("relative"),
                 Float("right"),
-                Color("337AB7"),
+                Color("FFFFFF"),
             ]);
             this.userPic.addCustomStyle([
                 Width(70,'px'),
@@ -3590,15 +5007,16 @@
             this.buttonsBar.addCustomStyle(
                 [
                     Width(500,'px'),
-                    Height(100,'px'),
+                    Height(40,'px'),
                     Overflow("hidden"),
                     Margin(0,'px'),
-                    Position("relative"),
                     Float("left"),
                 ]
             );
             this.btnCreateColl.addCustomStyle([
-                Position(),
+                Position("fixed"),
+                PositionTop(70,'px'),
+                PositionRight(20,'px'),
                 Float("left"),
                 FontWeight("bold"),
                 Margin(10,'px').setTop(40)
@@ -3650,6 +5068,54 @@
 
         }
 
+        initNavWS(){
+            this.navigation = Division('navigation');
+
+            let home = new NavLink("home", "Dashboard","/dashboard",this, 80);
+            this.servicesN = new NavLink("servicesN", "Collaterals","/collaterals",this, 160);
+            let links = [];
+            let w1 = 0;
+            let h1 = 0;
+
+            if(user.$role === "Director" || user.$role === "Credit"){
+                links = [
+                    new NavLinkDD("allNL", "Active","/collaterals/active",this, 140),
+                    new NavLinkDD("pendNL", "Pending","/collaterals/pending",this, 140),
+                    new NavLinkDD("relNL", "Released","/collaterals/released",this, 140),
+                    new NavLinkDD("decNL", "Declined","/collaterals/declined",this, 140),
+                ];
+                w1 =180;
+                h1=160;
+            }
+            else{
+                links = [
+                    new NavLinkDD("allNL", "Active","/collaterals/active",this, 140),
+                ];
+                w1 =180;
+                h1=40;
+            }
+            this.servicesDD = new NavDropDown('servicesDrop',
+                links,this,w1,h1);
+            this.servicesDD.addCustomStyle(ZIndex(30000));
+            this.servicesN.addMouseListener(this);
+            this.servicesN.addComponent(this.servicesDD);
+
+            this.navigation.addCustomStyle(([
+                Height(30, 'px'),
+                Width(95, 'vw'),
+                Padding(0,"px").setTop(0).setLeft(10),
+                Margin(0,'px').setTop(0).setLeft(800).setRight(18),
+                BorderRadius(20, 'px'),
+                FontFamily(FONT["CALIBRI"],FONT["SITKA BANNER"],FONT["SANS-SERIF"]),
+                FontSize(10, 'pt'),
+                Display('block'),
+                Float('left'),
+                Overflow(OVERFLOW.HIDDEN)
+            ]));
+            this.navigation.addComponent([home,this.servicesN])
+
+
+        }
         init(){
             //Top Panels
             this.loader = new Loader();
@@ -3664,10 +5130,11 @@
 
             this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
             this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
-            this.navBranches = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+            this.navReleased = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+            this.navDeclined = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
 
             this.navBar.addComponent([
-                this.navDashboard,this.navCollaterals,this.navBranches ]);
+                this.navDashboard,this.navCollaterals,this.navReleased, this.navDeclined ]);
 
 
             this.navPanel.addComponent([
@@ -3687,17 +5154,21 @@
             this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
             this.profileBar.addComponent([this.userPic, this.userInfo]);
 
+            this.initNavWS();
             this.buttonsBar = Division("bBar");
             this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
                 ECS.getSuccessDark());
             this.btnCreateColl.addMouseListener(this);
 
-            this.buttonsBar.addComponent([
-                this.btnCreateColl
-            ]);
+
+            if(user.$role === "Director" || user.$role === "Credit") {
+                this.buttonsBar.addComponent([
+                    this.btnCreateColl
+                ]);
+            }
             this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
             this.header.addComponent([
-                this.logoText,this.buttonsBar,this.notice,this.profileBar
+                this.logoText,this.buttonsBar,this.notice,this.profileBar, this.navigation
             ]);
 
             this.logOut.addMouseListener(this);
@@ -3719,30 +5190,39 @@
             this.mainPanel.addComponent([
                 this.loader,this.header,this.body
             ]);
-
+            this.roleP = Paragraph(this.id+"roleP").setTextContent("Role: "+this.user.$role);
+            this.roleP.addCustomStyle([
+                FontFamily("calibri"),
+                Position("fixed"),
+                PositionBottom(-10,'px'),
+                PositionRight(25,'px')
+            ]);
             this.addComponent([
-                this.navPanel,this.mainPanel
+                this.navPanel,this.mainPanel,this.roleP
             ]);
             this.initPagesWS();
         }
 
         initPagesWS(){
             this.index = new Index(this);
-            this.collateralsP = new Collaterals(this);
-            this.branchesP = new Branches(this);
-            this.payBillsAirtimeP = new PayBillsAirtime(this);
-            this.myLoansP = new MyLoans(this);
-            this.settingsP = new Settings(this);
-
+            this.collaterals = new Collaterals(this);
+            this.allCollaterals = new All(this,"Active");
+            this.pendingCollaterals = new Pending(this,"Pending");
+            this.declinedCollaterals = new Declined(this,"Declined");
+            this.releasedCollaterals = new Released(this,"Released");
             this.body.addComponent([
-                this.index,
+                this.index, this.collaterals
             ]);
 
         }
 
+        addToBody(panel){
+            this.body.addComponent(panel)
+        }
         async retrieveUser(){
             await this.send({'sk': this.getCookie('sk')},
                 async (e)=>{
+                    localStorage.setItem("user",e['content']);
                     let content = JSON.parse(e['content']);
                     this.user = new User(
                         content['firstName'],
@@ -3751,27 +5231,32 @@
                         content['userName'],
                         content['email'],
                         content['phoneNo'],
-                        content['bvn']);
+                        content['bvn'],
+                        content['role']);
+                    user = new User(
+                        content['firstName'],
+                        content['lastName'],
+                        content['middleName'],
+                        content['userName'],
+                        content['email'],
+                        content['phoneNo'],
+                        content['bvn'],
+                        content['role']);
                     await this.send({'sk': this.getCookie('sk')},
                         (e)=>{
-                            localStorage.setItem('collaterals',JSON.stringify(e['collaterals']));this.init();
+                            localStorage.setItem('collaterals',JSON.stringify(e['collaterals']));
+                            this.init();
                             let path = window.location.pathname.toLowerCase();
                             this.switchToPage(path);
                             this.componentResized();
                             this.addComponentListener(this);
                         },
                         (e)=>{
-                            console.log(e)
+                            window.location.href = "/";
                         },'getCollaterals');
-
-
-
-                    localStorage.setItem("user",e['content']);
 
                 },
                 (e)=>{
-                    //window.close();
-                    this.addComponent(Paragraph('fdf').setTextContent("HTTP Error 403 – Forbidden"));
                     window.location.href = "/";
                 },'retrieveUser');
         }
@@ -3814,79 +5299,99 @@
             switch (path.toLowerCase().replace(" ","")){
                 case "/dashboard":
                 {
+
                     this.refreshBody(this.index,path);
                     break;
                 }
-                case "/dashboard/collaterals":
+                case "/collaterals":
                 {
-                    this.refreshBody(this.collateralsP,path);
+                    this.refreshBody(this.collaterals,path);
                     break;
                 }
-                case "/dashboard/branches":
+                case "/collaterals/active":
                 {
-                    this.refreshBody(this.branchesP,path);
+                    this.refreshBody(pages[path],path);
                     break;
                 }
-                case "/dashboard/paybillsairtime":
+                case "/collaterals/pending":
                 {
-                    this.refreshBody(this.payBillsAirtimeP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody(pages[path],path);
+                    else
+                        this.refreshBody(this.index,"/dashboard");
                     break;
                 }
-                case "/dashboard/myloans":
+                case "/collaterals/declined":
                 {
-                    this.refreshBody(this.myLoansP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody(pages[path],path);
+                    else
+                        this.refreshBody(this.index,"/dashboard");
                     break;
                 }
-                case "/dashboard/settings":
+                case "/collaterals/released":
                 {
-                    this.refreshBody(this.settingsP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody(pages[path],path);
+                    else
+                        this.refreshBody(this.index,"/dashboard");
                     break;
                 }
 
                 default:
                 {
-                    this.refreshBody(this.dashboardP,"/dashboard");
+                    this.refreshBody(this.index,"/dashboard");
                     break;
                 }
             }
         }
         switchToPage2(path){
             path.replace("localhost","");
+            console.log(path);
             switch (path){
                 case "/dashboard":
                 {
                     this.refreshBody2(this.index,path);
                     break;
                 }
-                case "/dashboard/collaterals":
+                case "/collaterals":
                 {
-                    this.refreshBody2(this.collateralsP,path);
+                    this.refreshBody2(this.collaterals,path);
                     break;
                 }
-                case "/dashboard/branches":
+                case "/collaterals/active":
                 {
-                    this.refreshBody2(this.branchesP,path);
+                    this.refreshBody2(pages[path],path);
                     break;
                 }
-                case "/dashboard/paybillsairtime":
+                case "/collaterals/pending":
                 {
-                    this.refreshBody2(this.payBillsAirtimeP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody2(pages[path],path);
+                    else
+                        this.refreshBody2(this.index,"/dashboard");
                     break;
                 }
-                case "/dashboard/myloans":
+                case "/collaterals/declined":
                 {
-                    this.refreshBody2(this.myLoansP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody2(pages[path],path);
+                    else
+                        this.refreshBody2(this.index,"/dashboard");
                     break;
                 }
-                case "/dashboard/settings":
+                case "/collaterals/released":
                 {
-                    this.refreshBody2(this.settingsP,path);
+                    if(user.$role === "Director" || user.$role === "Credit")
+                        this.refreshBody2(pages[path],path);
+                    else
+                        this.refreshBody2(this.index,"/dashboard");
                     break;
                 }
 
                 default:
                 {
-                    this.refreshBody2(this.dashboardP,"/dashboard");
+                    this.refreshBody2(this.index,"/dashboard");
                     break;
                 }
             }
@@ -4018,13 +5523,14 @@
             switch (e.getEvent()){
                 case"click":
                 {
-
                     if (e.getSource() === this.logOut){
+                        console.log(pages);
                         document.cookie = "sk=";
                         location.reload();
                     }
                     else
                         try{
+                            e.getWindowEvent().preventDefault();
                             this.switchToPage(e.getSource().getLink())
                         }
                         catch(ex){
@@ -4049,9 +5555,40 @@
         }
         mouseOut(e){
 
+            if(e.getSource() === this.servicesN){
+                this.servicesDD.addCustomStyle(
+                    [
+                        Height(0,'px'),
+                        Padding(0,'px').setTop(0).setBottom(0),
+                    ]
+                )
+            }
+            if(e.getSource() instanceof NavLinkDD){
+                e.getSource().addCustomStyle([
+                    Color(colorScheme.getPrimaryColor())
+                ]);
+                e.getSource().domElement.style.boxShadow="0px 0px 0px 0 rgba(0, 0, 0, 0.25)," +
+                    "0px 0px 0px 0 rgba(255, 255, 255, 0.3)";
+            }
         }
         mouseOver(e){
 
+            if(e.getSource() instanceof NavLinkDD){
+                e.getSource().domElement.style.boxShadow="0px 0px 0px 0 rgba(0, 0, 0, 0.25)," +
+                    "0px 0px 0px 0 rgba(255, 255, 255, 0.3)";
+            }
+            if(e.getSource() instanceof NavLinkDD){
+                e.getSource().domElement.style.boxShadow="1px 1px 5px 0 rgba(0, 0, 0, 0.25)," +
+                    "-1px -1px 5px 0 rgba(255, 255, 255, 0.3)";
+            }
+            if(e.getSource() === this.servicesN){
+                this.servicesDD.addCustomStyle(
+                    [
+                        Height(this.servicesDD.getHeight(),'px'),
+                        Padding(0,'px').setTop(1).setBottom(0),
+                    ]
+                )
+            }
 
         }
         mouseDown(e){
