@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/lib/userman.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/userman.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/lib/webapp.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/webapp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/views/webapp.html" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/webapp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Collateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Collateral.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.php" afterDir="false" />
-    </list>
+    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="76">
-              <caret line="108" column="9" lean-forward="true" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
+              <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
                 <element signature="n#getRandomWord#0;n#!!top" />
@@ -60,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/crweb/lib/webapp.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="5544" column="17" lean-forward="true" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
+              <caret line="5544" column="17" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
               <folding>
                 <element signature="e#74#433#0" />
                 <element signature="e#461#804#0" />
@@ -1169,7 +1161,7 @@
         <entry file="file://$PROJECT_DIR$/models/Collateral.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
-              <caret line="18" column="19" lean-forward="true" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -1225,9 +1217,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="107" />
+    <option name="x" value="106" />
     <option name="width" value="1820" />
-    <option name="height" value="1049" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -1241,11 +1233,6 @@
             <path>
               <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
               <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1292,21 +1279,21 @@
       <workItem from="1627438419547" duration="590000" />
       <workItem from="1627552084947" duration="1792000" />
       <workItem from="1627658974073" duration="581000" />
-      <workItem from="1627980307178" duration="1122000" />
+      <workItem from="1627980307178" duration="1591000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12806000" />
+    <option name="totallyTimeSpent" value="13275000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.3295302" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.3295302" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
@@ -2676,7 +2663,7 @@
     <entry file="file://$PROJECT_DIR$/crweb/lib/webapp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="5544" column="17" lean-forward="true" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
+          <caret line="5544" column="17" selection-start-line="5544" selection-start-column="17" selection-end-line="5544" selection-end-column="17" />
           <folding>
             <element signature="e#74#433#0" />
             <element signature="e#461#804#0" />
@@ -3783,14 +3770,14 @@
     <entry file="file://$PROJECT_DIR$/models/Collateral.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
-          <caret line="18" column="19" lean-forward="true" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
-          <caret line="108" column="9" lean-forward="true" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
+          <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
             <element signature="n#getRandomWord#0;n#!!top" />
