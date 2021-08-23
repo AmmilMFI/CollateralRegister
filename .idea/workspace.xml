@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/models/Message.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/Database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/lib/userman.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/userman.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/lib/webapp.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/webapp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crweb/views/webapp.html" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/views/webapp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Collateral.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Collateral.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,8 +30,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="507" column="57" lean-forward="true" selection-start-line="507" selection-start-column="57" selection-end-line="507" selection-end-column="57" />
+            <state relative-caret-position="-2622">
+              <caret line="520" column="33" selection-start-line="520" selection-start-column="33" selection-end-line="520" selection-end-column="33" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
                 <element signature="n#getRandomWord#0;n#!!top" />
@@ -76,11 +69,6 @@
       </file>
       <file leaf-file-name="404.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crweb/views/404.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="Admin.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/Admin.php">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
@@ -129,10 +117,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1060" />
+    <option name="x" value="410" />
+    <option name="y" value="-13" />
+    <option name="width" value="1818" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -156,7 +144,13 @@
             <path>
               <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
               <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegisterRemote" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegisterRemote" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -207,16 +201,15 @@
       <workItem from="1627658974073" duration="581000" />
       <workItem from="1627980307178" duration="2820000" />
       <workItem from="1629668223771" duration="1359000" />
-      <workItem from="1629707015168" duration="338000" />
+      <workItem from="1629707015168" duration="1461000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16201000" />
+    <option name="totallyTimeSpent" value="17324000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26308724" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -634,10 +627,13 @@
     <entry file="file://$PROJECT_DIR$/models/Admin.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/User.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="507" column="57" lean-forward="true" selection-start-line="507" selection-start-column="57" selection-end-line="507" selection-end-column="57" />
+        <state relative-caret-position="-2622">
+          <caret line="520" column="33" selection-start-line="520" selection-start-column="33" selection-end-line="520" selection-end-column="33" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
             <element signature="n#getRandomWord#0;n#!!top" />
