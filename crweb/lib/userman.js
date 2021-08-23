@@ -3128,9 +3128,9 @@
             super(id);
             this.addCustomStyle([
                 Width(50),
-                Float("left"),
-                Position("relative")],
-            );
+                    Float("left"),
+                    Position("relative")],
+                );
             this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
                 FontFamily("calibri"),
                 Width(95),
@@ -3174,9 +3174,9 @@
             super(id);
             this.addCustomStyle([
                 Width(50),
-                Float("left"),
-                Position("relative")],
-            );
+                    Float("left"),
+                    Position("relative")],
+                );
             this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
                 FontFamily("calibri"),
                 Width(95),
@@ -4297,7 +4297,7 @@
 
             //this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
             //this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-            //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+             //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
             //this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
             //    "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
 
@@ -4347,22 +4347,22 @@
                         },'getUsers');
                 },
                 (e)=>{
-                    this.loginPage.addCustomStyle(
-                        [
-                            Height(100,'vh'),
-                            ZIndex(10),
-                            Opacity(1),
-                        ]
-                    );
+                this.loginPage.addCustomStyle(
+                    [
+                        Height(100,'vh'),
+                        ZIndex(10),
+                        Opacity(1),
+                    ]
+                );
                 },
                 (e)=>{
-                    this.registerPage.addCustomStyle(
-                        [
-                            Height(100,'vh'),
-                            ZIndex(10),
-                            Opacity(1),
-                        ]
-                    );
+                this.registerPage.addCustomStyle(
+                    [
+                        Height(100,'vh'),
+                        ZIndex(10),
+                        Opacity(1),
+                    ]
+                );
                 },'retrieveUser');
         }
 

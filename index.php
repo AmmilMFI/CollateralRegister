@@ -4,9 +4,11 @@ use models\User;
 use models\Collateral;
 use models\Admin;
 use models\Field;
+use models\Message;
 use controller\Encrypt;
 
 require_once "models/Admin.php";
+require_once "models/Message.php";
 require_once "models/Field.php";
 require_once "models/User.php";
 require_once "models/Collateral.php";
@@ -151,12 +153,29 @@ switch ($url){
                     case "createCollateral":{
                         $decoded =json_decode($_POST['content'],true);
                         try {
-                            $ctrr = Collateral::fromJson($decoded);
+                            $tz = 'Africa/Lagos';
+                            $timestamp = time();
+                            $dt = new \DateTime("now", new \DateTimeZone($tz));
+                            $dt->setTimestamp($timestamp);
+                            $year= $dt->format("Y");
+                            $month= $dt->format("m");
+                            $day= $dt->format("d");
+                            $hour= $dt->format("H");
+                            $minute= $dt->format("i");
+                            $second= $dt->format("s");
+                            $micro = $dt->format("u");
+                            $title= "AMMIL/".$year.$month.$day.$hour.$minute.$second.$micro;
+                            $ctrr = Collateral::fromJson($decoded,$title);
                             $ctrr->persist();
                             $ctrr->flush();
+                            $message =  new Message($decoded['username'],
+                                $title." is awaiting your approval",
+                                $title);
+                            $message->send();
                             echo json_encode(["status" => 200, "message" => "okay"]);
                         }
                         catch (Exception $e) {
+                            error_log($e->getMessage());
                             $msg = $e->getMessage();
                             echo json_encode(["status" => 500, "message" => "$msg"]);
                         }
@@ -165,7 +184,66 @@ switch ($url){
                     case "changeCollateralStatus":{
                         $decoded =json_decode($_POST['content'],true);
                         try {
-                            Collateral::changeStatus($decoded['id'],$decoded['status']);
+                            switch ($decoded['status']){
+                                case 1:
+                                    $a = Collateral::changeStatus($decoded['id'],$decoded['status']);
+                                    Collateral::requestReEnact($decoded['id'],0);
+                                    $colla = Collateral::returnOne($decoded['id']);
+                                    $message =  new Message($decoded['username'],
+                                        $colla['cctimestamp']." has been approved",
+                                        $colla['cctimestamp']);
+                                    $message->sendToOne($colla['uploader2']);
+                                    break;
+                                case 2:
+                                    Collateral::changeStatus($decoded['id'],$decoded['status']);
+                                    $colla = Collateral::returnOne($decoded['id']);
+                                    $message =  new Message($decoded['username'],
+                                        $colla['cctimestamp']." has been declined.",
+                                        $colla['cctimestamp']);
+                                    $message->sendToOne($colla['uploader2']);
+                                    break;
+                                case 3:
+                                    Collateral::changeStatus($decoded['id'],$decoded['status']);
+                                    Collateral::requestRelease($decoded['id'],0);
+                                    $colla = Collateral::returnOne($decoded['id']);
+                                    $message =  new Message($decoded['username'],
+                                        $colla['cctimestamp']." has been released",
+                                        $colla['cctimestamp']);
+                                    $message->sendToOne($colla['uploader2']);
+                                    break;
+                                case 5:
+                                    Collateral::requestRelease($decoded['id'],1);
+                                    $colla = Collateral::returnOne($decoded['id']);
+                                    $message =  new Message($decoded['username'],
+                                        $colla['cctimestamp']." is awaiting a release approval.",
+                                        $colla['cctimestamp']);
+                                    $message->send();
+                                    break;
+                                case 6:
+                                    Collateral::requestReEnact($decoded['id'],1);
+                                    $colla = Collateral::returnOne($decoded['id']);
+                                    $message =  new Message($decoded['username'],
+                                        $colla['cctimestamp']." is awaiting a a request to reenact approval.",
+                                        $colla['cctimestamp']);
+                                    $message->send();
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            echo json_encode(["status" => 200, "message" => "okay"]);
+                        }
+                        catch (Exception $e) {
+                            error_log($e->getMessage());
+                            $msg = $e->getMessage();
+                            echo json_encode(["status" => 500, "message" => "$msg"]);
+                        }
+                        break;
+                    }
+                    case "changeMessageStatus":{
+                        $decoded =json_decode($_POST['content'],true);
+                        try {
+                            Message::changeStatus($decoded['id']);
                             echo json_encode(["status" => 200, "message" => "okay"]);
                         }
                         catch (Exception $e) {
@@ -173,6 +251,71 @@ switch ($url){
                             echo json_encode(["status" => 500, "message" => "$msg"]);
                         }
                         break;
+                    }
+                    case "clearAll":{
+                        $decoded =json_decode($_POST['content'],true);
+                        try {
+                            Message::clearAll($decoded['username']);
+                            echo json_encode(["status" => 200, "message" => "okay"]);
+                        }
+                        catch (Exception $e) {
+                            $msg = $e->getMessage();
+                            echo json_encode(["status" => 500, "message" => "$msg"]);
+                        }
+                        break;
+                    }
+                    case "requestRelease":{
+                        $decoded =json_decode($_POST['content'],true);
+                        try {
+                            Collateral::requestRelease($decoded['id'],$decoded['status']);
+                            $colla = Collateral::returnOne($decoded['id']);
+
+                            $message =  new Message($decoded['username'],
+                                $decoded['ctimestamp']." is awaiting a release approval.",
+                                $colla['ctimestamp']);
+                            $message->send();
+                            echo json_encode(["status" => 200, "message" => "okay"]);
+                        }
+                        catch (Exception $e) {
+                            $msg = $e->getMessage();
+                            echo json_encode(["status" => 500, "message" => "$msg"]);
+                        }
+                        break;
+                    }
+                    case "getMessagesS":{
+                        session_start();
+                        $decoded = json_decode($_POST['content'],true);
+                        if(array_key_exists($decoded['sk'], $_SESSION)){
+                            try{
+                                $user = $_SESSION[$decoded['sk']];
+                                $collaterals = Message::getMessagesS($user['username']);
+                                $collaterals['status'] = 200;
+                                echo json_encode($collaterals);
+                            }
+                            catch (Exception $e){
+                                $msg =$e->getMessage();
+                                echo json_encode(["status"=>500,"message"=>"$msg"]);
+                            }
+                            break;
+                        }
+                    }
+                    case "getMessagesR":{
+                        session_start();
+                        $decoded = json_decode($_POST['content'],true);
+                        if(array_key_exists($decoded['sk'], $_SESSION)){
+                            try{
+                                $user = $_SESSION[$decoded['sk']];
+                                $collaterals = Message::getMessagesR($user->getUserName());
+                                $collaterals['status'] = 200;
+                                echo json_encode($collaterals);
+                            }
+                            catch (Exception $e){
+                                $msg =$e->getMessage();
+                                echo json_encode(["status"=>500,"message"=>"$msg"]);
+                            }
+                            break;
+                        }
+
                     }
                     case "getCollaterals":{
                         session_start();
@@ -194,7 +337,6 @@ switch ($url){
                         try{
                             session_start();
                             $content = json_decode($_POST['content'],true);
-                            error_log($content['sk']);
                             //error_reporting(0);
                             if(array_key_exists($content['sk'], $_SESSION)){
                                 $user = $_SESSION[$content['sk']];

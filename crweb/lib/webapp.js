@@ -3,6 +3,9 @@
 
     let pages ={};
     let user ="";
+
+    let notifications = [];
+    let collaterals = {};
     let backgroundColors= [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -16,17 +19,17 @@
         'rgba(180, 129, 255, 0.2)'
     ];
 
-    let borderColors =  [
+     let borderColors =  [
         'rgba(255, 99, 132, 1)',
         'rgba(54, 162, 235, 1)',
         'rgba(255, 206, 86, 1)',
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)',
-        'rgba(180, 159, 64, 1)',
-        'rgba(180, 129, 64, 1)',
-        'rgba(180, 129, 158, 1)',
-        'rgba(180, 129, 255, 1)'
+         'rgba(180, 159, 64, 1)',
+         'rgba(180, 129, 64, 1)',
+         'rgba(180, 129, 158, 1)',
+         'rgba(180, 129, 255, 1)'
     ];
 
     class Helper {
@@ -327,7 +330,7 @@
                         }
                     }
                 }
-            );
+                    );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -526,7 +529,7 @@
                     data:{
 
 
-                    },
+                        },
                     options: {
                         scales: {
                             y: {
@@ -720,7 +723,7 @@
                         }
                     }
                 }
-            );
+                    );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -920,7 +923,7 @@
                     data:{
 
 
-                    },
+                        },
                     options: {
                         scales: {
                             y: {
@@ -2271,11 +2274,11 @@
                             this.ref[file.name].getSuccess().addCustomStyle(Width(12,'px'));
                         }
                         else
-                        if(json.status === 500){
-                            this.uploaded[file.name] = false;
-                            this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
-                            this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
-                        }
+                            if(json.status === 500){
+                                this.uploaded[file.name] = false;
+                                this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
+                                this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
+                            }
 
                     }).catch(e => {
                         this.uploaded[file.name] = false;
@@ -2538,6 +2541,7 @@
             json['title']=this.title.getInput().getInputText();
             json['comments']=this.comments.getInput().getInputText();
             json['uploader']= user.$firstName + " " + user.$lastName;
+            json['username']= user.$userName;
             json['branch']=this.branch.input.getSelected();
             json['files'] = JSON.stringify(Object.values(this.collAdd.uploaded));
             return JSON.stringify(json);
@@ -2561,7 +2565,6 @@
             }
         }
 
-
         mouseClicked(e){
             switch (e.getEvent()) {
                 case"click": {
@@ -2576,6 +2579,7 @@
 
                             }, (e)=>{
                                 this.submit.fadeOut();
+                                console.log(e['message']);
                                 this.toast("Error creating Account!")
                             },'createCollateral')
                         }
@@ -2639,12 +2643,12 @@
         constructor(id,src,title) {
             super(id);
             this.addCustomStyle([
-                    Width(100),
-                    Height(850,'px'),
-                    Display("block"),
-                    Margin("auto",""),
-                    Padding(0,'px').setTop(),
-                    Position("relative")],
+                Width(100),
+                Height(850,'px'),
+                Display("block"),
+                Margin("auto",""),
+                Padding(0,'px').setTop(),
+                Position("relative")],
                 Border("thin","solid","#"+"D9EDF7")
             );
             this.title = Paragraph(this.id+"title").setTextContent(title).addCustomStyle([
@@ -2711,7 +2715,7 @@
         mouseClicked(e) {
             let a = confirm("Are you sure you want to " + this.text.toLowerCase() + " this collateral?");
             if (a === true)
-                this.send({id:this.cId, status:this.status}, (e) => {
+                this.send({id:this.cId, status:this.status, username:user.$userName}, (e) => {
                     location.reload();
 
                 }, (e) => {
@@ -2866,7 +2870,9 @@
             this.decline = new IconButton(this.id+"dec","Decline", ["fa","fa-minus-circle", "fa-3x"], this, ECS.getDanger(),ECS.getDangerDark(),2,cId);
             this.approve = new IconButton(this.id+"app","Approve", ["fa","fa-check", "fa-3x"],this, ECS.getSuccess(),ECS.getSuccessDark(),1,cId);
             this.release = new IconButton(this.id+"rel","Release", ["fa","fa-mail-forward", "fa-3x"],this, ECS.getWarning(),ECS.getWarningDark(),3,cId);
+            this.rrelease = new IconButton(this.id+"rrel","Request Release", ["fa","fa-mail-forward", "fa-3x"],this, ECS.getWarning(),ECS.getWarningDark(),5,cId);
             this.reenact = new IconButton(this.id+"ren","Reenact", ["fa","fa-mail-reply", "fa-3x"],this, ECS.getPrimary(),ECS.getPrimaryDark(),1,cId);
+            this.rreenact = new IconButton(this.id+"rren","Request Reenact", ["fa","fa-mail-reply", "fa-3x"],this, ECS.getPrimary(),ECS.getPrimaryDark(),6,cId);
 
             if(user.$role === "Director"){
                 if (collateral['status'] == 0)
@@ -2877,16 +2883,33 @@
                     this.actions.addComponent([
                         this.approve,
                     ]);
-                if (collateral['status'] == 1)
+                if (collateral['status'] == 1){
+
                     this.actions.addComponent([
                         this.release,
                     ]);
+                }
                 if (collateral['status'] == 3){
                     this.actions.addComponent([
                         this.reenact
                     ]);
                 }
             }
+
+            if(user.$role === "Credit"){
+                if (collateral['status'] == 1){
+
+                    this.actions.addComponent([
+                        this.rrelease,
+                    ]);
+                }
+                if (collateral['status'] == 3){
+                    this.actions.addComponent([
+                        this.rreenact
+                    ]);
+                }
+            }
+
             this.actions.addCustomStyle([
                 Position("fixed"),
                 PositionLeft(60,'px'),
@@ -3556,16 +3579,16 @@
             JSON.parse(localStorage.getItem("collaterals")).forEach(
                 (collateral,index)=>{
                     if(collateral['status'] == 1)
-                        this.downloadables.addDownloadable(
-                            new DownloadRow(
-                                "user"+index
-                                ,collateral['title']
-                                ,collateral['first_name']
-                                ,collateral['last_name']
-                                ,collateral['branch'],
-                                screen.width-260-100,
-                                collateral,collateral['date'])
-                        )
+                    this.downloadables.addDownloadable(
+                        new DownloadRow(
+                            "user"+index
+                            ,collateral['title']
+                            ,collateral['first_name']
+                            ,collateral['last_name']
+                            ,collateral['branch'],
+                            screen.width-260-100,
+                            collateral,collateral['date'])
+                    )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
             this.componentResized();
@@ -4117,7 +4140,7 @@
     }
     class Declined extends HDivision{
         constructor(frame, title) {
-            super("deccolla");
+                super("deccolla");
             pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
             this.addCustomStyle([
                 Display('none'),
@@ -4150,16 +4173,16 @@
             JSON.parse(localStorage.getItem("collaterals")).forEach(
                 (collateral,index)=>{
                     if(collateral['status'] == 2)
-                        this.downloadables.addDownloadable(
-                            new DownloadRow(
-                                "user"+index
-                                ,collateral['title']
-                                ,collateral['first_name']
-                                ,collateral['last_name']
-                                ,collateral['branch'],
-                                screen.width-260-100,
-                                collateral,collateral['date'])
-                        )
+                    this.downloadables.addDownloadable(
+                        new DownloadRow(
+                            "user"+index
+                            ,collateral['title']
+                            ,collateral['first_name']
+                            ,collateral['last_name']
+                            ,collateral['branch'],
+                            screen.width-260-100,
+                            collateral,collateral['date'])
+                    )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
             this.componentResized();
@@ -4780,6 +4803,403 @@
         }
 
     }
+    class NotificationItem extends HDivision{
+        sender;
+        receiver;
+        body;
+        date;
+        message;
+        collateral;
+        parent;
+        iconNew;
+        constructor(id, message,parent) {
+            super(id);
+            this.addCustomStyle([
+                Position(),
+                Width(400,'px'),
+                Height(60,'px'),
+                Padding(0,'px').setTop(5).setBottom(5),
+                BackgroundColor("337Ab7"),
+                Margin(0,'px').setBottom(0.5)
+                ]);
+
+            this.parent =parent;
+            this.message=message;
+            this.collateral=collaterals[message['collateral']];
+            console.log(this.collateral);
+            console.log(this.message);
+            this.addMouseListener(this);
+            let iconP = Division(this.id+"iconP");
+            let iconS = Division(this.id+"iconS");
+            let iconR = Division(this.id+"iconR");
+            let iconD = Division(this.id+"iconD");
+            let icon = new HIcon(this.id+"icon", ["fa","fa-bell","fa-2x"]);
+            let iconSS = new HIcon(this.id+"iconSS", ["fa","fa-share"]);
+            let iconRR = new HIcon(this.id+"iconRR", ["fa","fa-bell"]);
+            let iconDD = new HIcon(this.id+"iconDD", ["fa","fa-clock-o"]);
+            let iconNew = new HParagraph(this.id+"iconNew").setTextContent("New");
+            this.sender = Paragraph(this.id+"sender");
+            this.receiver = Paragraph(this.id+"receiver");
+            this.body = Paragraph(this.id+"body");
+            this.date = Paragraph(this.id+"date");
+            iconP.addCustomStyle([
+                Width(30,'px'),
+                Height(60,'px'),
+                Float("left"),
+                Color("FFFFFF"),
+            ]);
+            iconS.addCustomStyle([
+                Width(120,'px'),
+                Height(20,'px'),
+                Float("left"),
+                Overflow("hidden"),
+                Color("FFFFFF"),
+            ]);
+            iconR.addCustomStyle([
+                Width(120,'px'),
+                Height(20,'px'),
+                Float("left"),
+                Overflow("hidden"),
+                Color("FFFFFF"),
+            ]);
+            iconD.addCustomStyle([
+                Width(120,'px'),
+                Height(20,'px'),
+                Float("left"),
+                Overflow("hidden"),
+                Color("FFFFFF"),
+            ]);
+            iconSS.addCustomStyle([
+                Float("left")
+            ]);
+            iconRR.addCustomStyle([
+                Float("left")
+            ]);
+            iconDD.addCustomStyle([
+                Float("left")
+            ]);
+            iconNew.addCustomStyle([
+                Width(40,'px'),
+                Height(15,'px'),
+                Position("absolute"),
+                PositionRight(5,'px'),
+                PositionTop(0,'px'),
+                FontSize(9,'pt'),
+                Margin(0,'px'),
+                Padding(0,'px').setTop(2),
+                BorderRadius(5,'px'),
+                TextAlignment("center"),
+                BackgroundColor("e1ad01"),
+                Color("FFFFFF"),
+                Display("none")
+            ]);
+            if(message['rread'] == 0)
+                iconNew.addCustomStyle([
+                    Display("block")
+                ]);
+            this.body.addCustomStyle([
+                Width(360,'px'),
+                FontSize(10,'pt'),
+                Height(30,'px'),
+                Padding(0,'px').setLeft(20),
+                Margin(0,'px').setLeft(15).setBottom(10),
+                Color("FFFFFF"),
+            ]);
+            icon.addCustomStyle([]);
+            this.sender.addCustomStyle([
+                Width(90,'px'),
+                Height(20,'px'),
+                FontSize(10,'pt'),
+                Float("left"),
+                Margin(0,'px').setLeft(5).setBottom(2),
+                Color("FFFFFF"),
+            ]);
+            this.receiver.addCustomStyle([
+                Width(90,'px'),
+                Height(20,'px'),
+                Float("left"),
+                FontSize(10,'pt'),
+                Margin(0,'px').setLeft(5).setBottom(2),
+                Color("FFFFFF"),
+            ]);
+            this.date.addCustomStyle([
+                Width(90,'px'),
+                Height(20,'px'),
+                FontSize(10,'pt'),
+                Float("left"),
+                Margin(0,'px').setLeft(5).setBottom(2),
+                Color("FFFFFF"),
+            ]);
+
+            this.sender.setTextContent(message['sender']);
+            this.receiver.setTextContent(message['receiver']);
+            this.body.setTextContent(message['body']);
+            this.date.setTextContent(message['date']);
+
+            iconP.addComponent(icon);
+            iconS.addComponent([iconSS, this.sender]);
+            iconR.addComponent([iconRR, this.receiver]);
+            iconD.addComponent([iconDD, this.date]);
+            this.addComponent([
+                iconP, this.body, iconS, iconR, iconD,iconNew
+            ]);
+            this.iconNew =iconNew;
+        }
+        markRead(){
+            let json ={};
+            json['id'] = this.message['id'];
+            console.log("Id is "+json['id']);
+            json =JSON.stringify(json);
+            this.parent.addCustomStyle(Height(0,'px'));
+            if(this.message['rread'] == 0){
+                this.message['rread'] = 1;
+                this.parent.decrease();
+                this.iconNew.addCustomStyle(Display("none"));
+                fetch("core", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': "application/x-www-form-urlencoded"
+                    },
+                    body: "type=changeMessageStatus"+"&content="+json
+                }).
+                then(response => response.json()).
+                then((result)=>{
+                        if(result['status'] !== 200){
+                            console.log("OK")
+                            //changeToRead();
+                        }
+                        else
+                            console.log("OK")
+
+                    }
+                ).
+                catch((e)=> console.error(e));
+            }
+            CollateralView.display(this.collateral, this.id);
+
+
+        }
+        mouseClicked(e){
+            switch (e.getEvent()){
+                case"click":
+                {
+                    if(e.getSource() === this){
+                        this.markRead();
+                    }
+                }
+            }
+        }
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+            this.addCustomStyle([
+                BackgroundColor("337AB7")
+            ]);
+        }
+        mouseOver(e){
+            this.addCustomStyle([
+                BackgroundColor("193d5b")
+            ]);
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
+        }
+    }
+
+    class Notifications extends HDivision{
+        title;
+        count;
+        countN;
+        clearAll;
+        body;
+        constructor(id) {
+            super(id);
+            this.addCustomStyle([
+                Height(400,'px'),
+                Width(400,'px'),
+                BackgroundColor("FFFFFF"),
+                BorderRadius(8,'px'),
+                OverflowY("scroll"),
+                OverflowX("hidden"),
+                ScrollBarWidth()
+            ]);
+            this.countN = 0;
+            notifications.forEach((not)=>{
+                if(not['rread'] == 0)
+                    this.countN++;
+            });
+            this.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.title = Paragraph(this.id+"title").setTextContent("Notifications");
+            this.body= Division(this.id+'body');
+            this.clearAll = Division(this.id+'clearALl');
+            let iconCl = new HIcon(this.id+"clear", ["fa","fa-window-close"]);
+            let pCL = new Paragraph(this.id+"pCl").setTextContent("Clear All");
+            this.count = Paragraph(this.id+"count").setTextContent(this.countN+
+                " New");
+
+            this.title.addCustomStyle([
+                Width(100),
+                Margin(0),
+                FontFamily("calibri"),
+                Height(30,'px'),
+                Padding(5,'px').setTop(10),
+                FontSize(11),
+                BackgroundColor("FFFFFF"),
+                Color("337AB7"),
+            ]);
+            this.count.addCustomStyle([
+                Width(50,'px'),
+                Margin(0),
+                Overflow("hidden"),
+                FontFamily("calibri"),
+                Position("absolute"),
+                PositionRight(110,'px'),
+                PositionTop(5,'px'),
+                Height(18,'px'),
+                Padding(5,'px').setTop(4),
+                BorderRadius(5,'px'),
+                FontSize(11),
+                Color("FFFFFF"),
+                BackgroundColor("337AB7"),
+            ]);
+            this.count.addMouseListener(this);
+            iconCl.addCustomStyle([
+                Width(20,'px'),
+                Height(18,'px'),
+                Margin(0),
+                Float("left"),
+            ]);
+            pCL.addCustomStyle([
+                Width(60,'px'),
+                Margin(0),
+                Overflow("hidden"),
+                FontFamily("calibri"),
+                Float("left"),
+                Height(18,'px'),
+                BorderRadius(5,'px'),
+                FontSize(11),
+                BackgroundColor("FFFFFF"),
+                Color("337AB7"),
+            ]);
+            this.clearAll.addCustomStyle([
+                Width(90,'px'),
+                Margin(0,'px').setLeft(3),
+                Overflow("hidden"),
+                FontFamily("calibri"),
+                Position("absolute"),
+                PositionRight(5,'px'),
+                PositionTop(5,'px'),
+                Height(18,'px'),
+                Padding(5,'px').setTop(6),
+                BorderRadius(5,'px'),
+                FontSize(11),
+                Color("FFFFFF"),
+                BackgroundColor("337AB7"),
+            ]);
+            this.clearAll.addComponent([iconCl,pCL]);
+            this.clearAll.addMouseListener(this);
+            notifications.forEach((not,index)=>{
+                this.body.addComponent(new NotificationItem(this.id+index, not,this))
+                
+            });
+            this.addComponent([this.title,this.count,this.clearAll, this.body])
+        }
+        decrease(){
+            this.countN--;
+            this.count.setTextContent(this.countN+
+                " New");
+        }
+        mouseClicked(e){
+            switch (e.getEvent()){
+                case"click":
+                {
+                    if(e.getSource() === this.clearAll){
+                        let json ={};
+                        json['username'] = user.$userName;
+                        json =JSON.stringify(json);
+                        fetch("core", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': "application/x-www-form-urlencoded"
+                            },
+                            body: "type=clearAll"+"&content="+json
+                        }).
+                        then(response => response.json()).
+                        then((result)=>{
+                                if(result['status'] !== 200){
+                                    console.log("OK")
+                                    //changeToRead();
+                                }
+                                else
+                                    console.log("OK")
+
+                            }
+                        ).
+                        catch((e)=> console.error(e));
+                        while (this.body.domElement.firstChild) {
+                            this.body.domElement.removeChild(this.body.domElement.firstChild);
+                        }
+                        this.countN--;
+                        this.count.setTextContent(0+
+                            " New");
+
+
+                    }
+                }
+            }
+        }
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+            if(e.getSource() === this.clearAll){
+                this.clearAll.addCustomStyle([
+                    BackgroundColor("337AB7")
+                ])
+            }
+            if(e.getSource() === this.count){
+                this.count.addCustomStyle([
+                    BackgroundColor("337AB7")
+                ])
+            }
+        }
+        mouseOver(e){
+            if(e.getSource() === this.clearAll){
+                this.clearAll.addCustomStyle([
+                    BackgroundColor("193d5b")
+                ])
+            }
+            if(e.getSource() === this.count){
+                this.count.addCustomStyle([
+                    BackgroundColor("193d5b")
+                ])
+            }
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
+        }
+    }
+    class NotificationsPanel extends HDivision{
+    }
+
     class Dashboard  extends HDivision{
         constructor() {
             super('app');
@@ -5116,91 +5536,91 @@
 
 
         }
-        init(){
+         init(){
             //Top Panels
-            this.loader = new Loader();
+             this.loader = new Loader();
 
-            this.navPanel = Division('navPanel');
-            this.mainPanel=Division("mainPanel");
-            //Nav Panel
-            this.companyBar = Division("cBar");
-            this.cLogo = Division("cLogo");
-            this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
-            this.navBar= Division('navBar');
+             this.navPanel = Division('navPanel');
+             this.mainPanel=Division("mainPanel");
+             //Nav Panel
+             this.companyBar = Division("cBar");
+             this.cLogo = Division("cLogo");
+             this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
+             this.navBar= Division('navBar');
 
-            this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
-            this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
-            this.navReleased = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
-            this.navDeclined = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+             this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
+             this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
+             this.navReleased = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+             this.navDeclined = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
 
-            this.navBar.addComponent([
-                this.navDashboard,this.navCollaterals,this.navReleased, this.navDeclined ]);
-
-
-            this.navPanel.addComponent([
-                this.companyBar, this.navBar]);
-
-            //Main Panel
-            this.header = Division("header");
-            this.profileBar = Division("pBar");
-            this.userPic = Division("userPic");
-            this.userInfo = Division("userInfo");
-            this.logoImage= new HImage("image_"+this.id, "/getLogo","");
-            this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
-
-            this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
-            this.setP = Paragraph('setP').setTextContent("Settings");
-            this.logOut = Paragraph('logOut').setTextContent("Log Out");
-            this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
-            this.profileBar.addComponent([this.userPic, this.userInfo]);
-
-            this.initNavWS();
-            this.buttonsBar = Division("bBar");
-            this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
-                ECS.getSuccessDark());
-            this.btnCreateColl.addMouseListener(this);
+             this.navBar.addComponent([
+                 this.navDashboard,this.navCollaterals,this.navReleased, this.navDeclined ]);
 
 
-            if(user.$role === "Director" || user.$role === "Credit") {
-                this.buttonsBar.addComponent([
-                    this.btnCreateColl
-                ]);
-            }
-            this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
-            this.header.addComponent([
-                this.logoText,this.buttonsBar,this.notice,this.profileBar, this.navigation
-            ]);
+             this.navPanel.addComponent([
+                 this.companyBar, this.navBar]);
 
-            this.logOut.addMouseListener(this);
-            //Body
-            this.body = Division('bodyM').addCustomStyle(OverflowY("scroll"));
+             //Main Panel
+             this.header = Division("header");
+             this.profileBar = Division("pBar");
+             this.userPic = Division("userPic");
+             this.userInfo = Division("userInfo");
+             this.logoImage= new HImage("image_"+this.id, "/getLogo","");
+             this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
 
-            //Footer
-            this.footer = Division("footer").addCustomStyle([ZIndex(1000),
-                BackgroundColor(colorScheme.getTertiaryColor()
-                )]);
-            this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
-            this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-            this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-            this.balBox = new BalanceBox("bBox");
-            this.footer.addComponent(this.balBox);
+             this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
+             this.setP = Paragraph('setP').setTextContent("Settings");
+             this.logOut = Paragraph('logOut').setTextContent("Log Out");
+             this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
+             this.profileBar.addComponent([this.userPic, this.userInfo]);
 
-            this.mainPanel.addComponent([
-                this.loader,this.header,this.body
-            ]);
-            this.roleP = Paragraph(this.id+"roleP").setTextContent("Role: "+this.user.$role);
-            this.roleP.addCustomStyle([
-                FontFamily("calibri"),
-                Position("fixed"),
-                PositionBottom(-10,'px'),
-                PositionRight(25,'px')
-            ]);
-            this.addComponent([
-                this.navPanel,this.mainPanel,this.roleP
-            ]);
-            this.initPagesWS();
+             this.initNavWS();
+             this.buttonsBar = Division("bBar");
+             this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
+                 ECS.getSuccessDark());
+             this.btnCreateColl.addMouseListener(this);
+
+
+             if(user.$role === "Director" || user.$role === "Credit") {
+                 this.buttonsBar.addComponent([
+                     this.btnCreateColl
+                 ]);
+             }
+             this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
+             this.header.addComponent([
+                 this.logoText,this.buttonsBar,this.notice,this.profileBar, this.navigation
+             ]);
+
+             this.logOut.addMouseListener(this);
+             //Body
+             this.body = Division('bodyM').addCustomStyle(OverflowY("scroll"));
+
+             //Footer
+             this.footer = Division("footer").addCustomStyle([ZIndex(1000),
+                 BackgroundColor(colorScheme.getTertiaryColor()
+                 )]);
+             this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
+             this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+             this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+             this.balBox = new BalanceBox("bBox");
+             this.footer.addComponent(this.balBox);
+
+             this.mainPanel.addComponent([
+                 this.loader,this.header,this.body
+             ]);
+             this.roleP = Paragraph(this.id+"roleP").setTextContent("Role: "+this.user.$role);
+             this.roleP.addCustomStyle([
+                 FontFamily("calibri"),
+                 Position("fixed"),
+                 PositionBottom(-10,'px'),
+                 PositionRight(25,'px')
+             ]);
+             this.addComponent([
+                 this.navPanel,this.mainPanel,this.roleP
+             ]);
+             this.initPagesWS();
         }
 
         initPagesWS(){
@@ -5210,8 +5630,44 @@
             this.pendingCollaterals = new Pending(this,"Pending");
             this.declinedCollaterals = new Declined(this,"Declined");
             this.releasedCollaterals = new Released(this,"Released");
+            this.isOpen = false;
+            this.notifications = new Notifications("ntfs");
+            this.ntfBtn = new HIcon("ntfBtn", ["fa", "fa-bell","fa-lg"]);
+            this.ntfBtnC = new HIcon("ntfBtnC", [], "0");
+            this.ntfBtn.addMouseListener(this);
+            this.addMouseListener(this);
+
+            this.notifications.addCustomStyle([
+                Height(0,'px'),
+                Transition(),
+                Position("fixed"),
+                PositionTop(25,'px'),
+                PositionRight(320,'px'),
+                ZIndex(888888888)
+            ]);
+            this.ntfBtn.addCustomStyle([
+                Color(ECS.getDanger()),
+                Position("fixed"),
+                PositionRight(300,'px'),
+                PositionTop(10,'px')
+            ]);
+            this.ntfBtnC.addCustomStyle([
+                Color("FFFFFF"),
+                Position("fixed"),
+                Width(15,'px'),
+                Height(15,'px'),
+                TextAlignment("center"),
+                BorderRadius(100),
+                FontSize(9),
+                FontFamily("calibri"),
+                PositionTop(4,'px'),
+                PositionRight(290,'px'),
+                BackgroundColor(ECS.getWarning())
+            ]);
+            WINDOW.addComponent([this.ntfBtn, this.ntfBtnC,
+                this.notifications]);
             this.body.addComponent([
-                this.index, this.collaterals
+                this.index, this.collaterals,
             ]);
 
         }
@@ -5244,7 +5700,22 @@
                         content['role']);
                     await this.send({'sk': this.getCookie('sk')},
                         (e)=>{
+                            e['collaterals'].forEach((coll)=>{
+
+                                collaterals[coll['cctimestamp']] =coll;
+
+                            });
                             localStorage.setItem('collaterals',JSON.stringify(e['collaterals']));
+
+                        },
+                        (e)=>{
+                            window.location.href = "/";
+                        },'getCollaterals');
+
+                    await this.send({'sk': this.getCookie('sk')},
+                        (e)=>{
+                            notifications = e['messages'];
+                            localStorage.setItem('messages',JSON.stringify(e['messages']));
                             this.init();
                             let path = window.location.pathname.toLowerCase();
                             this.switchToPage(path);
@@ -5253,8 +5724,7 @@
                         },
                         (e)=>{
                             window.location.href = "/";
-                        },'getCollaterals');
-
+                        },'getMessagesR');
                 },
                 (e)=>{
                     window.location.href = "/";
@@ -5324,7 +5794,7 @@
                 case "/collaterals/declined":
                 {
                     if(user.$role === "Director" || user.$role === "Credit")
-                        this.refreshBody(pages[path],path);
+                    this.refreshBody(pages[path],path);
                     else
                         this.refreshBody(this.index,"/dashboard");
                     break;
@@ -5523,19 +5993,46 @@
             switch (e.getEvent()){
                 case"click":
                 {
+                    if(e.getSource() === this){
+
+                        this.notifications.addCustomStyle([
+                            Height(0,'px')
+                        ])
+                    }
+                    else
+                    if(e.getSource() === this.ntfBtn){
+                        if(!this.isOpen)
+                        {
+                            console.log("kfhks");
+                            this.notifications.addCustomStyle([
+                                Height(400,'px')
+                            ]);
+                            this.isOpen = true;
+
+                        }
+                        else
+                        {
+                            this.notifications.addCustomStyle([
+                                Height(0,'px')
+                            ]);
+                            this.isOpen = false;
+                        }
+
+                    }
+                    else
                     if (e.getSource() === this.logOut){
                         console.log(pages);
                         document.cookie = "sk=";
                         location.reload();
                     }
                     else
-                        try{
-                            e.getWindowEvent().preventDefault();
-                            this.switchToPage(e.getSource().getLink())
-                        }
-                        catch(ex){
+                    try{
+                        e.getWindowEvent().preventDefault();
+                        this.switchToPage(e.getSource().getLink())
+                    }
+                    catch(ex){
 
-                        }
+                    }
 
                     if (e.getSource() === this.btnCreateColl){
                         let userForm =UserForm.createForm();

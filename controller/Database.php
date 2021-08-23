@@ -10,6 +10,7 @@ class Database
     public static $DATABASE_PASSWORD= "websiteisgood1@";
     public static $DATABASE_USERNAME= "ammilmf1_website";
 
+
     private static function connectToDB(){
         $servername =Database::$DATABASE_SERVER;
         $databaseName =Database::$DATABASE_NAME;
@@ -79,10 +80,13 @@ class Database
         $conn = Database::connectToDB();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+        /*
         if($stmt->rowCount() < 1){
             throw new \Exception('No User Found');
         }
+        */
     }
+
 
 
 }

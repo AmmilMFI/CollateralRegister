@@ -16,6 +16,7 @@ class Collateral
     private $comments;
     private $status;
     private $date;
+    private $timestamp;
     private $files;
     private $queries;
 
@@ -31,7 +32,7 @@ class Collateral
      * @param $date
      * @param $files
      */
-    public function __construct($title, $firstName, $lastname, $middlename, $uploader, $branch, $comments, $files)
+    public function __construct($title, $firstName, $lastname, $middlename, $uploader, $branch, $comments, $files,$timestamp1)
     {
         $this->title = $title;
         $this->firstName = $firstName;
@@ -47,13 +48,15 @@ class Collateral
         $this->date = $dt->format("Y-m-d H:i:s");
         $this->files = $files;
         $this->status = 0;
+        $this->release = 0;
+        $this->timestamp = $timestamp1;
         $this->queries = [];
     }
 
-    public static function fromJson($content)
+    public static function fromJson($content,$title)
     {
         $coll = new Collateral($content["title"], $content["first_name"], $content["last_name"], $content["middle_name"],
-            $content["uploader"], $content["branch"], $content["comments"], $content["files"]);
+            $content["uploader"], $content["branch"], $content["comments"], $content["files"],$title);
         return $coll;
     }
 
@@ -62,9 +65,26 @@ class Collateral
     {
         $sql = "SELECT * FROM collaterals";
         $result = Database::select($sql);
-        error_log(count($result));
 
         return ["collaterals" => array_reverse($result)];
+
+    }
+    public static function returnOne($title)
+    {
+        $sql = "SELECT * FROM collaterals
+WHERE id='$title'";
+        $result = Database::select($sql);
+
+        return $result[0];
+
+    }
+
+    public static function returnOneByTitle($title)
+    {
+        $sql = "SELECT * FROM collaterals
+WHERE title='$title'";
+        $result = Database::select($sql);
+        return $result[0];
 
     }
     public static function changeStatus($id, $status){
@@ -72,13 +92,29 @@ class Collateral
         $sql = "UPDATE collaterals
         SET status='$status'
         WHERE id='$id'";
+        Database::selectRC($sql);
+
+    }
+
+    public static function requestRelease($id, $release){
+
+        $sql = "UPDATE collaterals
+        SET rrelease='$release'
+        WHERE id='$id'";
+        $result = Database::selectRC($sql);
+    }
+    public static function requestReEnact($id, $release){
+
+        $sql = "UPDATE collaterals
+        SET reenact='$release'
+        WHERE id='$id'";
         $result = Database::selectRC($sql);
     }
 
     public function persist()
     {
-        array_push($this->queries, "INSERT INTO collaterals (title,first_name,last_name, middle_name, uploader,branch,comments, date,files,status) 
-VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->branch','$this->comments','$this->date','$this->files','$this->status')");
+        array_push($this->queries, "INSERT INTO collaterals (title,first_name,last_name, middle_name, uploader,branch,comments, date,files,status,rrelease,cctimestamp) 
+VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->branch','$this->comments','$this->date','$this->files','$this->status','$this->release','$this->timestamp')");
     }
 
     public static function getAllUsers(){
