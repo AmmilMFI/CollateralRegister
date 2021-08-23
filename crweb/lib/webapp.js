@@ -4,6 +4,8 @@
     let pages ={};
     let user ="";
 
+    let ntfBtn = " ";
+    let ntfBtnC = " ";
     let notifications = [];
     let collaterals = {};
     let backgroundColors= [
@@ -19,17 +21,17 @@
         'rgba(180, 129, 255, 0.2)'
     ];
 
-     let borderColors =  [
+    let borderColors =  [
         'rgba(255, 99, 132, 1)',
         'rgba(54, 162, 235, 1)',
         'rgba(255, 206, 86, 1)',
         'rgba(75, 192, 192, 1)',
         'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)',
-         'rgba(180, 159, 64, 1)',
-         'rgba(180, 129, 64, 1)',
-         'rgba(180, 129, 158, 1)',
-         'rgba(180, 129, 255, 1)'
+        'rgba(180, 159, 64, 1)',
+        'rgba(180, 129, 64, 1)',
+        'rgba(180, 129, 158, 1)',
+        'rgba(180, 129, 255, 1)'
     ];
 
     class Helper {
@@ -330,7 +332,7 @@
                         }
                     }
                 }
-                    );
+            );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -529,7 +531,7 @@
                     data:{
 
 
-                        },
+                    },
                     options: {
                         scales: {
                             y: {
@@ -723,7 +725,7 @@
                         }
                     }
                 }
-                    );
+            );
             this.chart.render();
             this.set(title,labels,values,borderWidth);
             //this.setDimensions(width,height);
@@ -923,7 +925,7 @@
                     data:{
 
 
-                        },
+                    },
                     options: {
                         scales: {
                             y: {
@@ -2274,11 +2276,11 @@
                             this.ref[file.name].getSuccess().addCustomStyle(Width(12,'px'));
                         }
                         else
-                            if(json.status === 500){
-                                this.uploaded[file.name] = false;
-                                this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
-                                this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
-                            }
+                        if(json.status === 500){
+                            this.uploaded[file.name] = false;
+                            this.ref[file.name].getSuccess().addCustomStyle(Width(0,'px'));
+                            this.ref[file.name].getError().addCustomStyle(Width(12,'px'));
+                        }
 
                     }).catch(e => {
                         this.uploaded[file.name] = false;
@@ -2643,12 +2645,12 @@
         constructor(id,src,title) {
             super(id);
             this.addCustomStyle([
-                Width(100),
-                Height(850,'px'),
-                Display("block"),
-                Margin("auto",""),
-                Padding(0,'px').setTop(),
-                Position("relative")],
+                    Width(100),
+                    Height(850,'px'),
+                    Display("block"),
+                    Margin("auto",""),
+                    Padding(0,'px').setTop(),
+                    Position("relative")],
                 Border("thin","solid","#"+"D9EDF7")
             );
             this.title = Paragraph(this.id+"title").setTextContent(title).addCustomStyle([
@@ -3579,16 +3581,16 @@
             JSON.parse(localStorage.getItem("collaterals")).forEach(
                 (collateral,index)=>{
                     if(collateral['status'] == 1)
-                    this.downloadables.addDownloadable(
-                        new DownloadRow(
-                            "user"+index
-                            ,collateral['title']
-                            ,collateral['first_name']
-                            ,collateral['last_name']
-                            ,collateral['branch'],
-                            screen.width-260-100,
-                            collateral,collateral['date'])
-                    )
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
             this.componentResized();
@@ -4140,7 +4142,7 @@
     }
     class Declined extends HDivision{
         constructor(frame, title) {
-                super("deccolla");
+            super("deccolla");
             pages["/collaterals/"+title.toLowerCase().replace(/\s+/g,'')] = this;
             this.addCustomStyle([
                 Display('none'),
@@ -4173,16 +4175,16 @@
             JSON.parse(localStorage.getItem("collaterals")).forEach(
                 (collateral,index)=>{
                     if(collateral['status'] == 2)
-                    this.downloadables.addDownloadable(
-                        new DownloadRow(
-                            "user"+index
-                            ,collateral['title']
-                            ,collateral['first_name']
-                            ,collateral['last_name']
-                            ,collateral['branch'],
-                            screen.width-260-100,
-                            collateral,collateral['date'])
-                    )
+                        this.downloadables.addDownloadable(
+                            new DownloadRow(
+                                "user"+index
+                                ,collateral['title']
+                                ,collateral['first_name']
+                                ,collateral['last_name']
+                                ,collateral['branch'],
+                                screen.width-260-100,
+                                collateral,collateral['date'])
+                        )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
             this.componentResized();
@@ -4821,7 +4823,7 @@
                 Padding(0,'px').setTop(5).setBottom(5),
                 BackgroundColor("337Ab7"),
                 Margin(0,'px').setBottom(0.5)
-                ]);
+            ]);
 
             this.parent =parent;
             this.message=message;
@@ -5037,6 +5039,7 @@
                 if(not['rread'] == 0)
                     this.countN++;
             });
+            ntfBtnC.setTextContent(this.countN);
             this.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
             this.title = Paragraph(this.id+"title").setTextContent("Notifications");
@@ -5110,12 +5113,13 @@
             this.clearAll.addMouseListener(this);
             notifications.forEach((not,index)=>{
                 this.body.addComponent(new NotificationItem(this.id+index, not,this))
-                
+
             });
             this.addComponent([this.title,this.count,this.clearAll, this.body])
         }
         decrease(){
             this.countN--;
+            ntfBtnC.setTextContent(this.countN);
             this.count.setTextContent(this.countN+
                 " New");
         }
@@ -5536,91 +5540,91 @@
 
 
         }
-         init(){
+        init(){
             //Top Panels
-             this.loader = new Loader();
+            this.loader = new Loader();
 
-             this.navPanel = Division('navPanel');
-             this.mainPanel=Division("mainPanel");
-             //Nav Panel
-             this.companyBar = Division("cBar");
-             this.cLogo = Division("cLogo");
-             this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
-             this.navBar= Division('navBar');
+            this.navPanel = Division('navPanel');
+            this.mainPanel=Division("mainPanel");
+            //Nav Panel
+            this.companyBar = Division("cBar");
+            this.cLogo = Division("cLogo");
+            this.cName = Paragraph("cName").setTextContent("AMMIL Microfinance Bank");
+            this.navBar= Division('navBar');
 
-             this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
-             this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
-             this.navReleased = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
-             this.navDeclined = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+            this.navDashboard= new NavButton('navDashboard','Dashboard',accIcon,null, "/dashboard",this);
+            this.navCollaterals = new NavButton('navColla','Collaterals',accIcon,null, "/dashboard/collaterals",this);
+            this.navReleased = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
+            this.navDeclined = new NavButton('navBranches','Branches',loanIcon,null, "/dashboard/branches",this);
 
-             this.navBar.addComponent([
-                 this.navDashboard,this.navCollaterals,this.navReleased, this.navDeclined ]);
-
-
-             this.navPanel.addComponent([
-                 this.companyBar, this.navBar]);
-
-             //Main Panel
-             this.header = Division("header");
-             this.profileBar = Division("pBar");
-             this.userPic = Division("userPic");
-             this.userInfo = Division("userInfo");
-             this.logoImage= new HImage("image_"+this.id, "/getLogo","");
-             this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
-
-             this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
-             this.setP = Paragraph('setP').setTextContent("Settings");
-             this.logOut = Paragraph('logOut').setTextContent("Log Out");
-             this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
-             this.profileBar.addComponent([this.userPic, this.userInfo]);
-
-             this.initNavWS();
-             this.buttonsBar = Division("bBar");
-             this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
-                 ECS.getSuccessDark());
-             this.btnCreateColl.addMouseListener(this);
+            this.navBar.addComponent([
+                this.navDashboard,this.navCollaterals,this.navReleased, this.navDeclined ]);
 
 
-             if(user.$role === "Director" || user.$role === "Credit") {
-                 this.buttonsBar.addComponent([
-                     this.btnCreateColl
-                 ]);
-             }
-             this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
-             this.header.addComponent([
-                 this.logoText,this.buttonsBar,this.notice,this.profileBar, this.navigation
-             ]);
+            this.navPanel.addComponent([
+                this.companyBar, this.navBar]);
 
-             this.logOut.addMouseListener(this);
-             //Body
-             this.body = Division('bodyM').addCustomStyle(OverflowY("scroll"));
+            //Main Panel
+            this.header = Division("header");
+            this.profileBar = Division("pBar");
+            this.userPic = Division("userPic");
+            this.userInfo = Division("userInfo");
+            this.logoImage= new HImage("image_"+this.id, "/getLogo","");
+            this.logoText = Paragraph('logoText').setTextContent("AmmilMFI");
 
-             //Footer
-             this.footer = Division("footer").addCustomStyle([ZIndex(1000),
-                 BackgroundColor(colorScheme.getTertiaryColor()
-                 )]);
-             this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
-             this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-             this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-                 "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
-             this.balBox = new BalanceBox("bBox");
-             this.footer.addComponent(this.balBox);
+            this.userName = Paragraph('userName').setTextContent(this.user.$lastName+" "+this.user.$firstName);
+            this.setP = Paragraph('setP').setTextContent("Settings");
+            this.logOut = Paragraph('logOut').setTextContent("Log Out");
+            this.userInfo.addComponent([this.userName,this.setP,this.logOut]);
+            this.profileBar.addComponent([this.userPic, this.userInfo]);
 
-             this.mainPanel.addComponent([
-                 this.loader,this.header,this.body
-             ]);
-             this.roleP = Paragraph(this.id+"roleP").setTextContent("Role: "+this.user.$role);
-             this.roleP.addCustomStyle([
-                 FontFamily("calibri"),
-                 Position("fixed"),
-                 PositionBottom(-10,'px'),
-                 PositionRight(25,'px')
-             ]);
-             this.addComponent([
-                 this.navPanel,this.mainPanel,this.roleP
-             ]);
-             this.initPagesWS();
+            this.initNavWS();
+            this.buttonsBar = Division("bBar");
+            this.btnCreateColl = new GenButtonRounded("btnCreateColl","New Collateral", 100,ECS.getSuccess(),
+                ECS.getSuccessDark());
+            this.btnCreateColl.addMouseListener(this);
+
+
+            if(user.$role === "Director" || user.$role === "Credit") {
+                this.buttonsBar.addComponent([
+                    this.btnCreateColl
+                ]);
+            }
+            this.notice = new NoticeM('notice', "Please note that only documents stored in the PDF format can be uploaded.",600);
+            this.header.addComponent([
+                this.logoText,this.buttonsBar,this.notice,this.profileBar, this.navigation
+            ]);
+
+            this.logOut.addMouseListener(this);
+            //Body
+            this.body = Division('bodyM').addCustomStyle(OverflowY("scroll"));
+
+            //Footer
+            this.footer = Division("footer").addCustomStyle([ZIndex(1000),
+                BackgroundColor(colorScheme.getTertiaryColor()
+                )]);
+            this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
+            this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
+                "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            this.balBox = new BalanceBox("bBox");
+            this.footer.addComponent(this.balBox);
+
+            this.mainPanel.addComponent([
+                this.loader,this.header,this.body
+            ]);
+            this.roleP = Paragraph(this.id+"roleP").setTextContent("Role: "+this.user.$role);
+            this.roleP.addCustomStyle([
+                FontFamily("calibri"),
+                Position("fixed"),
+                PositionBottom(-10,'px'),
+                PositionRight(25,'px')
+            ]);
+            this.addComponent([
+                this.navPanel,this.mainPanel,this.roleP
+            ]);
+            this.initPagesWS();
         }
 
         initPagesWS(){
@@ -5631,10 +5635,10 @@
             this.declinedCollaterals = new Declined(this,"Declined");
             this.releasedCollaterals = new Released(this,"Released");
             this.isOpen = false;
+            ntfBtn = new HIcon("ntfBtn", ["fa", "fa-bell","fa-lg"]);
+            ntfBtnC = new HIcon("ntfBtnC", [], "0");
             this.notifications = new Notifications("ntfs");
-            this.ntfBtn = new HIcon("ntfBtn", ["fa", "fa-bell","fa-lg"]);
-            this.ntfBtnC = new HIcon("ntfBtnC", [], "0");
-            this.ntfBtn.addMouseListener(this);
+            ntfBtn.addMouseListener(this);
             this.addMouseListener(this);
 
             this.notifications.addCustomStyle([
@@ -5645,13 +5649,13 @@
                 PositionRight(320,'px'),
                 ZIndex(888888888)
             ]);
-            this.ntfBtn.addCustomStyle([
+            ntfBtn.addCustomStyle([
                 Color(ECS.getDanger()),
                 Position("fixed"),
                 PositionRight(300,'px'),
                 PositionTop(10,'px')
             ]);
-            this.ntfBtnC.addCustomStyle([
+            ntfBtnC.addCustomStyle([
                 Color("FFFFFF"),
                 Position("fixed"),
                 Width(15,'px'),
@@ -5664,7 +5668,7 @@
                 PositionRight(290,'px'),
                 BackgroundColor(ECS.getWarning())
             ]);
-            WINDOW.addComponent([this.ntfBtn, this.ntfBtnC,
+            WINDOW.addComponent([ntfBtn, ntfBtnC,
                 this.notifications]);
             this.body.addComponent([
                 this.index, this.collaterals,
@@ -5794,7 +5798,7 @@
                 case "/collaterals/declined":
                 {
                     if(user.$role === "Director" || user.$role === "Credit")
-                    this.refreshBody(pages[path],path);
+                        this.refreshBody(pages[path],path);
                     else
                         this.refreshBody(this.index,"/dashboard");
                     break;
@@ -6000,7 +6004,7 @@
                         ])
                     }
                     else
-                    if(e.getSource() === this.ntfBtn){
+                    if(e.getSource() === ntfBtn){
                         if(!this.isOpen)
                         {
                             console.log("kfhks");
@@ -6026,13 +6030,13 @@
                         location.reload();
                     }
                     else
-                    try{
-                        e.getWindowEvent().preventDefault();
-                        this.switchToPage(e.getSource().getLink())
-                    }
-                    catch(ex){
+                        try{
+                            e.getWindowEvent().preventDefault();
+                            this.switchToPage(e.getSource().getLink())
+                        }
+                        catch(ex){
 
-                    }
+                        }
 
                     if (e.getSource() === this.btnCreateColl){
                         let userForm =UserForm.createForm();
