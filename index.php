@@ -50,7 +50,11 @@ function authenticate(){
     $realm = 'Restricted area';
 
 //user => password
-    $users = array('staff' => 'J3x/W"&Zb>B:p2wVr+T<!aD#d$}Rp/b}Sv+5^Mf%kq3!SA2sPy}M5sS2ptq7Mp<9Cg/pSVevvCyuXy');
+    $users = array(
+        'staff' => 'J3x/W"&Zb>B:p2wVr+T<!aD#d$}Rp/b}Sv+5^Mf%kq3!SA2sPy}M5sS2ptq7Mp<9Cg/pSVevvCyuXy',
+        'director' => 'koPeYiusf_1@'
+
+    );
 
 
     if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
