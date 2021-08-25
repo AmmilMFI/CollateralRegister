@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="" />
+    <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,10 +30,12 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="194">
+              <caret line="85" column="47" lean-forward="true" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
+                <element signature="n#getRandomWord#0;n#!!top" />
+                <element signature="n#logP#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -101,11 +105,13 @@
       <find>preven</find>
       <find>http://localhost:8800</find>
       <find>collaterals</find>
+      <find>localhost:8800</find>
     </findStrings>
     <replaceStrings>
       <replace>https://collaterals.ammilmfi.com</replace>
       <replace>http</replace>
       <replace>http://collaterals.ammilmfi.com</replace>
+      <replace>collaterals.ammilmfi.com</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -213,18 +219,18 @@
       <workItem from="1627658974073" duration="581000" />
       <workItem from="1627980307178" duration="2820000" />
       <workItem from="1629668223771" duration="1359000" />
-      <workItem from="1629707015168" duration="5379000" />
+      <workItem from="1629707015168" duration="5682000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21242000" />
+    <option name="totallyTimeSpent" value="21545000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26308724" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15570469" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -279,6 +285,8 @@
           <caret line="16" column="2" lean-forward="true" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="12" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
           </folding>
         </state>
       </provider>
@@ -338,6 +346,8 @@
           <caret line="606" column="14" lean-forward="true" selection-start-line="606" selection-start-column="14" selection-end-line="606" selection-end-column="14" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
           </folding>
         </state>
       </provider>
@@ -379,6 +389,8 @@
           <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
           </folding>
         </state>
       </provider>
@@ -646,10 +658,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="194">
+          <caret line="85" column="47" lean-forward="true" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
           <folding>
             <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
           </folding>
         </state>
       </provider>

@@ -58,7 +58,7 @@ function authenticate(){
         header('WWW-Authenticate: Digest realm="'.$realm.
             '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
 
-        die('Text to send if user hits Cancel button');
+        die('Access Denied');
     }
 
     if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) ||
