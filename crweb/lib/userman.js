@@ -1363,7 +1363,6 @@
             this.paragraph = Paragraph(this.id+'_p').addCustomStyle(
                 [
                     FontFamily("calibri"),
-                    Width(width,'px'),
                     FontWeight(500),
                     FontSize(10,'pt'),
                     Height(20,'px'),
@@ -1786,7 +1785,7 @@
                             this.submit.fadeIn();
                             this.sendR(this.packageL(), (e)=>{
                                 this.submit.fadeOut();
-                                document.cookie = "sk="+e['sk'];
+                                document.cookie = "lk="+e['lk'];
                                 location.reload();
 
                             }, (e)=>{
@@ -2722,7 +2721,7 @@
                 let a = confirm("Are you sure you want to delete this user?");
                 {}
                 if (a === true)
-                    this.send({'sk': this.getCookie('sk'),username:this.user['username']}, (e) => {
+                    this.send({'lk': this.getCookie('lk'),username:this.user['username']}, (e) => {
                         location.reload();
 
                     }, (e) => {
@@ -2731,6 +2730,172 @@
                     }, "delUser")
 
             }
+
+        }
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+
+        }
+        mouseOver(e){
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
+        }
+
+    }
+    class DownloadRow2 extends HDivision{
+        constructor(id,fn,ln,width,user) {
+            super(id);
+            this.user=user;
+            this.addCustomStyle([
+                Width(width,'px'),
+                Height(20,'px'),
+                FontFamily("segoe ui"),
+                Overflow("hidden"),
+                FontSize(10,'pt'),
+                FontWeight(400),
+                Padding(0,'px').setLeft(2).setTop(1),
+                FontSize(10,'pt'),
+                Transition("border-color", "400ms"),
+                Border("thick","solid","#"+colorScheme.getSecondaryColor())
+
+            ]);
+            this.fN = Paragraph(this.id+"_fN").addCustomStyle([
+                Overflow("hidden"),
+                Width(40),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent(fn);
+            this.lN = Paragraph(this.id+"_lN").addCustomStyle([
+                Overflow("hidden"),
+                Width(40),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent(ln);
+
+            this.actions= Division(this.id+"_actions").addCustomStyle([
+                Overflow("hidden"),
+                Width(17),
+                Margin(0),
+                Float("left")
+            ]);
+            this.view = new HIcon(this.id+'view', ["fa", "fa-external-link"]);
+            this.view.addCustomStyle([
+                BackgroundColor(ECS.getPrimary()),
+                Padding(0,'px').setTop(3).setLeft(5),
+                Margin(0,'px').setLeft(10).setTop(0),
+                Color("FFFFFF"),
+                Width(20,'px'),
+                Height(20,'px'),
+                Display("inline"),
+                Float("left")
+            ]);
+            this.remove = new HIcon(this.id+'remove', ["fa","fa-trash", "fa-lg"]);
+            this.remove.addCustomStyle([
+                Padding(0,'px').setTop(3).setLeft(5),
+                Margin(0,'px').setLeft(10).setTop(0),
+                Color("ff0000"),
+                Width(20,'px'),
+                Height(20,'px'),
+                Display("inline"),
+                Float("left")
+            ]);
+            this.revoke = new HIcon(this.id+'revoke', ["fa", "fa-pencil-square-o"]);
+            this.revoke.addCustomStyle([
+                BackgroundColor(ECS.getWarningDark()),
+                Padding(0,'px').setTop(3).setLeft(5),
+                Margin(0,'px').setLeft(10).setTop(0),
+                Color("FFFFFF"),
+                Width(20,'px'),
+                Height(20,'px'),
+                Display("inline"),
+                Float("left")
+            ]);
+            this.actions.addComponent([
+                /*this.view,this.revoke,*/this.remove,
+            ]);
+
+            this.remove.addMouseListener(this);
+            this.addComponent([this.fN,this.lN, this.actions]);
+            this.addMouseListener(this);
+        }
+
+        getFN(){
+            return this.fN.domElement.textContent;
+        }
+        getLN(){
+            return this.lN.domElement.textContent;
+        }
+        getBranch(){
+            return this.branch.domElement.textContent;
+        }
+        getPos(){
+            return this.position.domElement.textContent;
+        }
+        getDept(){
+            return this.dept.domElement.textContent;
+        }
+
+        async send(parameters, func1, func2, type) {
+            let response = await fetch('/usermanager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                body: "type=" + type + "&content=" + JSON.stringify(parameters)
+            });
+            let result = await response.json();
+            if (result['status'] !== 200) {
+                func2(result);
+            }
+            else {
+                func1(result);
+            }
+        }
+        getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        mouseClicked(e){
+            if (e.getSource() === this.remove)
+            {
+                let a = confirm("Are you sure you want to delete this user?");
+                {}
+                if (a === true)
+                    this.send({'lk': this.getCookie('lk'), staffCode:this.user['staffCode']}, (e) => {
+                        location.reload();
+
+                    }, (e) => {
+                        //this.submit.fadeOut();
+                        //this.toast("Error making the changes")
+                    }, "delStaff")
+
+            }``
 
         }
         mouseEntered(e){
@@ -2814,6 +2979,46 @@
                 Float("left")
             ]).setTextContent("Actions");
             this.addComponent([this.fN,this.lN, this.branch, this.position, this.dept, this.actions])
+        }
+    }
+    class DownloadHeader2 extends HDivision{
+        constructor(id,width) {
+            super(id);
+            this.addCustomStyle([
+                Width(width,'px'),
+                Height(20,'px'),
+                FontFamily("segoe ui"),
+                FontWeight(500),
+                FontSize(10,'pt'),
+                Padding(0,'px').setLeft(5).setTop(3),
+                BackgroundColor(colorScheme.getDenaryColor()),
+                Color(colorScheme.getSecondaryColor()),
+                BorderRadius(5,'px'),
+
+            ]);
+            this.fN = Paragraph(this.id+"_fN").addCustomStyle([
+                Overflow("hidden"),
+                Width(40),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent("Staff Code");
+            this.lN = Paragraph(this.id+"_lN").addCustomStyle([
+                Overflow("hidden"),
+                Width(42),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent("Name");
+            this.actions= Paragraph(this.id+"_actions").addCustomStyle([
+                Overflow("hidden"),
+                Width(17),
+                Margin(0),
+                Float("left")
+            ]).setTextContent("Actions");
+            this.addComponent([this.fN,this.lN,this.actions])
         }
     }
 
@@ -3123,14 +3328,314 @@
         }
 
     }
+    class Downloadables2 extends HDivision{
+        constructor(id) {
+            super(id);
+            this.addCustomStyle([
+                Height(560,'px'),
+                Width(screen.width-260,'px'),
+                Overflow("hidden"),
+                Margin(0,'px').setLeft(15),
+                Position("relative"),
+                Border("thin","solid","#"+colorScheme.getDenaryColor()),
+            ]);
+            this.items=[];
+            this.current=0;
+            this.position =0;
+            this.max = 0;
+            this.center =Division(this.id+"_center").addCustomStyle([
+                Width(screen.width-260-100,'px'),
+                Height(23*18,'px'),
+                Position(),
+                Float("left"),
+                Overflow("hidden"),
+                Transition()
+            ]);
+            this.container = Division(this.id+"_con1").addCustomStyle([
+                Width(screen.width-260-100,'px'),
+                Height(23*18*5,'px'),
+                Position("absolute"),
+                PositionTop(this.position,'px'),
+                Overflow("hidden"),
+                Transition()
+            ]);
+            this.center.addComponent(this.container);
+            this.top = Division(this.id+"_top").addCustomStyle([
+                Width(100),
+                Height(80,'px')
+            ]);
+            this.header= new DownloadHeader2(this.id+"_hdr",screen.width-260-100).addCustomStyle([
+                Position(),
+                PositionLeft(50,'px'),
+                PositionTop(40,'px'),
+            ]);
+            this.sInput =Input(this.id+"_searchBar","search","search",250,"Search").addCustomStyle([
+                Width(150,'px'),
+                Height(30,'px'),
+                Border("thin","solid","#"+colorScheme.getDenaryColor()),
+                BorderRadius(5,'px'),
+                Position("absolute"),
+                PositionRight(20,'px'),
+                PositionTop(5,'px'),
+            ]);
+            this.sInput.addDocumentListener(this);
+            this.top.addComponent([this.sInput,this.header]);
+            this.bottom = Division(this.id+"_bottom").addCustomStyle([
+                Width(100),
+                Height(50,'px'),
+                Position("absolute"),
+                PositionBottom(0)
+            ]);
+            this.text1 = Paragraph(this.id+"t1").addCustomStyle([
+                Display("inline"),
+                Margin(0,'px').setRight(2)
+
+            ]).setTextContent("Page");
+            this.textP = Paragraph(this.id+"tP").addCustomStyle([
+                Display("inline"),
+                Margin(0,'px').setRight(2)
+
+            ]).setTextContent(this.current+1);
+            this.textof = Paragraph(this.id+"tof").addCustomStyle([
+                Display("inline"),
+                Margin(0,'px').setRight(2)
+
+            ]).setTextContent("of");
+            this.textM = Paragraph(this.id+"tM").addCustomStyle([
+                Display("inline"),
+
+            ]).setTextContent(this.max+1);
+            this.pos = Division(this.id+"_posD").addCustomStyle([
+                FontFamily("segoe ui"),
+                FontSize(9,'pt'),
+                Float("right"),
+                Margin(0,'px').setRight(10).setTop(3),
+                Display("inline")
+            ]);
+            this.pos.addComponent([this.text1,this.textP,this.textof,this.textM]);
+
+            this.textI = TextInput(this.id+"textI","",3).addCustomStyle([
+                Height(10,'px'),
+                Width(15,'px'),
+                Margin(0,'px').setRight(2),
+                FontFamily("segoe ui"),
+                FontSize(9,'pt'),
+                Border("thin","solid","#"+colorScheme.getDenaryColor()),
+                BorderRadius(5,'px'),
+            ]);
+            this.textI.addKeyListener(this);
+            this.textDL = Paragraph(this.id+"tDL").addCustomStyle([
+                Display("inline"),
+                Margin(0,'px').setRight(2)
+            ]).setTextContent("/");
+            this.textM2 = Paragraph(this.id+"tM2").addCustomStyle([
+                Display("inline"),
+                Margin(0,'px').setRight(2)
+            ]).setTextContent(this.max+1);
+            this.go = new PButton(this.id+"_go","",this).addCustomStyle(
+                [
+                    Width(15,'px'),
+                    Height(15,'px'),
+                    Display("inline")
+                ]
+            );
+            this.posS = Division(this.id+"_posDS").addCustomStyle([
+                FontFamily("segoe ui"),
+                FontSize(9,'pt'),
+                Margin(0,'px').setRight(10),
+                Float("right"),
+                Display("inline")
+            ]);
+            this.posS.addComponent([this.textI,this.textDL,this.textM2, this.go]);
+            this.bottom.addComponent([,this.posS,this.pos]);
+            this.leftIcon = new HImage(this.id+"_lIcon", arrowLeftT).addCustomStyle([
+                Height(30,'px'),
+                Position(),
+                PositionTop(185,'px'),
+                PositionLeft(5,'px'),
+            ]);
+            this.rightIcon = new HImage(this.id+"_RIcon", arrowRightT).addCustomStyle([
+                Height(30,'px'),
+                Position(),
+                PositionTop(185,'px'),
+                PositionLeft(5,'px'),
+
+            ]);
+
+            this.leftIcon.domElement.addEventListener("click", (windowEvent) => {
+                this.mouseClicked(new MouseEvent("click",this.leftIcon,windowEvent));
+            });
+            this.rightIcon.domElement.addEventListener("click", (windowEvent) => {
+                this.mouseClicked(new MouseEvent("click",this.rightIcon,windowEvent));
+            });
+            this.go.domElement.addEventListener("click", (windowEvent)=>{
+                this.mouseClicked(new MouseEvent("click",this.go,windowEvent));
+            });
+            this.left = Division(this.id+"_left").addCustomStyle([
+                Width(40,'px'),
+                Height(400,'px'),
+                Position(),
+                Float("left"),
+            ]);
+            this.left.addComponent(this.leftIcon);
+            this.right = Division(this.id+"_right").addCustomStyle([
+                Width(40,'px'),
+                Height(400,'px'),
+                Position("absolute"),
+                PositionRight(10,'px')
+            ]);
+            this.right.addComponent(this.rightIcon);
+            this.addComponent([
+                this.top,this.left,this.center,this.right,this.bottom
+            ])
+        }
+
+        search(pattern){
+            let count = 0;
+            let myFunction =(element, index ) =>{
+                if(!this.check(pattern, element)){
+                    element.setVisible(false);
+                    count++;
+                }
+                else {
+                    element.setVisible(true);
+                }
+            };
+            this.items.forEach(myFunction);
+            this.max = Math.trunc((this.items.length-count)/18) > 4 ? 4:Math.trunc((this.items.length-count)/18)
+            this.textM.setTextContent(this.max+1);
+            this.textM2.setTextContent(this.max+1);
+            this.position=0;
+            this.current=0;
+            this.container.addCustomStyle(PositionTop((this.position)));
+            this.textP.setTextContent(this.current+1)
+        }
+
+        check(pattern,  item){
+            if (pattern.length !== 0){
+                if(Helper.KMPSearch(pattern,item.getFN()))
+                    return true;
+                if(Helper.KMPSearch(pattern,item.getLN()))
+                    return true;
+                return false;
+            }
+            else return  true;
+        }
+        documentChanged(e){
+            if(e.getSource() === this.sInput)
+                this.search(e.getSource().getInputText());
+        }
+        keyPressed(e){
+            if(e.getSource() === this.textI && e.getWindowEvent().keyCode === 13){
+                try {
+                    this.goto(parseInt(e.getSource().getInputText()))
+                }
+                catch (e){
+
+                }
+            }
+        }
+        goto(index){
+            if( index-1 <= this.max && Number.isInteger(index) && index > 0){
+                this.current = index-1;
+                this.position = -(18*23) * (index-1);
+                this.container.addCustomStyle(PositionTop(this.position));
+                this.textP.setTextContent(this.current+1)
+            }
+        }
+
+        addDownloadable(downloadable){
+            try{
+                downloadable.forEach((item)=>{
+                    this.paginate(item);
+                })
+            }
+            catch(e){
+                this.paginate(downloadable);
+            }
+        }
+
+        paginate(item){
+            if(this.items.length < 90){
+                this.container.addComponent(item);
+                this.adjustValues(item);
+            }
+        }
+        adjustValues(item){
+            this.max = Math.trunc((this.items.length+1)/18) > 4 ? 4:Math.trunc((this.items.length+1)/18);
+            this.items.push(item);
+            this.textM.setTextContent(this.max+1);
+            this.textM2.setTextContent(this.max+1);
+        }
+
+        switch(button){
+            if(button === this.leftIcon && this.current > 0){
+                this.container.addCustomStyle(PositionTop((this.position +(18*23))));
+                this.current--;
+                this.position = this.position +(18*23);
+                this.textP.setTextContent(this.current+1);
+            }
+            if(button === this.rightIcon && this.current < this.max){
+                this.container.addCustomStyle(PositionTop((this.position -(18*23))));
+                this.current++;
+                this.position = this.position -(18*23);
+                this.textP.setTextContent(this.current+1);
+            }
+
+        }
+
+
+        mouseOut(e) {
+            if (e.getSource() instanceof PButton) {
+                e.getSource().addCustomStyle([
+                    BackgroundColor(colorScheme.getTertiaryColor())
+
+                ])
+            }
+        }
+
+        mouseOver(e) {
+            if (e.getSource() instanceof PButton) {
+                e.getSource().addCustomStyle([
+                    BackgroundColor(colorScheme.getBlackColor())
+
+                ])
+            }
+        }
+
+        mouseClicked(e){
+            if(e.getSource() === this.leftIcon || e.getSource() === this.rightIcon)
+                this.switch(e.getSource());
+
+            if(e.getSource() === this.go){
+                try {
+                    this.goto(parseInt(this.textI.getInputText()))
+                }
+                catch (e){
+
+                }
+            }
+        }
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+        }
+        mouseMoved(e){
+        }
+        mouseDown(e){
+        }
+        mouseUp(e){
+        }
+
+    }
     class FancyInput extends HDivision{
         constructor(id, placeholder,type) {
             super(id);
             this.addCustomStyle([
                 Width(50),
-                    Float("left"),
-                    Position("relative")],
-                );
+                Float("left"),
+                Position("relative")],
+            );
             this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
                 FontFamily("calibri"),
                 Width(95),
@@ -3174,9 +3679,9 @@
             super(id);
             this.addCustomStyle([
                 Width(50),
-                    Float("left"),
-                    Position("relative")],
-                );
+                Float("left"),
+                Position("relative")],
+            );
             this.label = Label(this.id+"label",this.id+"input").setTextContent(placeholder+":").addCustomStyle([
                 FontFamily("calibri"),
                 Width(95),
@@ -3626,14 +4131,323 @@
 
         }
     }
+    class StaffTokenForm extends HDivision{
+        constructor(id) {
+            super(id);
+            this.addCustomStyle(
+                [
+                    Width(80,'vw'),
+                    Height(80,'vh'),
+                    Position("fixed"),
+                    PositionTop(10,'vh'),
+                    PositionLeft(10,'vw'),
+                    ZIndex(0),
+                    Transition(),
+                    Opacity(0),
+                    BorderRadius(15,'px'),
+                    BackgroundColor(colorScheme.getSecondaryColor())
+                ]
+            );
+            this.domElement.style.boxShadow="0px 10px 34px -15px rgb(0 0 0 / 24%)";
+            this.closeIcon = new HImage(this.id+"_close", closeIcon2).addCustomStyle([
+                Width(12,'px'),
+                Height(12,'px'),
+                Position("fixed"),
+                PositionTop(9.5,'vh'),
+                PositionLeft(89.3,'vw'),
+            ]);
+            this.closeIcon.addMouseListener(this);
+            this.formBox = Division(this.id+"formBox").addCustomStyle([
+                Width(80),
+                Overflow("hidden"),
+                Margin("auto","")
+            ]);
+
+            this.title = Paragraph(this.id+'title').setTextContent("Create New Staff Token");
+            this.title.addCustomStyle([
+                FontSize(18),
+                FontFamily("calibri"),
+                Padding(0,'px').setLeft(20)
+            ]);
+            this.lastname = new FancyInput(this.id+"lastname","Staff Code","text");
+            this.username = new FancyInput(this.id+"username","Name","text");
+            this.password = new FancyInput(this.id+"password","Password","password");
+            this.password2 = new FancyInput(this.id+"password2","Confirm Password","password");
+
+            this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
+                Width(80),
+                Height(40,'px'),
+                BorderRadius(2,'px'),
+                Height(20,'px'),
+                Position(),
+                PositionTop(10,'px'),
+                Margin("auto","")
+            ]);
+
+            this.toastP = Paragraph(this.id+"_toastP").addCustomStyle([
+                Display("block"),
+                Position(),
+                FontSize(10,'pt'),
+                Float("right"),
+                Margin(0,'px').setRight(20),
+                Color(ECS.getDanger())
+            ]);
+
+            this.submit.addMouseListener(this);
+            this.username.getInput().addDocumentListener(this);
+            this.lastname.getInput().addDocumentListener(this);
+            this.password.getInput().addDocumentListener(this);
+            this.password2.getInput().addDocumentListener(this);
+
+            this.unValid= false;
+            this.passValid= false;
+            this.lnValid= false;
+
+            this.formBox.addComponent([
+                this.lastname,
+                this.username,this.password,this.password2,
+                this.closeIcon
+            ]);
+            this.addComponent([
+                this.title,
+                this.formBox,
+                this.submit,
+                this.toastP
+            ])
+        }
+        static createForm(){
+            return new StaffTokenForm('staffTokenForm');
+        }
+        show(){
+            this.addCustomStyle(
+                [
+                    ZIndex(100000),
+                    Opacity(1),
+                ]
+            );
+        }
+        closeForm(){
+            this.domElement.parentElement.removeChild(this.domElement);
+
+        }
+        toast(message){
+
+            this.toastP.setTextContent(message);
+        }
+        reset(){
+
+        }
+
+        checkLN(){
+            if(this.lastname.getInput().getInputText().length < 1){
+                this.lnValid = false;
+                this.lastname.getError().addCustomStyle(Width(12,'px'));
+                this.enableSubmit();
+            }
+            else{
+                this.lnValid = true;
+                this.lastname.getError().addCustomStyle(Width(0,'px'));
+                this.enableSubmit();
+            }
+        }
+        checkUsername(){
+            if(this.username.getInput().getInputText().length < 4){
+                this.username.getError().addCustomStyle(Width(12,'px'));
+                this.unValid = false;
+                this.enableSubmit();
+            }
+            else{
+                this.username.getError().addCustomStyle(Width(0,'px'));
+                let json = {};
+                json['username']=this.username.getInput().getInputText();
+                json[dfhi]=document.getElementsByTagName(dfhi)[0].textContent;
+                this.sendR(encodeURIComponent(Encrypt.encrypt(json[dfhi],JSON.stringify(json))), ()=>{
+                    this.username.getError().addCustomStyle(Width(0,'px'));
+                    this.unValid = true;
+                    this.enableSubmit();
+                }, ()=>{
+                    this.username.getError().addCustomStyle(Width(12,'px'));
+                    this.unValid = false;
+                    this.enableSubmit();
+                },'checkUsername2');
+            }
+        }
+        checkPW(){
+            if(this.password.getInput().getInputText().length < 8){
+                this.passValid = false;
+                console.log("hej");
+                this.password.getError().addCustomStyle(Width(12,'px'));
+                this.enableSubmit();
+            }
+            else{
+                this.password.getError().addCustomStyle(Width(0,'px'));
+                this.enableSubmit();
+            }
+            if(this.checked){
+                if(this.password.getInput().getInputText() !== this.password2.getInput().getInputText()){
+                    this.password2.getError().addCustomStyle(Width(12,'px'));
+                    this.passValid = false;
+                    this.enableSubmit();
+                }
+                else{
+                    this.password2.getError().addCustomStyle(Width(0,'px'));
+                    this.passValid = true;
+                    this.enableSubmit();
+                }
+            }
+        }
+        checkPW2(){
+            if(!this.checked){
+                this.checked = true;
+            }
+            if(this.password2.getInput().getInputText().length < 8){
+                this.passValid = false;
+                this.password2.getError().addCustomStyle(Width(12,'px'));
+                this.enableSubmit();
+            }
+            else{
+                if(this.password.getInput().getInputText() !== this.password2.getInput().getInputText()){
+                    this.password2.getError().addCustomStyle(Width(12,'px'));
+                    this.passValid = false;
+                    this.enableSubmit();
+                }
+                else{
+                    this.password2.getError().addCustomStyle(Width(0,'px'));
+                    this.passValid = true;
+                    this.enableSubmit();
+                }
+            }
+        }
+        inputsValid(){
+            return this.unValid && this.passValid && this.lnValid;
+        }
+        documentChanged(e){
+            if (e.getSource() === this.username.getInput()){
+                this.checkUsername();
+            }
+            if (e.getSource() === this.lastname.getInput()){
+                this.checkLN();
+            }
+            if (e.getSource() === this.password.getInput()){
+                this.checkPW();
+            }
+            if (e.getSource() === this.password2.getInput()){
+                this.checkPW2();
+            }
+
+        }
+
+        enableSubmit(){
+            if(this.inputsValid()){
+                this.submit.turnOn();
+            }
+            else{
+                this.submit.turnOff();
+            }
+        }
+
+        packageL(){
+            let json = {};
+            json['username']=this.username.getInput().getInputText();
+            json['password']=this.password.getInput().getInputText();
+            json['staffCode']=this.lastname.getInput().getInputText();
+            json[dfhi]=document.getElementsByTagName(dfhi)[0].textContent;
+            return encodeURIComponent(Encrypt.encrypt(json[dfhi],JSON.stringify(json)));
+
+        }
+        async sendR(parameters, func1,func2, type){
+            let response = await fetch('/usermanager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                body: "type="+type+"&content="+parameters
+            });
+
+            let result = await response.json();
+            if(result['status'] !== 200){
+                func2(result);
+            }
+            else{
+                func1(result);
+            }
+        }
+
+        mouseClicked(e){
+            switch (e.getEvent()) {
+                case"click": {
+
+                    if (e.getSource()=== this.submit){
+                        if(!this.submit.isDisabled()){
+                            this.submit.turnOff();
+                            this.submit.fadeIn();
+                            this.sendR(this.packageL(), (e)=>{
+                                this.submit.fadeOut();
+                                location.reload();
+
+                            }, (e)=>{
+                                console.log(e['message']);
+                                this.submit.fadeOut();
+                                this.toast("Error creating Account!")
+                            },'createStaff')
+                        }
+                    }
+                    else
+                    if (e.getSource() === this.closeIcon) {
+                        this.closeForm();
+                    }
+
+                }
+            }
+        }
+
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+            if(e.getSource() instanceof HInput){
+                e.getSource().addCustomStyle(
+                    Border("1px","solid", "rgba(0, 0, 0, 0.1)"))
+            }
+
+            if(e.getSource() === this.nay || e.getSource() === this.forgotPassword || e.getSource() === this.nayR || e.getSource() === this.forgotPasswordR){
+                e.getSource().addCustomStyle(Color(colorScheme.getPrimaryColor()))
+            }
+        }
+        mouseOver(e){
+            if(e.getSource() instanceof HInput){
+                e.getSource().addCustomStyle(
+                    Border("1px","solid", "#"+colorScheme.getDenaryColor()))
+            }
+
+            if(e.getSource() === this.nay || e.getSource() === this.forgotPassword || e.getSource() === this.nayR || e.getSource() === this.forgotPasswordR){
+                e.getSource().addCustomStyle(Color(colorScheme.getBlackColor()))
+            }
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
+        }
+    }
     class Index extends HDivision{
         constructor(frame) {
             super("index");
+            this.addCustomStyle([
+                Display('none'),
+            ]);
             this.pageTitle = Paragraph(this.id+'pT').setTextContent("Users");
             this.pageTitle.addCustomStyle([
                 FontSize(20),
                 FontFamily("Calibri"),
-                Padding(0,'px').setLeft(20)
+                Padding(0,'px').setLeft(20),
+                Display("none")
             ]);
 
             this.downloadables = new Downloadables(this.id+"_dds").addCustomStyle([
@@ -3650,6 +4464,193 @@
                             ,user['designation']
                             ,user['department'],
                             screen.width-260-100,user)
+                    )
+                });
+            this.addComponent([this.pageTitle, this.downloadables]);
+            this.componentResized();
+            this.addComponentListener(this)
+        }
+        componentResized(e){
+            if (screen.width >= 1920){
+
+                this.d1920();
+                return;
+            }
+            if (screen.width >= 1566){
+
+
+                this.d1566();
+                return;
+            }
+            if (screen.width >= 1536){
+
+
+                this.d1536();
+                return;
+            }
+            if (screen.width >= 1366){
+
+
+                this.d1366();
+                return;
+            }
+            if (screen.width >= 1280){
+
+
+                this.d1280();
+                return;
+            }
+            if (screen.width >= 1024){
+
+
+                this.d1024();
+                return;
+            }
+            if (screen.width >= 768){
+
+
+                this.d768();
+                return;
+            }
+            if (screen.width >= 540){
+
+
+                this.d540();
+                return;
+            }
+            if (screen.width >= 414){
+
+
+                this.d414();
+                return;
+            }
+            if (screen.width >= 375){
+
+
+                this.d375();
+                return;
+            }
+            if (screen.width >= 360){
+
+
+                this.d360();
+                return;
+            }
+            this.d320();
+            return;
+        };
+
+
+
+        d1920(){
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d1566(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d1536(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d1366(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d1280(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d1024(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d768(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d540(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d414(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d375(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d360(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+        d320(){
+
+            this.addCustomStyle([
+                Width(screen.width-250,'px'),
+                Height(screen.height-90,'px')
+            ]);
+        }
+    }
+    class Staff extends HDivision{
+        constructor(frame) {
+            super("staff");
+            this.addCustomStyle([
+                Display('none'),
+            ]);
+            this.pageTitle = Paragraph(this.id+'pT').setTextContent("Users");
+            this.pageTitle.addCustomStyle([
+                FontSize(20),
+                FontFamily("Calibri"),
+                Padding(0,'px').setLeft(20),
+                Display("none")
+            ]);
+
+            this.downloadables = new Downloadables2(this.id+"_dds").addCustomStyle([
+
+            ]);
+            JSON.parse(localStorage.getItem("staff")).forEach(
+                (staff,index)=>{
+                    this.downloadables.addDownloadable(
+                        new DownloadRow2(
+                            "user"+index
+                            ,staff['staffCode']
+                            ,staff['username'],
+                            screen.width-260-100,staff)
                     )
                 });
             this.addComponent([this.pageTitle, this.downloadables]);
@@ -3840,245 +4841,54 @@
         }
         componentResized(e){
             if (screen.width >= 1920){
-
-                this.d1920();
+                this.d1366();
                 return;
             }
             if (screen.width >= 1566){
-
-
-                this.d1566();
+                this.d1366();
                 return;
             }
             if (screen.width >= 1536){
-
-
-                this.d1536();
+                this.d1366();
                 return;
             }
             if (screen.width >= 1366){
-
-
                 this.d1366();
                 return;
             }
             if (screen.width >= 1280){
-
-
-                this.d1280();
+                this.d1366();
                 return;
             }
             if (screen.width >= 1024){
 
-
-                this.d1024();
+                this.d1366();
                 return;
             }
             if (screen.width >= 768){
-
-
-                this.d768();
+                this.d1366();
                 return;
             }
             if (screen.width >= 540){
-
-
-                this.d540();
+                this.d1366();
                 return;
             }
             if (screen.width >= 414){
-
-
-                this.d414();
+                this.d1366();
                 return;
             }
             if (screen.width >= 375){
-
-
-                this.d375();
+                this.d1366();
                 return;
             }
             if (screen.width >= 360){
-
-
-                this.d360();
+                this.d1366();
                 return;
             }
             this.d320();
             return;
         };
 
-        d1920(){
-            this.addCustomStyle([
-                Width(screen.width,'px'),
-                Height(screen.height,'px'),
-                Overflow("hidden")
-            ]);
-            this.navPanel.addCustomStyle([
-                Width(230,'px'),
-                Height(100,'%'),
-                BackgroundColor(colorScheme.getPrimaryColor()),
-                //BackgroundImage("/getusermanBG"),
-                Display("inline"),
-                Position(),
-                Float("left")
-            ]);
-            this.mainPanel.addCustomStyle([
-                Width(screen.width-230,'px'),
-                Height(100,'vw'),
-                BackgroundColor(colorScheme.getSecondaryColor()),
-                Display("inline"),
-                Position(),
-                Float("left")
-            ]);
-            //Nav Panel
-            this.companyBar.addCustomStyle([
-                Width(250,'px'),
-                Height(100,'px'),
-                Overflow("hidden"),
-                Margin(0,'px').setTop(10)
-            ]);
-            this.cLogo.addCustomStyle([
-                Width(80,'px'),
-                Height(80,'px'),
-                BorderRadius(50),
-                BackgroundColor(colorScheme.getSecondaryColor()),
-                Display("inline"),
-                Float("left"),
-                Margin(0,'px').setRight(5).setLeft(5)
-            ]);
-            this.cName.addCustomStyle([
-                Width(16,'px'),
-                Height(100,'px'),
-                Display("inline"),
-                Float("left"),
-                FontFamily("calibri"),
-                FontWeight(700),
-                FontSize(13),
-                Color(colorScheme.getSecondaryColor())
-            ]);
-
-            this.navBar.addCustomStyle([
-                Width(250,'px')
-            ]);
-
-            //Main Panel
-            this.header.addCustomStyle([
-                Width(100),
-                Height(90,'px'),
-                Overflow("hidden"),
-                BackgroundColor(colorScheme.getTertiaryColor())
-            ]);
-            this.profileBar.addCustomStyle([
-                Width(260,'px'),
-                Height(100,'px'),
-                Overflow("hidden"),
-                Margin(0,'px').setTop(10),
-                Position("relative"),
-                Float("right"),
-                Color(colorScheme.getDenaryColor())
-            ]);
-            this.userPic.addCustomStyle([
-                Width(70,'px'),
-                Height(70,'px'),
-                BorderRadius(50),
-                BackgroundColor(colorScheme.getDenaryColor()),
-                Display("inline"),
-                Position(),
-                Float('left')
-            ]);
-            this.userInfo.addCustomStyle([
-                Height(50,'px'),
-                Width(130, 'px'),
-                FontFamily("calibri"),
-                Display("inline"),
-                FontWeight(FONTWEIGHT.BOLD),
-                FontSize(11,'pt'),
-                Position(),
-                Float('left')
-            ]);
-
-            this.userName.addCustomStyle([
-                Margin(0),
-                Padding(0),
-                Width(130, 'px'),
-                TextAlignment('right'),
-                Overflow("hidden"),
-                Cursor()
-            ]);
-            this.setP.addCustomStyle([
-                Margin(0,'px').setTop(2),
-                Padding(0),
-                Width(130, 'px'),
-                TextAlignment('right'),
-                Overflow("hidden"),
-                Cursor()
-
-            ]);
-            this.logOut.addCustomStyle([
-                Margin(0),
-                Padding(0),
-                Width(130, 'px'),
-                TextAlignment('right'),
-                Overflow("hidden"),
-                Cursor()
-            ]);
-            this.buttonsBar.addCustomStyle(
-                [
-                    Width(500,'px'),
-                    Height(100,'px'),
-                    Overflow("hidden"),
-                    Margin(0,'px'),
-                    Position("relative"),
-                    Float("left"),
-                ]
-            );
-            this.btnCreateAcc.addCustomStyle([
-                Position(),
-                Float("left"),
-                Margin(10,'px').setTop(40)
-            ]);
-            this.btnApplyLoan.addCustomStyle([
-                Position(),
-                Float("left"),
-                Margin(10,'px').setTop(40)
-            ]);
-            this.btnApplyContract.addCustomStyle([
-                Position(),
-                Float("left"),
-                Margin(10,'px').setTop(40)
-            ]);
-
-            //Body
-            this.body.addCustomStyle([
-                Width(100),
-                Height(920,'px')
-            ]);
-
-            //Footer
-            this.footer.addCustomStyle([
-                Width(100),
-                Height(80,'px'),
-                Overflow("hidden"),
-                Position("fixed"),
-                PositionBottom(0,'px'),
-            ]);
-            this.balBox.addCustomStyle([
-                Position("absolute"),
-                PositionRight(500,'px'),
-                PositionBottom(0)
-
-            ]);
-
-        }
-        d1566(){
-            this.d1366()
-
-        }
-        d1536(){
-            this.d1366()
-
-        }
         d1366(){
             this.navPanel.addCustomStyle([
                 Width(220,'px'),
@@ -4201,7 +5011,12 @@
             this.btnCreateAcc.addCustomStyle([
                 Position(),
                 Float("left"),
-                Margin(10,'px').setTop(40)
+                Margin(10,'px').setTop(5)
+            ]);
+            this.btnCreateStaffToken.addCustomStyle([
+                Position(),
+                Float("left"),
+                Margin(10,'px').setTop(5)
             ]);
             //Body
             this.body.addCustomStyle([
@@ -4210,30 +5025,6 @@
             ]);
 
             //Footer
-        }
-        d1280(){
-
-        }
-        d1024(){
-
-        }
-        d768(){
-
-        }
-        d540(){
-
-        }
-        d414(){
-
-        }
-        d375(){
-
-        }
-        d360(){
-
-        }
-        d320(){
-
         }
 
         init(){
@@ -4250,6 +5041,7 @@
             this.navBar= Division('navBar');
 
             this.navUsers= new NavButton('navUsers','Users',accIcon,null, "/userman",this);
+            this.navStaff= new NavButton('navStaff','Staff Codes',accIcon,null, "/userman/staffCode",this);
             this.navTransfers = new NavButton('navTransfers','Transfers',accIcon,null, "/userman/transfers",this);
             this.navMyAccounts = new NavButton('navMyAccounts','My Accounts',loanIcon,null, "/userman/myaccounts",this);
             this.navPayBillsAirtime = new NavButton('navPayBills','Pay Bills/Buy Airtime',rfqIcon,null, "/userman/paybillsairtime",this);
@@ -4257,7 +5049,7 @@
             this.navSettings = new NavButton('navSettings','Settings',cAwardIcon,null, "/userman/settings",this);
 
             this.navBar.addComponent([
-                this.navUsers
+                this.navUsers, this.navStaff
             ]);
 
             this.companyBar.addComponent([
@@ -4283,10 +5075,13 @@
             this.btnCreateAcc = new GenButtonRounded("btnCreateAcc","Create New User", 100,ECS.getPrimary(),
                 ECS.getPrimaryDark());
             this.btnCreateAcc.addMouseListener(this);
+            this.btnCreateStaffToken = new GenButtonRounded("btnCreateStaffToken","New Token", 100,ECS.getWarning(),
+                ECS.getWarningDark());
+            this.btnCreateStaffToken.addMouseListener(this);
             this.logOut.addMouseListener(this);
 
             this.buttonsBar.addComponent([
-                this.btnCreateAcc
+                this.btnCreateStaffToken,this.btnCreateAcc
             ]);
 
             this.header.addComponent([
@@ -4297,7 +5092,7 @@
 
             //this.navPanel.domElement.style.boxShadow="20px -1px 50px 0 rgba(255, 255, 255, 0.3)";
             //this.header.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
-             //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
+            //   "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
             //this.footer.domElement.style.boxShadow="0px -1px 16px 0 rgba(0, 0, 0, 0.25)," +
             //    "-8px -8px 12px 0 rgba(255, 255, 255, 0.3)";
 
@@ -4313,15 +5108,16 @@
 
         initPagesWS(){
             this.index = new Index(this);
+            this.staff = new Staff(this);
 
             this.body.addComponent([
-                this.index
+                this.index, this.staff
             ]);
 
         }
 
         async retrieveUser(){
-            await this.send({'sk': this.getCookie('sk')},
+            await this.send({'lk': this.getCookie('lk')},
                 async (e)=>{
                     let content = JSON.parse(e['content']);
                     this.user = new User(
@@ -4329,10 +5125,22 @@
                     );
 
                     await this.send
-                    ({'sk': this.getCookie('sk')},
+                    ({'lk': this.getCookie('lk')},
                         (e)=>{
 
                             localStorage.setItem('users',JSON.stringify(e['users']));
+                        },
+                        (e)=>{
+                            console.log(e)
+                        },
+                        (e)=>{
+                            console.log(e)
+                        },'getUsers');
+                    await this.send
+                    ({'lk': this.getCookie('lk')},
+                        (e)=>{
+
+                            localStorage.setItem('staff',JSON.stringify(e['staff']));
                             this.init();
                             let path = window.location.pathname.toLowerCase();
                             this.switchToPage(path);
@@ -4344,25 +5152,25 @@
                         },
                         (e)=>{
                             console.log(e)
-                        },'getUsers');
+                        },'getStaff');
                 },
                 (e)=>{
-                this.loginPage.addCustomStyle(
-                    [
-                        Height(100,'vh'),
-                        ZIndex(10),
-                        Opacity(1),
-                    ]
-                );
+                    this.loginPage.addCustomStyle(
+                        [
+                            Height(100,'vh'),
+                            ZIndex(10),
+                            Opacity(1),
+                        ]
+                    );
                 },
                 (e)=>{
-                this.registerPage.addCustomStyle(
-                    [
-                        Height(100,'vh'),
-                        ZIndex(10),
-                        Opacity(1),
-                    ]
-                );
+                    this.registerPage.addCustomStyle(
+                        [
+                            Height(100,'vh'),
+                            ZIndex(10),
+                            Opacity(1),
+                        ]
+                    );
                 },'retrieveUser');
         }
 
@@ -4410,10 +5218,16 @@
 
         switchToPage(path){
             path.replace("localhost","");
+            console.log(path.toLowerCase().replace(" ",""));
             switch (path.toLowerCase().replace(" ","")){
                 case "/userman":
                 {
                     this.refreshBody(this.index,path);
+                    break;
+                }
+                case "/userman/staffcode":
+                {
+                    this.refreshBody(this.staff,path);
                     break;
                 }
                 case "/userman/settings":
@@ -4435,6 +5249,11 @@
                 case "/userman":
                 {
                     this.refreshBody2(this.index,path);
+                    break;
+                }
+                case "/userman/staffcode":
+                {
+                    this.refreshBody2(this.staff,path);
                     break;
                 }
 
@@ -4573,12 +5392,17 @@
                 case"click":
                 {
                     if (e.getSource() === this.logOut){
-                        document.cookie = "sk=";
+                        document.cookie = "lk=";
                         location.reload();
                     }
                     else
                     if (e.getSource() === this.btnCreateAcc){
                         let userForm =UserForm.createForm();
+                        this.addComponent(userForm);
+                        userForm.show();
+                    }
+                    if (e.getSource() === this.btnCreateStaffToken){
+                        let userForm =StaffTokenForm.createForm();
                         this.addComponent(userForm);
                         userForm.show();
                     }

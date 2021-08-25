@@ -5,12 +5,14 @@ use models\Collateral;
 use models\Admin;
 use models\Field;
 use models\Message;
+use models\Staff;
 use controller\Encrypt;
 
 require_once "models/Admin.php";
 require_once "models/Message.php";
 require_once "models/Field.php";
 require_once "models/User.php";
+require_once "models/Staff.php";
 require_once "models/Collateral.php";
 require_once 'controller/Encrypt.php';
 
@@ -30,51 +32,7 @@ function logP($string){
     fclose($log);
 }
 
-function http_digest_parse($txt)
-{
-    // protect against missing data
-    $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
-    $data = array();
-    $keys = implode('|', array_keys($needed_parts));
-
-    preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $txt, $matches, PREG_SET_ORDER);
-
-    foreach ($matches as $m) {
-        $data[$m[1]] = $m[3] ? $m[3] : $m[4];
-        unset($needed_parts[$m[1]]);
-    }
-
-    return $needed_parts ? false : $data;
-}
-function authenticate(){
-    $realm = 'Restricted area';
-
-//user => password
-    $users = array('staff' => '"J3\'x/W"&Zb>B:p2wVr+T<!aD#d$}Rp/b}Sv+5^Mf%kq3!SA2sPy}M5sS2ptq7Mp<9Cg/pSVevvCyuXy');
-
-
-    if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
-        header('HTTP/1.1 401 Unauthorized');
-        header('WWW-Authenticate: Digest realm="'.$realm.
-            '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
-
-        die('Access Denied');
-    }
-
-    if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) ||
-        !isset($users[$data['username']]))
-        die('Wrong Credentials!');
-
-
-    $A1 = md5($data['username'] . ':' . $realm . ':' . $users[$data['username']]);
-    $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
-    $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
-
-    if ($data['response'] != $valid_response)
-        die('Access Denied!');
-
-    $url = $_SERVER['REQUEST_URI'];
-
+function run($url){
     switch ($url){
         case "/":
             header("Cache-Control: public");
@@ -107,7 +65,11 @@ function authenticate(){
             header("Content-Type: text/html");
             readfile("crweb/views/webapp.html");
             break;
-        case "/userman":  header("Cache-Control: public");
+
+        case "/userman":
+        case "/userman/staffcode":
+        case "/userman/staffCode":
+            header("Cache-Control: public");
             header("Content-Type: text/html");
             session_start();
             $microTime = microtime();
@@ -447,14 +409,11 @@ function authenticate(){
                                         }
 
                                         break;
-
                                     }
-
                                 }
                             }
                             case "checkUsername":{
                                 session_start();
-                                logP($_SESSION['csrfijirTag']);
                                 $content = \controller\Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
                                 $decoded =[];
                                 try{
@@ -490,7 +449,6 @@ function authenticate(){
                             }
                             case "checkUsername2":{
                                 session_start();
-                                logP($_SESSION['csrfijirTag']);
                                 $content = \controller\Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
                                 $decoded =[];
                                 try{
@@ -507,6 +465,78 @@ function authenticate(){
                                         try{
 
                                             if(User::isExists(new Field('username',$decoded['username']))){
+                                                echo json_encode(["status"=>500,"message"=>"username exists"]);
+                                            }
+                                            else{
+
+                                                echo json_encode(["status"=>200,"message"=>"okay"]);
+                                            }
+                                        }
+                                        catch (Exception $e){
+                                            $msg =$e->getMessage();
+                                            echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                        }
+                                        break;
+
+                                    }
+
+                                }
+                            }
+                            case "checkStaffCode3":{
+                                session_start();
+                                logP($_SESSION['csrfijirTag']);
+                                $content = \controller\Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
+                                $decoded =[];
+                                try{
+                                    $decoded  = json_decode($content,true);
+                                }
+                                catch (Exception $e){
+                                    $msg =$e->getMessage();
+                                    echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                    break;
+                                }
+
+                                if(array_key_exists($_SESSION['csrfijirTag'], $decoded)){
+                                    if($decoded[$_SESSION['csrfijirTag']] === $_SESSION['csrfijirToken']){
+                                        try{
+
+                                            if(Staff::isExists(new Field('staffCode',$decoded['staffCode']))){
+                                                echo json_encode(["status"=>200,"message"=>"username exists"]);
+                                            }
+                                            else{
+
+                                                echo json_encode(["status"=>200,"message"=>"okay"]);
+                                            }
+                                        }
+                                        catch (Exception $e){
+                                            $msg =$e->getMessage();
+                                            echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                        }
+                                        break;
+
+                                    }
+
+                                }
+                            }
+                            case "checkUsername4":{
+                                session_start();
+                                logP($_SESSION['csrfijirTag']);
+                                $content = \controller\Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
+                                $decoded =[];
+                                try{
+                                    $decoded  = json_decode($content,true);
+                                }
+                                catch (Exception $e){
+                                    $msg =$e->getMessage();
+                                    echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                    break;
+                                }
+
+                                if(array_key_exists($_SESSION['csrfijirTag'], $decoded)){
+                                    if($decoded[$_SESSION['csrfijirTag']] === $_SESSION['csrfijirToken']){
+                                        try{
+
+                                            if(Staff::isExists(new Field('username',$decoded['username']))){
                                                 echo json_encode(["status"=>500,"message"=>"username exists"]);
                                             }
                                             else{
@@ -548,7 +578,7 @@ function authenticate(){
                                             $secureKey = password_hash($user->getUserName()."$microTime"."$rand"
                                                 ,PASSWORD_BCRYPT,['cost'=>12]);
                                             $_SESSION[$secureKey] = $user;
-                                            echo json_encode(["status"=>200,"message"=>"login successful","sk"=> $secureKey]);
+                                            echo json_encode(["status"=>200,"message"=>"login successful","lk"=> $secureKey]);
                                         }
                                         catch (Exception $e){
                                             $msg =$e->getMessage();
@@ -570,8 +600,8 @@ function authenticate(){
                                         break;
                                     }
                                     //error_reporting(0);
-                                    if(array_key_exists($content['sk'], $_SESSION)){
-                                        $user = $_SESSION[$content['sk']];
+                                    if(array_key_exists($content['lk'], $_SESSION)){
+                                        $user = $_SESSION[$content['lk']];
                                         echo json_encode(["status"=>200,"message"=>"","content"=> json_encode($user)]);
                                     }
                                     else{
@@ -620,7 +650,7 @@ function authenticate(){
                                 session_start();
                                 $decoded = json_decode($_POST['content'],true);
 
-                                if(array_key_exists($decoded['sk'], $_SESSION)){
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
                                     try{
                                         $users = User::getAllUsers();
                                         $users['status'] = 200;
@@ -637,9 +667,74 @@ function authenticate(){
                                 session_start();
                                 $decoded = json_decode($_POST['content'],true);
 
-                                if(array_key_exists($decoded['sk'], $_SESSION)){
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
                                     try{
                                         User::deleteUser($decoded['username']);
+                                        echo json_encode(["status"=>200,"message"=>"User deleted"]);
+                                    }
+                                    catch (Exception $e){
+                                        $msg =$e->getMessage();
+                                        echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                    }
+                                    break;
+                                }
+                                break;
+                            }
+                            case "createStaff":{
+                                session_start();
+                                logP($_SESSION['csrfijirTag']);
+                                $content = Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
+                                $decoded =[];
+                                try{
+                                    $decoded  = json_decode($content,true);
+                                }
+                                catch (Exception $e){
+                                    error_log($e->getMessage());
+                                    $msg =$e->getMessage();
+                                    echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                    break;
+                                }
+
+                                if(array_key_exists($_SESSION['csrfijirTag'], $decoded)) {
+                                    if ($decoded[$_SESSION['csrfijirTag']] === $_SESSION['csrfijirToken']) {
+                                        try {
+                                            $user = Staff::fromJson($decoded);
+                                            $user->persist();
+                                            $user->flush();
+                                            echo json_encode(["status" => 200, "message" => "okay"]);
+                                        } catch (Exception $e) {
+                                            $msg = $e->getMessage();
+                                            echo json_encode(["status" => 500, "message" => "$msg"]);
+                                        }
+                                        break;
+                                    }
+                                }
+
+                            }
+                            case "getStaff":{
+                                session_start();
+                                $decoded = json_decode($_POST['content'],true);
+
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
+                                    try{
+                                        $users = Staff::getAllUsers();
+                                        $users['status'] = 200;
+                                        echo json_encode($users);
+                                    }
+                                    catch (Exception $e){
+                                        $msg =$e->getMessage();
+                                        echo json_encode(["status"=>500,"message"=>"$msg"]);
+                                    }
+                                    break;
+                                }
+                            }
+                            case "delStaff":{
+                                session_start();
+                                $decoded = json_decode($_POST['content'],true);
+
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
+                                    try{
+                                        Staff::deleteUser($decoded['staffCode']);
                                         echo json_encode(["status"=>200,"message"=>"User deleted"]);
                                     }
                                     catch (Exception $e){
@@ -655,7 +750,7 @@ function authenticate(){
                                 session_start();
                                 $decoded = json_decode($_POST['content'],true);
 
-                                if(array_key_exists($decoded['sk'], $_SESSION)){
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
                                     try{
                                         User::setUserAccess($decoded['username'],$decoded['access']);
                                     }
@@ -672,7 +767,7 @@ function authenticate(){
                                 session_start();
                                 $decoded = json_decode($_POST['content'],true);
 
-                                if(array_key_exists($decoded['sk'], $_SESSION)){
+                                if(array_key_exists($decoded['lk'], $_SESSION)){
                                     try{
                                         User::changePass($decoded['username'],$decoded['password']);
                                     }
@@ -867,6 +962,25 @@ function authenticate(){
             readfile("crweb/views/404.html");
             break;
 
+    }}
+function isUser(){
+    return (Staff::isStaffExists($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']));
+}
+function authenticate(){
+    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+        header("WWW-Authenticate: Basic realm=\"Private Area\"");
+        header("HTTP/1.0 401 Unauthorized");
+        print "Sorry - you need valid credentials to be granted access!\n";
+        exit;
+    } else {
+        if (isUser()) {
+            run($_SERVER['REQUEST_URI']);
+        } else {
+            header("WWW-Authenticate: Basic realm=\"Private Area\"");
+            header("HTTP/1.0 401 Unauthorized");
+            print "Sorry - you need valid credentials to be granted access!\n";
+            exit;
+        }
     }
 }
 
