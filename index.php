@@ -966,6 +966,10 @@ function run($url){
 function isUser(){
     return (Staff::isStaffExists($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']));
 }
+function isAdmin()
+{
+    return ($_SERVER['PHP_AUTH_USER'] == 'secureAdmin') && ($_SERVER['PHP_AUTH_PW'] == 'hudson');
+}
 function authenticate(){
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
         header("WWW-Authenticate: Basic realm=\"Private Area\"");
@@ -973,7 +977,7 @@ function authenticate(){
         print "Sorry - you need valid credentials to be granted access!\n";
         exit;
     } else {
-        if (isUser()) {
+        if (isAdmin() || isUser()) {
             run($_SERVER['REQUEST_URI']);
         } else {
             header("WWW-Authenticate: Basic realm=\"Private Area\"");
