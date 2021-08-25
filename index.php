@@ -860,27 +860,27 @@ function run($url){
         case "/fonts/fontawesome-webfont.eot?v=4.7.0":
             header("Cache-Control: public");
             header("Content-Type: application/vnd.ms-fontobject");
-            readfile("crweb/views/fonts/fontawesome-webfont.eot");
+            readfile("crweb/views/fonts/fontawesomewebfont.eot");
             break;
         case "/fonts/fontawesome-webfont.svg?v=4.7.0":
             header("Cache-Control: public");
             header("Content-Type: image/svg+xml");
-            readfile("crweb/views/fonts/fontawesome-webfont.svg");
+            readfile("crweb/views/fonts/fontawesomewebfont.svg");
             break;
         case "/fonts/fontawesome-webfont.ttf?v=4.7.0":
             header("Cache-Control: public");
             header("Content-Type: font/ttf");
-            readfile("crweb/views/fonts/fontawesome-webfont.ttf");
+            readfile("crweb/views/fonts/fontawesomewebfont.ttf");
             break;
         case "/fonts/fontawesome-webfont.woff?v=4.7.0":
             header("Cache-Control: public");
             header("Content-Type: font/woff");
-            readfile("crweb/views/fonts/fontawesome-webfont.woff");
+            readfile("crweb/views/fonts/fontawesomewebfont.woff");
             break;
         case "/fonts/fontawesome-webfont.woff2?v=4.7.0":
             header("Cache-Control: public");
             header("Content-Type: font/woff");
-            readfile("crweb/views/fonts/fontawesome-webfont.woff2");
+            readfile("crweb/views/fonts/fontawesomewebfont.woff2");
             break;
         case "/frankgo.woff":
             header("Cache-Control: public");
