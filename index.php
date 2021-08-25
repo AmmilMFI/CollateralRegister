@@ -58,20 +58,22 @@ function authenticate(){
         header('WWW-Authenticate: Digest realm="'.$realm.
             '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
 
-        die('Text to send if user hits Cancel button');
+        die('Access Denied, please reload the page.');
     }
 
     if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) ||
-        !isset($users[$data['username']]))
-        die('Wrong Credentials!');
+        !isset($users[$data['username']])){
+        die('Access Denied, please reload the page.');
+    }
 
 
     $A1 = md5($data['username'] . ':' . $realm . ':' . $users[$data['username']]);
     $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
     $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 
-    if ($data['response'] != $valid_response)
+    if ($data['response'] != $valid_response){
         die('Access Denied!');
+    }
 
     $url = $_SERVER['REQUEST_URI'];
 
