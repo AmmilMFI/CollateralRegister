@@ -4647,7 +4647,7 @@
                 (staff,index)=>{
                     this.downloadables.addDownloadable(
                         new DownloadRow2(
-                            "user"+index
+                            "staff"+index
                             ,staff['staffCode']
                             ,staff['username'],
                             screen.width-260-100,staff)

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/lib/userman.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/userman.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            <state relative-caret-position="222">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
                 <element signature="n#getRandomWord#0;n#!!top" />
@@ -41,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userman.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="userman.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/crweb/lib/userman.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="5445" column="5" selection-start-line="5445" selection-start-column="5" selection-end-line="5445" selection-end-column="5" />
+            <state relative-caret-position="185">
+              <caret line="4649" column="34" selection-start-line="4649" selection-start-column="34" selection-end-line="4649" selection-end-column="34" />
               <folding>
                 <element signature="e#90986#92342#0" />
                 <element signature="e#92348#103464#0" />
@@ -82,6 +82,8 @@
       <find>collaterals</find>
       <find>localhost:8000</find>
       <find>Access De</find>
+      <find>DownloadRow</find>
+      <find>DownloadRow2</find>
     </findStrings>
     <replaceStrings>
       <replace>https://collaterals.ammilmfi.com</replace>
@@ -101,8 +103,8 @@
         <option value="$PROJECT_DIR$/controller/Database.php" />
         <option value="$PROJECT_DIR$/crweb/lib/webapp.js" />
         <option value="$PROJECT_DIR$/crweb/views/userman.html" />
-        <option value="$PROJECT_DIR$/crweb/lib/userman.js" />
         <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/crweb/lib/userman.js" />
       </list>
     </option>
   </component>
@@ -116,10 +118,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1060" />
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
+    <option name="width" value="1456" />
+    <option name="height" value="886" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -202,18 +204,18 @@
       <workItem from="1627658974073" duration="581000" />
       <workItem from="1627980307178" duration="2820000" />
       <workItem from="1629668223771" duration="1359000" />
-      <workItem from="1629707015168" duration="8731000" />
+      <workItem from="1629707015168" duration="9163000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24594000" />
+    <option name="totallyTimeSpent" value="25026000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
+    <frame x="1912" y="-8" width="1456" height="886" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18322147" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19555874" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -222,7 +224,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3539326" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3368984" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -639,27 +641,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+          <folding>
+            <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/crweb/lib/userman.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="5445" column="5" selection-start-line="5445" selection-start-column="5" selection-end-line="5445" selection-end-column="5" />
+        <state relative-caret-position="185">
+          <caret line="4649" column="34" selection-start-line="4649" selection-start-column="34" selection-end-line="4649" selection-end-column="34" />
           <folding>
             <element signature="e#90986#92342#0" />
             <element signature="e#92348#103464#0" />
             <element signature="e#98877#99656#0" />
             <element signature="e#103469#114304#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-          <folding>
-            <element signature="e#7#23#0#PHP" expanded="true" />
-            <element signature="n#getRandomWord#0;n#!!top" />
-            <element signature="n#logP#0;n#!!top" />
           </folding>
         </state>
       </provider>
