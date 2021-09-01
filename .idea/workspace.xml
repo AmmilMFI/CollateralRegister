@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5529936-c7e6-42f9-a0ca-f577d064afd4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/controller/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crweb/lib/userman.js" beforeDir="false" afterPath="$PROJECT_DIR$/crweb/lib/userman.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log.log" beforeDir="false" afterPath="$PROJECT_DIR$/log.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/print.print" beforeDir="false" afterPath="$PROJECT_DIR$/print.print" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="33" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="-22">
+              <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
               <folding>
                 <element signature="e#7#23#0#PHP" expanded="true" />
                 <element signature="n#getRandomWord#0;n#!!top" />
@@ -45,23 +48,35 @@
       <file leaf-file-name="userman.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crweb/lib/userman.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="4649" column="34" selection-start-line="4649" selection-start-column="34" selection-end-line="4649" selection-end-column="34" />
-              <folding>
-                <element signature="e#90986#92342#0" />
-                <element signature="e#92348#103464#0" />
-                <element signature="e#98877#99656#0" />
-                <element signature="e#103469#114304#0" />
-              </folding>
+            <state relative-caret-position="233">
+              <caret line="4904" column="40" lean-forward="true" selection-start-line="4904" selection-start-column="40" selection-end-line="4904" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".htaccess" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".htaccess" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.htaccess">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+            <state relative-caret-position="34">
+              <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Database.php" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Database.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/Database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -94,12 +109,19 @@
       <find>Access De</find>
       <find>DownloadRow</find>
       <find>DownloadRow2</find>
+      <find>collaterals.am</find>
+      <find>http://collaterals.ammilmfi.com</find>
+      <find>$_SERVER['HTTP_ORIGIN'] == &quot;http://collaterals.ammilmfi.com</find>
+      <find>collaterals.ammilmfi.com</find>
+      <find>Width(screen.width-250,'px'),</find>
     </findStrings>
     <replaceStrings>
       <replace>https://collaterals.ammilmfi.com</replace>
       <replace>http</replace>
       <replace>http://collaterals.ammilmfi.com</replace>
       <replace>collaterals.ammilmfi.com</replace>
+      <replace>localhost:8000</replace>
+      <replace>Width(screen.width-300,'px'),</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -115,12 +137,12 @@
       <list>
         <option value="$PROJECT_DIR$/crweb/lib/awc.js" />
         <option value="$PROJECT_DIR$/crweb/views/webapp.html" />
-        <option value="$PROJECT_DIR$/controller/Database.php" />
         <option value="$PROJECT_DIR$/crweb/lib/webapp.js" />
         <option value="$PROJECT_DIR$/crweb/views/userman.html" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/crweb/lib/userman.js" />
         <option value="$PROJECT_DIR$/.htaccess" />
+        <option value="$PROJECT_DIR$/crweb/lib/userman.js" />
+        <option value="$PROJECT_DIR$/controller/Database.php" />
+        <option value="$PROJECT_DIR$/index.php" />
       </list>
     </option>
   </component>
@@ -134,10 +156,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="376" />
+    <option name="y" value="430" />
+    <option name="width" value="934" />
+    <option name="height" value="559" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -152,6 +174,28 @@
               <item name="CollateralRegister" type="b2602c69:ProjectViewProjectNode" />
               <item name="CollateralRegister" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CollateralRegister" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegister" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegister" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegister" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegister" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegister" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CollateralRegister" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CollateralRegister" type="462c0819:PsiDirectoryNode" />
+              <item name="crweb" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -161,6 +205,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AmmilWeb" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -203,15 +248,25 @@
       <workItem from="1627980307178" duration="2820000" />
       <workItem from="1629668223771" duration="1359000" />
       <workItem from="1629707015168" duration="9163000" />
-      <workItem from="1630415377257" duration="284000" />
+      <workItem from="1630415377257" duration="2172000" />
+      <workItem from="1630504172298" duration="1438000" />
     </task>
+    <task id="LOCAL-00001" summary="Testing">
+      <created>1630415680994</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1630415680994</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25310000" />
+    <option name="totallyTimeSpent" value="28636000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1953125" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -227,8 +282,8 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286517" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -237,19 +292,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25637585" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Database" order="3" weight="0.3295302" />
       <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3286517" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -266,19 +321,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Testing" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/crweb/lib/userman.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79033">
-          <caret line="4649" column="34" selection-start-line="4649" selection-start-column="34" selection-end-line="4649" selection-end-column="34" />
-          <folding>
-            <element signature="e#90986#92342#0" />
-            <element signature="e#92348#103464#0" />
-            <element signature="e#98877#99656#0" />
-            <element signature="e#103469#114304#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -594,13 +636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/Database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crweb/views/404.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -611,35 +646,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-          <folding>
-            <element signature="e#7#23#0#PHP" expanded="true" />
-            <element signature="n#getRandomWord#0;n#!!top" />
-            <element signature="n#logP#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crweb/lib/userman.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="4649" column="34" selection-start-line="4649" selection-start-column="34" selection-end-line="4649" selection-end-column="34" />
-          <folding>
-            <element signature="e#90986#92342#0" />
-            <element signature="e#92348#103464#0" />
-            <element signature="e#98877#99656#0" />
-            <element signature="e#103469#114304#0" />
-          </folding>
+        <state relative-caret-position="233">
+          <caret line="4904" column="40" lean-forward="true" selection-start-line="4904" selection-start-column="40" selection-end-line="4904" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
+    <entry file="file://D:/Database.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+        <state relative-caret-position="170">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/Database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-22">
+          <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+          <folding>
+            <element signature="e#7#23#0#PHP" expanded="true" />
+            <element signature="n#getRandomWord#0;n#!!top" />
+            <element signature="n#logP#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>

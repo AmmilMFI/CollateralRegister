@@ -5,8 +5,14 @@ namespace controller;
 class Database
 {
 
+    /*
+    public static $DATABASE_NAME = "collaterals";
+    public static $DATABASE_SERVER = "127.0.0.1";
+    public static $DATABASE_PASSWORD= "adl86)CnUfjOwaoZ";
+    public static $DATABASE_USERNAME= "adl86)CnUfjOwaoZQIOLHGSYES";
+    */
     public static $DATABASE_NAME = "ammilmf1_collaterals";
-    public static $DATABASE_SERVER = "localhost";
+    public static $DATABASE_SERVER = "ammilmfi.com";
     public static $DATABASE_PASSWORD= "websiteisgood1@";
     public static $DATABASE_USERNAME= "ammilmf1_website";
 

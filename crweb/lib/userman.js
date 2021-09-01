@@ -4544,84 +4544,84 @@
 
         d1920(){
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1566(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1536(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1366(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1280(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1024(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d768(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d540(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d414(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d375(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d360(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d320(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
@@ -4731,84 +4731,84 @@
 
         d1920(){
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1566(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1536(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1366(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1280(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d1024(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d768(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d540(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d414(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d375(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d360(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
         d320(){
 
             this.addCustomStyle([
-                Width(screen.width-250,'px'),
+                Width(screen.width-300,'px'),
                 Height(screen.height-90,'px')
             ]);
         }
@@ -4825,7 +4825,7 @@
                 Width(100,'vw'),
                 Padding(0),
                 Margin (0),
-                Overflow('hidden')
+                Overflow('scroll')
             ]);
             this.addCustomStyle([
                 Width(100,'vw'),
@@ -4904,8 +4904,7 @@
                 Height(800,'px'),
                 BackgroundColor(colorScheme.getSecondaryColor()),
                 Display("inline"),
-                Position(),
-                Float("left")
+                Position("fixed"),
             ]);
             //Nav Panel
             this.companyBar.addCustomStyle([
