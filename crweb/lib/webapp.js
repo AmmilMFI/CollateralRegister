@@ -1398,7 +1398,7 @@
             }
         }
         inputsValid(){
-            return this.collAdd.isUploaded() && this.titleValid && this.fnValid && this.lnValid ;
+            return this.collAdd.isUploaded() && this.titleValid && this.fnValid && this.lnValid && this.amountValid;
         }
         documentChanged(e){
             if (e.getSource() === this.firstname.getInput()){
@@ -1435,7 +1435,7 @@
             json['middle_name']=this.middlename.getInput().getInputText();
             json['last_name']=this.lastname.getInput().getInputText();
             json['title']=this.title.getInput().getInputText();
-            json['loan_amount']=this.loanAmount.getInput().getInputText();
+            json['loan_amount']= parseFloat(this.loanAmount.getInput().getInputText());
             json['comments']=this.comments.getInput().getInputText();
             json['uploader']= user.$firstName + " " + user.$lastName;
             json['username']= user.$userName;

@@ -120,8 +120,8 @@ WHERE id='$title'";
 
     public function persist()
     {
-        array_push($this->queries, "INSERT INTO collaterals (title,first_name,last_name, middle_name, uploader,branch,comments, date,files,status,rrelease,cctimestamp) 
-            VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->branch','$this->comments','$this->date','$this->files','$this->status','$this->release','$this->timestamp')");
+        array_push($this->queries, "INSERT INTO collaterals (title,first_name,last_name, middle_name,loan_amount, uploader,branch,comments, date,files,status,rrelease,cctimestamp) 
+            VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->loanAmount','$this->branch','$this->comments','$this->date','$this->files','$this->status','$this->release','$this->timestamp')");
     }
 
     public function flush()
