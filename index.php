@@ -791,6 +791,9 @@ function run($url){
                         }
                         break;
                     }
+                    else {
+                        echo "Access Denied";
+                    }
                 }
                 break;
             }
