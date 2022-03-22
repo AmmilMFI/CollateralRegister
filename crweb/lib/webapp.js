@@ -1140,7 +1140,7 @@
                     let file = e.getSource().domElement;
                     let myFormData = new FormData();
                     myFormData.append("colla", file.files[0]);
-                    await fetch("upload", {
+                    await fetch("/upload", {
                         method: 'POST',
                         body: myFormData,
                     }).

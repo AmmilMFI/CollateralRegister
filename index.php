@@ -648,34 +648,6 @@ function run($url){
 
                             }
 
-                            case "modifyUser":{
-                                session_start();
-                                logP($_SESSION['csrfijirTag']);
-                                $content = Encrypt::encrypt($_SESSION['csrfijirToken'],utf8_decode($_POST['content']));
-                                $decoded =[];
-                                try{
-                                    $decoded  = json_decode($content,true);
-                                }
-                                catch (Exception $e){
-                                    $msg =$e->getMessage();
-                                    echo json_encode(["status"=>500,"message"=>"$msg"]);
-                                    break;
-                                }
-
-                                if(array_key_exists($_SESSION['csrfijirTag'], $decoded)) {
-                                    if ($decoded[$_SESSION['csrfijirTag']] === $_SESSION['csrfijirToken']) {
-                                        try {
-                                            $user = User::modifyPassword($decoded);
-                                            echo json_encode(["status" => 200, "message" => "okay"]);
-                                        } catch (Exception $e) {
-                                            $msg = $e->getMessage();
-                                            echo json_encode(["status" => 500, "message" => "$msg"]);
-                                        }
-                                        break;
-                                    }
-                                }
-
-                            }
                             case "getUsers":{
                                 session_start();
                                 $decoded = json_decode($_POST['content'],true);
