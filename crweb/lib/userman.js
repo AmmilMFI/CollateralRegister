@@ -26,7 +26,7 @@
         'rgba(180, 129, 158, 1)',
         'rgba(180, 129, 255, 1)'
     ];
-    let ref = {};
+    let ref;
     class Encrypt {
         static encrypt(key, str) {
             var s = [], j = 0, x, res = '';
@@ -95,11 +95,6 @@
         setQuinaryColor(value) {
             this.quinaryColor = value;
         }
-
-        getSenaryColor() {
-            return this.senaryColor;
-        }
-
         setSenaryColor(value) {
             this.senaryColor = value;
         }
@@ -111,19 +106,6 @@
         setSeptenaryColor(value) {
             this.septenaryColor = value;
         }
-
-        getOctonaryColor() {
-            return this.octonaryColor;
-        }
-
-        setOctonaryColor(value) {
-            this.octonaryColor = value;
-        }
-
-        getNonaryColor() {
-            return this.nonaryColor;
-        }
-
         setNonaryColor(value) {
             this.nonaryColor = value;
         }
@@ -3522,9 +3504,8 @@
             if (pattern.length !== 0){
                 if(Helper.KMPSearch(pattern,item.getFN()))
                     return true;
-                if(Helper.KMPSearch(pattern,item.getLN()))
-                    return true;
-                return false;
+                return Helper.KMPSearch(pattern, item.getLN());
+
             }
             else return  true;
         }
@@ -4180,7 +4161,7 @@
             ]);
             this.password = new FancyInput(this.id+"password","Password","password");
             this.password2 = new FancyInput(this.id+"password2","Confirm Password","password");
-            this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
+            this.submit = new SubmitButton(this.id+"submit","Change Password", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
                 Width(80),
                 Height(40,'px'),
                 BorderRadius(2,'px'),
@@ -4215,8 +4196,8 @@
                 this.toastP
             ])
         }
-        static createForm(){
-            return new UserModifyForm('userModifyForm');
+        static createForm(username, changeType){
+            return new UserModifyForm('userModifyForm',username, changeType);
         }
         show(){
             this.addCustomStyle(
