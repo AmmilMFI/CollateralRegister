@@ -1283,7 +1283,7 @@
                 Display("block"),
                 Width(80)],
             );
-            this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
+            this.submit = new SubmitButton(this.id+"submit","Submit Collateral", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
                 Width(80),
                 Height(40,'px'),
                 BorderRadius(2,'px'),
