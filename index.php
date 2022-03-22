@@ -116,7 +116,7 @@ function run($url){
         }
         case "/core":
             {
-                if($_SERVER['HTTP_ORIGIN'] == "http://collaterals.ammilmfi.com"){
+                if($_SERVER['HTTP_ORIGIN'] == "https://collaterals.ammilmfi.com" || $_SERVER['HTTP_ORIGIN'] == "http://collaterals.ammilmfi.com" ){
                     header("Cache-Control: public");
                     header("Content-Type: application/json;charset=utf-8");
 
@@ -512,6 +512,7 @@ function run($url){
                                             $msg =$e->getMessage();
                                             echo json_encode(["status"=>500,"message"=>"$msg"]);
                                         }
+                                        break;
                                         break;
 
                                     }
