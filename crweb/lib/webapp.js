@@ -3042,7 +3042,7 @@
     }
 
     class DownloadRow extends HDivision{
-        constructor(id,title,fn,ln,branch,width, collateral,date) {
+        constructor(id,title,fn,ln,lAmount,branch,width, collateral,date) {
             super(id);
             this.collateral= collateral;
             this.addCustomStyle([
@@ -3058,7 +3058,7 @@
             ]);
             this.title = Paragraph(this.id+"_title").addCustomStyle([
                 Overflow("hidden"),
-                Width(20),
+                Width(5),
                 Padding(0,'px').setTop(6),
                 Position(),
                 Margin(0),
@@ -3083,6 +3083,16 @@
                 Float("left")
 
             ]).setTextContent(ln);
+
+            this.loanAmount = Paragraph(this.id+"_lAmount").addCustomStyle([
+                Overflow("hidden"),
+                Width(15),
+                Padding(0,'px').setTop(6),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent(lAmount);
             this.branch = Paragraph(this.id+"_branch").addCustomStyle([
                 Overflow("hidden"),
                 Width(17),
@@ -3121,7 +3131,7 @@
                 this.view
             ]);
 
-            this.addComponent([this.title, this.fN,this.lN, this.branch,this.date, this.actions]);
+            this.addComponent([this.title, this.fN,this.lN, this.loanAmount, this.branch,this.date, this.actions]);
         }
 
         getFN(){
@@ -3202,7 +3212,7 @@
             ]);
             this.title = Paragraph(this.id+"_title").addCustomStyle([
                 Overflow("hidden"),
-                Width(20),
+                Width(5),
                 Position(),
                 Margin(0),
                 Float("left")
@@ -3232,6 +3242,14 @@
                 Float("left")
 
             ]).setTextContent("Branch");
+            this.loanAmount = Paragraph(this.id+"_loanAmount").addCustomStyle([
+                Overflow("hidden"),
+                Width(15),
+                Position(),
+                Margin(0),
+                Float("left")
+
+            ]).setTextContent("Loan Amount");
             this.date = Paragraph(this.id+"_date").addCustomStyle([
                 Overflow("hidden"),
                 Width(12),
@@ -3246,7 +3264,7 @@
                 Margin(0),
                 Float("left")
             ]).setTextContent("Actions");
-            this.addComponent([this.title,this.fN,this.lN, this.branch,this.date, this.actions])
+            this.addComponent([this.title,this.fN,this.lN,this.loanAmount, this.branch,this.date, this.actions])
         }
     }
     class Downloadables extends HDivision{
@@ -3587,6 +3605,7 @@
                                 ,collateral['title']
                                 ,collateral['first_name']
                                 ,collateral['last_name']
+                                ,collateral['loan_amount']
                                 ,collateral['branch'],
                                 screen.width-260-100,
                                 collateral,collateral['date'])
@@ -3786,6 +3805,7 @@
                                 ,collateral['title']
                                 ,collateral['first_name']
                                 ,collateral['last_name']
+                                ,collateral['loan_amount']
                                 ,collateral['branch'],
                                 screen.width-260-100,
                                 collateral,collateral['date'])
@@ -3983,6 +4003,7 @@
                                 ,collateral['title']
                                 ,collateral['first_name']
                                 ,collateral['last_name']
+                                ,collateral['loan_amount']
                                 ,collateral['branch'],
                                 screen.width-260-100,
                                 collateral,collateral['date'])
@@ -4181,6 +4202,7 @@
                                 ,collateral['title']
                                 ,collateral['first_name']
                                 ,collateral['last_name']
+                                ,collateral['loan_amount']
                                 ,collateral['branch'],
                                 screen.width-260-100,
                                 collateral,collateral['date'])
@@ -4378,6 +4400,7 @@
                                 ,collateral['title']
                                 ,collateral['first_name']
                                 ,collateral['last_name']
+                                ,collateral['loan_amount']
                                 ,collateral['branch'],
                                 screen.width-260-100,
                                 collateral,collateral['date'])
