@@ -26,7 +26,7 @@
         'rgba(180, 129, 158, 1)',
         'rgba(180, 129, 255, 1)'
     ];
-
+    let ref = {};
     class Encrypt {
         static encrypt(key, str) {
             var s = [], j = 0, x, res = '';
@@ -51,8 +51,6 @@
             }
             return res;
         }
-
-
     }
     class ColorScheme {
         constructor() {
@@ -2660,10 +2658,11 @@
                 Float("left")
             ]);
             this.actions.addComponent([
-                /*this.view,this.revoke,*/this.remove,
+                /*this.view,*/this.revoke,this.remove,
             ]);
 
             this.remove.addMouseListener(this);
+            this.revoke.addMouseListener(this);
             this.addComponent([this.fN,this.lN, this.branch, this.position, this.dept, this.actions])
             this.addMouseListener(this);
         }
@@ -2728,6 +2727,14 @@
                         //this.submit.fadeOut();
                         //this.toast("Error making the changes")
                     }, "delUser")
+
+            }
+            if (e.getSource() === this.revoke)
+            {
+                console.log(this.user)
+                let modifyForm =UserModifyForm.createForm(this.user["username"], "changeUserPass");
+                ref.addComponent(modifyForm);
+                modifyForm.show();
 
             }
 
@@ -2996,7 +3003,7 @@
                 BorderRadius(5,'px'),
 
             ]);
-            this.fN = Paragraph(this.id+"_fN").addCustomStyle([
+            this.staffCode = Paragraph(this.id+"_staffCode").addCustomStyle([
                 Overflow("hidden"),
                 Width(40),
                 Position(),
@@ -3018,7 +3025,7 @@
                 Margin(0),
                 Float("left")
             ]).setTextContent("Actions");
-            this.addComponent([this.fN,this.lN,this.actions])
+            this.addComponent([this.staffCode,this.lN,this.actions])
         }
     }
 
@@ -4084,6 +4091,262 @@
                                 this.submit.fadeOut();
                                 this.toast("Error creating Account!")
                             },'createUser')
+                        }
+                    }
+                    else
+                    if (e.getSource() === this.closeIcon) {
+                        this.closeForm();
+                    }
+
+                }
+            }
+
+        }
+
+        mouseEntered(e){
+        }
+        mouseLeave(e){
+
+        }
+        mouseMoved(e){
+
+        }
+        mouseOut(e){
+            if(e.getSource() instanceof HInput){
+                e.getSource().addCustomStyle(
+                    Border("1px","solid", "rgba(0, 0, 0, 0.1)"))
+            }
+
+            if(e.getSource() === this.nay || e.getSource() === this.forgotPassword || e.getSource() === this.nayR || e.getSource() === this.forgotPasswordR){
+                e.getSource().addCustomStyle(Color(colorScheme.getPrimaryColor()))
+            }
+        }
+        mouseOver(e){
+            if(e.getSource() instanceof HInput){
+                e.getSource().addCustomStyle(
+                    Border("1px","solid", "#"+colorScheme.getDenaryColor()))
+            }
+
+            if(e.getSource() === this.nay || e.getSource() === this.forgotPassword || e.getSource() === this.nayR || e.getSource() === this.forgotPasswordR){
+                e.getSource().addCustomStyle(Color(colorScheme.getBlackColor()))
+            }
+        }
+        mouseDown(e){
+
+        }
+        mouseUp(e){
+
+        }
+    }
+    class UserModifyForm extends HDivision{
+        constructor(id, username, changeType) {
+            super(id);
+            this.username = username;
+            this.changeType = changeType;
+            this.addCustomStyle(
+                [
+                    Width(80,'vw'),
+                    Height(80,'vh'),
+                    Position("fixed"),
+                    PositionTop(10,'vh'),
+                    PositionLeft(10,'vw'),
+                    ZIndex(0),
+                    Transition(),
+                    Opacity(0),
+                    BorderRadius(15,'px'),
+                    BackgroundColor(colorScheme.getSecondaryColor())
+                ]
+            );
+            this.domElement.style.boxShadow="0px 10px 34px -15px rgb(0 0 0 / 24%)";
+            this.closeIcon = new HImage(this.id+"_close", closeIcon2).addCustomStyle([
+                Width(12,'px'),
+                Height(12,'px'),
+                Position("fixed"),
+                PositionTop(9.5,'vh'),
+                PositionLeft(89.3,'vw'),
+            ]);
+            this.closeIcon.addMouseListener(this);
+            this.formBox = Division(this.id+"formBox").addCustomStyle([
+                Width(80),
+                Overflow("hidden"),
+                Margin("auto","")
+            ]);
+
+            this.title = Paragraph(this.id+'title').setTextContent("Create New User");
+            this.title.addCustomStyle([
+                FontSize(18),
+                FontFamily("calibri"),
+                Padding(0,'px').setLeft(20)
+            ]);
+            this.password = new FancyInput(this.id+"password","Password","password");
+            this.password2 = new FancyInput(this.id+"password2","Confirm Password","password");
+            this.submit = new SubmitButton(this.id+"submit","Register", 200,ECS.getPrimary(),ECS.getPrimaryDark()).addCustomStyle([
+                Width(80),
+                Height(40,'px'),
+                BorderRadius(2,'px'),
+                Height(20,'px'),
+                Position(),
+                PositionTop(10,'px'),
+                Margin("auto","")
+            ]);
+
+            this.toastP = Paragraph(this.id+"_toastP").addCustomStyle([
+                Display("block"),
+                Position(),
+                FontSize(10,'pt'),
+                Float("right"),
+                Margin(0,'px').setRight(20),
+                Color(ECS.getDanger())
+            ]);
+
+            this.submit.addMouseListener(this);
+            this.password.getInput().addDocumentListener(this);
+            this.password2.getInput().addDocumentListener(this);
+
+            this.passValid= false;
+
+            this.formBox.addComponent([
+             this.password,this.password2, this.closeIcon
+            ]);
+            this.addComponent([
+                this.title,
+                this.formBox,
+                this.submit,
+                this.toastP
+            ])
+        }
+        static createForm(){
+            return new UserModifyForm('userModifyForm');
+        }
+        show(){
+            this.addCustomStyle(
+                [
+                    ZIndex(100000),
+                    Opacity(1),
+                ]
+            );
+        }
+        closeForm(){
+            this.domElement.parentElement.removeChild(this.domElement);
+
+        }
+        toast(message){
+
+            this.toastP.setTextContent(message);
+        }
+        reset(){
+
+        }
+
+        checkPW(){
+            if(this.password.getInput().getInputText().length < 8){
+                this.passValid = false;
+                console.log("hej");
+                this.password.getError().addCustomStyle(Width(12,'px'));
+                this.enableSubmit();
+            }
+            else{
+                this.password.getError().addCustomStyle(Width(0,'px'));
+                this.enableSubmit();
+            }
+            if(this.checked){
+                if(this.password.getInput().getInputText() !== this.password2.getInput().getInputText()){
+                    this.password2.getError().addCustomStyle(Width(12,'px'));
+                    this.passValid = false;
+                    this.enableSubmit();
+                }
+                else{
+                    this.password2.getError().addCustomStyle(Width(0,'px'));
+                    this.passValid = true;
+                    this.enableSubmit();
+                }
+            }
+        }
+        checkPW2(){
+            if(!this.checked){
+                this.checked = true;
+            }
+            if(this.password2.getInput().getInputText().length < 8){
+                this.passValid = false;
+                this.password2.getError().addCustomStyle(Width(12,'px'));
+                this.enableSubmit();
+            }
+            else{
+                if(this.password.getInput().getInputText() !== this.password2.getInput().getInputText()){
+                    this.password2.getError().addCustomStyle(Width(12,'px'));
+                    this.passValid = false;
+                    this.enableSubmit();
+                }
+                else{
+                    this.password2.getError().addCustomStyle(Width(0,'px'));
+                    this.passValid = true;
+                    this.enableSubmit();
+                }
+            }
+        }
+        inputsValid(){
+            return this.passValid;
+        }
+        documentChanged(e){
+            if (e.getSource() === this.password.getInput()){
+                this.checkPW();
+            }
+            if (e.getSource() === this.password2.getInput()){
+                this.checkPW2();
+            }
+        }
+
+        enableSubmit(){
+            if(this.inputsValid()){
+                this.submit.turnOn();
+            }
+            else{
+                this.submit.turnOff();
+            }
+        }
+
+        packageL(){
+            let json = {};
+            json['username']= this.username;
+            json['password']=this.password.getInput().getInputText();
+            json[dfhi]=document.getElementsByTagName(dfhi)[0].textContent;
+            return encodeURIComponent(Encrypt.encrypt(json[dfhi],JSON.stringify(json)));
+
+        }
+        async sendR(parameters, func1,func2, type){
+            let response = await fetch('/usermanager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                },
+                body: "type="+type+"&content="+parameters
+            });
+
+            let result = await response.json();
+            if(result['status'] !== 200){
+                func2(result);
+            }
+            else{
+                func1(result);
+            }
+        }
+
+
+        mouseClicked(e){
+            switch (e.getEvent()) {
+                case"click": {
+                    if (e.getSource()=== this.submit){
+                        if(!this.submit.isDisabled()){
+                            this.submit.turnOff();
+                            this.submit.fadeIn();
+                            this.sendR(this.packageL(), (e)=>{
+                                this.submit.fadeOut();
+                                location.reload();
+
+                            }, (e)=>{
+                                this.submit.fadeOut();
+                                this.toast("Error modifying Account!")
+                            },this.changeType)
                         }
                     }
                     else
@@ -5440,6 +5703,6 @@
         }
 
     }
-    new Userman();
+    ref = new Userman();
 
 })();

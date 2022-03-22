@@ -184,6 +184,7 @@ class User
             return 0;
         }
     }
+
     public static function setUserAccess($username,$approval){
         $sql = "UPDATE users  
             SET approval = '$approval'

@@ -4,6 +4,7 @@ namespace models;
 require_once $_SERVER['DOCUMENT_ROOT']."/controller/Database.php";
 
 use controller\Database;
+use Exception;
 
 class Collateral
 {
@@ -19,6 +20,7 @@ class Collateral
     private $timestamp;
     private $files;
     private $queries;
+    private $loanAmount;
 
     /**
      * Collateral constructor.
@@ -26,13 +28,15 @@ class Collateral
      * @param $firstName
      * @param $lastname
      * @param $middlename
+     * @param $loanAmount
      * @param $uploader
      * @param $branch
      * @param $comments
-     * @param $date
      * @param $files
+     * @param $timestamp1
+     * @throws Exception
      */
-    public function __construct($title, $firstName, $lastname, $middlename, $uploader, $branch, $comments, $files,$timestamp1)
+    public function __construct($title, $firstName, $lastname, $middlename, $loanAmount, $uploader, $branch, $comments, $files,$timestamp1)
     {
         $this->title = $title;
         $this->firstName = $firstName;
@@ -40,6 +44,7 @@ class Collateral
         $this->middlename = $middlename;
         $this->uploader = $uploader;
         $this->branch = $branch;
+        $this->loanAmount = $loanAmount;
         $this->comments = $comments;
         $tz = 'Africa/Lagos';
         $timestamp = time();
@@ -53,11 +58,13 @@ class Collateral
         $this->queries = [];
     }
 
-    public static function fromJson($content,$title)
+    /**
+     * @throws Exception
+     */
+    public static function fromJson($content, $title)
     {
-        $coll = new Collateral($content["title"], $content["first_name"], $content["last_name"], $content["middle_name"],
+        return new Collateral($content["title"], $content["first_name"], $content["last_name"], $content["middle_name"], $content["loan_amount"],
             $content["uploader"], $content["branch"], $content["comments"], $content["files"],$title);
-        return $coll;
     }
 
 
@@ -82,7 +89,7 @@ WHERE id='$title'";
     public static function returnOneByTitle($title)
     {
         $sql = "SELECT * FROM collaterals
-WHERE title='$title'";
+        WHERE title='$title'";
         $result = Database::select($sql);
         return $result[0];
 
@@ -114,26 +121,12 @@ WHERE title='$title'";
     public function persist()
     {
         array_push($this->queries, "INSERT INTO collaterals (title,first_name,last_name, middle_name, uploader,branch,comments, date,files,status,rrelease,cctimestamp) 
-VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->branch','$this->comments','$this->date','$this->files','$this->status','$this->release','$this->timestamp')");
+            VALUES ('$this->title','$this->firstName','$this->lastname','$this->middlename','$this->uploader','$this->branch','$this->comments','$this->date','$this->files','$this->status','$this->release','$this->timestamp')");
     }
 
-    public static function getAllUsers(){
-        $sql = "SELECT * FROM collaterals";
-        $result = Database::select($sql);
-
-        return ["users" =>$result];
-
-    }
     public function flush()
     {
-        try {
-            foreach ($this->queries as $query)
-                Database::executeQuery($query);
-
-        } catch (\PDOException $e) {
-            throw $e;
-        }
-
-
+        foreach ($this->queries as $query)
+            Database::executeQuery($query);
     }
 }
